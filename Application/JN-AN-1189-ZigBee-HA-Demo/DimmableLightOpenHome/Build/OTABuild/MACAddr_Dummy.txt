@@ -1,0 +1,7 @@
+#sample MAC address file
+
+ffffffffffffffff
+
+#0000000001000001
+#000000000AAAAAAA
+#0000000001000004
