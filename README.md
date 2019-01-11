@@ -6,6 +6,7 @@
 - 任何情况下，包括没有入网成功，入网成功以后rejoin失败，都能够实现完全自动休眠，sleep duration目前设置为240minutes，即240分钟自动唤醒一次，保持和网关的连接(zigbee alliance默认的timeout时间是256分钟)
 - 目前LED灯控制部分没有实现，包括入网状态指示，后续补上
 - 长按配置按钮3S时间，自动离网，并删除PDM恢复出厂设置，之后自动深度休眠(必须外部按键唤醒，且只有配置按钮能够实现入网操作)
+- 默认工作在11信道上
 
 ![pic](https://am.zdmimg.com/201603/10/56e1344deed61.jpg_e600.jpg)
 ![pic](https://am.zdmimg.com/201609/25/57e74c058d09f.jpg_e600.jpg)
