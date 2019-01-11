@@ -882,7 +882,7 @@ PRIVATE void vHandleAppEvent( APP_tsEvent sAppEvent )
 					tsZCL_Address sDestinationAddress;
 					tsCLD_ScenesRecallSceneRequestPayload payLoad;
 					sDestinationAddress.eAddressMode=E_ZCL_AM_GROUP;
-					sDestinationAddress.uAddress.u16GroupAddress=1;
+					sDestinationAddress.uAddress.u16GroupAddress=groupId;
 
 					payLoad.u16GroupId=groupId;
 					payLoad.u8SceneId=1;
@@ -894,7 +894,7 @@ PRIVATE void vHandleAppEvent( APP_tsEvent sAppEvent )
 					tsZCL_Address sDestinationAddress;
 					tsCLD_ScenesRecallSceneRequestPayload payLoad;
 					sDestinationAddress.eAddressMode=E_ZCL_AM_GROUP;
-					sDestinationAddress.uAddress.u16GroupAddress=1;
+					sDestinationAddress.uAddress.u16GroupAddress=groupId;
 
 					payLoad.u16GroupId=groupId;
 					payLoad.u8SceneId=2;
