@@ -105,10 +105,10 @@
 
 #define bWakeUpFromSleep() bWatingToSleep()  /* For readability purpose */
 
-#define APP_LONG_SLEEP_DURATION_IN_SEC (60*240)			//240 minutes
+#define APP_LONG_SLEEP_DURATION_IN_SEC (60*120)			//120 minutes
 #define MAX_REJOIN_TIME (60*12)  /* 12 minutes */
 #define BACK_OFF_TIME   (60*15)  /* 15 minutes */
-
+#define LONG_PRESS_TIMEOUT				(5000)
 
 #define LED1  (1 << 1)
 #define LED2  (1)
@@ -135,7 +135,6 @@
 PUBLIC uint8 groupId=1;
 
 extern const uint8 u8MyEndpoint;
-
 
 /****************************************************************************/
 /***        Type Definitions                                              ***/
@@ -230,7 +229,6 @@ PUBLIC void vForceDeviceDeepSleepEx()
  ****************************************************************************/
 PUBLIC void APP_vInitialiseNode(void)
 {
-		PDM_teStatus eDeviceStatus;
     DBG_vPrintf(TRACE_SWITCH_NODE, "\nAPP_vInitialiseNode*");
 
     APP_vInitLeds();
@@ -259,7 +257,7 @@ PUBLIC void APP_vInitialiseNode(void)
                             sizeof(tsDeviceDesc),
                             &u16ByteRead);
 
-    DBG_vPrintf(TRACE_SWITCH_NODE, "Restore Device state status %d\n",eDeviceStatus);
+    DBG_vPrintf(TRACE_SWITCH_NODE, "Restore Device state eNodeState=%d eNodePrevState=%d\n",sDeviceDesc.eNodeState,sDeviceDesc.eNodePrevState);
 
     /* Initialise ZBPro stack */
     ZPS_vAplSecSetInitialSecurityState(ZPS_ZDO_PRECONFIGURED_LINK_KEY, (uint8 *)&s_au8LnkKeyArray, 0x00, ZPS_APS_GLOBAL_LINK_KEY);
@@ -367,10 +365,10 @@ OS_TASK(APP_ZHA_Switch_Task)
     {
     	//timer callback
     	DBG_vPrintf(TRACE_SWITCH_NODE,"\n\nLeave network and restore FACTORY NEW\n\n");
-			ZPS_eAplZdoLeaveNetwork(0,FALSE,FALSE);
-			sDeviceDesc.eNodeState = E_LEAVE_WAIT;
-			PDM_vDeleteAllDataRecords();
-			vAHI_SwReset();
+		ZPS_eAplZdoLeaveNetwork(0,FALSE,FALSE);
+		sDeviceDesc.eNodeState = E_LEAVE_WAIT;
+		PDM_vDeleteAllDataRecords();
+		vAHI_SwReset();
     }
     /*Collect the application events*/
     else if (OS_eCollectMessage(APP_msgEvents, &sAppEvent) == OS_E_OK)
@@ -846,9 +844,9 @@ PRIVATE void vHandleAppEvent( APP_tsEvent sAppEvent )
 				//long pressed
 				if( OS_eGetSWTimerStatus(App_KeyLongPressTimer) != OS_E_SWTIMER_STOPPED )
 				{
-						OS_eStopSWTimer(App_KeyLongPressTimer);
+					OS_eStopSWTimer(App_KeyLongPressTimer);
 				}
-				OS_eStartSWTimer(App_KeyLongPressTimer, APP_TIME_MS(3000), NULL );
+				OS_eStartSWTimer(App_KeyLongPressTimer, APP_TIME_MS(LONG_PRESS_TIMEOUT), NULL );
 			}else{
 				DBG_vPrintf(TRACE_SWITCH_NODE,"Start Joing\n");
 				vStartStopTimer( APP_JoinTimer, APP_TIME_MS(500),(uint8*)&(sDeviceDesc.eNodeState),E_STARTUP );				
@@ -861,46 +859,47 @@ PRIVATE void vHandleAppEvent( APP_tsEvent sAppEvent )
 				OS_teStatus status=OS_eGetSWTimerStatus(App_KeyLongPressTimer);
 				if(status != OS_E_SWTIMER_STOPPED || status != OS_E_SWTIMER_EXPIRED )
 				{
-						DBG_vPrintf(TRACE_SWITCH_NODE,"Stop Long press timer\n");
-						OS_eStopSWTimer(App_KeyLongPressTimer);
+					DBG_vPrintf(TRACE_SWITCH_NODE,"Stop Long press timer\n");
+					OS_eStopSWTimer(App_KeyLongPressTimer);
 				}
 			}
 		}else if(sDeviceDesc.eNodeState == E_RUNNING && sAppEvent.eType == APP_E_EVENT_BUTTON_DOWN && sAppEvent.uEvent.sButton.u8Button == APP_E_BUTTONS_BUTTON_SW1)
 		{
-				teZCL_Status status;
-				if(!flag)
-				{
-					flag=TRUE;
-				}else{
-					flag=FALSE;
-				}
+			teZCL_Status status;
 
-				if(flag)
-				{
-					//scene 1
-					uint8 u8Seq;
-					tsZCL_Address sDestinationAddress;
-					tsCLD_ScenesRecallSceneRequestPayload payLoad;
-					sDestinationAddress.eAddressMode=E_ZCL_AM_GROUP;
-					sDestinationAddress.uAddress.u16GroupAddress=groupId;
-
-					payLoad.u16GroupId=groupId;
-					payLoad.u8SceneId=1;
-					status=eCLD_ScenesCommandRecallSceneRequestSend(DIMMERSWITCH_SWITCH_ENDPOINT,DIMMERSWITCH_SWITCH_ENDPOINT,&sDestinationAddress,&u8Seq,&payLoad);
-					DBG_vPrintf(TRACE_SWITCH_NODE,"Recall scene 1 =%d\n",status);
-				}else{
-					//scene 2
-					uint8 u8Seq;
-					tsZCL_Address sDestinationAddress;
-					tsCLD_ScenesRecallSceneRequestPayload payLoad;
-					sDestinationAddress.eAddressMode=E_ZCL_AM_GROUP;
-					sDestinationAddress.uAddress.u16GroupAddress=groupId;
-
-					payLoad.u16GroupId=groupId;
-					payLoad.u8SceneId=2;
-					status=eCLD_ScenesCommandRecallSceneRequestSend(DIMMERSWITCH_SWITCH_ENDPOINT,DIMMERSWITCH_SWITCH_ENDPOINT,&sDestinationAddress,&u8Seq,&payLoad);
-					DBG_vPrintf(TRACE_SWITCH_NODE,"Recall scene 0 =%d\n",status);
-				}		
+			if(!flag)
+			{
+				flag=TRUE;
+			}else{
+				flag=FALSE;
+			}
+			
+			if(flag)
+			{
+				//scene 1
+				uint8 u8Seq;
+				tsZCL_Address sDestinationAddress;
+				tsCLD_ScenesRecallSceneRequestPayload payLoad;
+				sDestinationAddress.eAddressMode=E_ZCL_AM_GROUP;
+				sDestinationAddress.uAddress.u16GroupAddress=groupId;
+			
+				payLoad.u16GroupId=groupId;
+				payLoad.u8SceneId=1;
+				status=eCLD_ScenesCommandRecallSceneRequestSend(DIMMERSWITCH_SWITCH_ENDPOINT,DIMMERSWITCH_SWITCH_ENDPOINT,&sDestinationAddress,&u8Seq,&payLoad);
+				DBG_vPrintf(TRACE_SWITCH_NODE,"Recall scene 1 =%d\n",status);
+			}else{
+				//scene 2
+				uint8 u8Seq;
+				tsZCL_Address sDestinationAddress;
+				tsCLD_ScenesRecallSceneRequestPayload payLoad;
+				sDestinationAddress.eAddressMode=E_ZCL_AM_GROUP;
+				sDestinationAddress.uAddress.u16GroupAddress=groupId;
+			
+				payLoad.u16GroupId=groupId;
+				payLoad.u8SceneId=2;
+				status=eCLD_ScenesCommandRecallSceneRequestSend(DIMMERSWITCH_SWITCH_ENDPOINT,DIMMERSWITCH_SWITCH_ENDPOINT,&sDestinationAddress,&u8Seq,&payLoad);
+				DBG_vPrintf(TRACE_SWITCH_NODE,"Recall scene 0 =%d\n",status);
+			}
 		}
 }
 /****************************************************************************

@@ -68,6 +68,8 @@
 #define LQI_MIN_VALUE   29
 #define LQI_MAX_VALUE   30
 
+#define REJOIN_RETRY_TIMES		(1)
+
 /****************************************************************************/
 /***        Type Definitions                                              ***/
 /****************************************************************************/
@@ -117,6 +119,7 @@ uint32 u32BackOffTime = 0;
 PRIVATE tsEZ_Join sEZModeData = { 0};
 PRIVATE uint32 u32DefaultChannelMask=0x07fff800;
 PRIVATE bool_t bRejoin;
+PRIVATE uint8 orphanStatus=0;
 
 PRIVATE tsBeaconFilterType sBeaconFilter;
 PRIVATE uint64 au64ExtPanList[1];
@@ -125,6 +128,7 @@ PRIVATE uint64 au64ExtPanList[1];
 /****************************************************************************/
 extern PUBLIC void vForceDeviceDeepSleep();
 extern PUBLIC void vForceDeviceDeepSleepEx();
+extern PUBLIC void vReloadSleepTimers(void);
 
 /****************************************************************************
  *
@@ -417,7 +421,7 @@ PRIVATE void vSetRejoinFilter( void)
 {
     au64ExtPanList[0] = ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid;
 
-    DBG_vPrintf(TRACE_EZMODE,"Rejoin - ZPS_u64AplZdoGetNetworkExtendedPanId = 0x%08x\n\n",au64ExtPanList[0]);
+    DBG_vPrintf(TRACE_EZMODE,"Rejoin - ZPS_u64AplZdoGetNetworkExtendedPanId = %016llX\n\n",au64ExtPanList[0]);
     sBeaconFilter.pu64ExtendPanIdList = au64ExtPanList;
     sBeaconFilter.u8ListSize = 1;
     sBeaconFilter.u8Lqi = LQI_MIN_VALUE;
@@ -589,7 +593,7 @@ PRIVATE void vWaitDiscovery(ZPS_tsAfEvent *pZPSevent)
                 case(ZPS_EVENT_NWK_FAILED_TO_JOIN):
                     if (ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid != 0)
                     {
-                        DBG_vPrintf(TRACE_EZMODE, "Restore epid %016llx\n", ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid);
+                        DBG_vPrintf(TRACE_EZMODE, "Restore epid %016llX\n", ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid);
                         ZPS_vNwkNibSetExtPanId(ZPS_pvAplZdoGetNwkHandle(), ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid);
                     }
                     vReDiscover();
@@ -697,7 +701,7 @@ PRIVATE void vJoiningNetwork(ZPS_tsAfEvent *pZPSevent)
                     }
                     if (ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid != 0)
                     {
-                        DBG_vPrintf(TRACE_EZMODE, "Restore epid %016llx\n", ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid);
+                        DBG_vPrintf(TRACE_EZMODE, "Restore epid %016llX\n", ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid);
                         ZPS_vNwkNibSetExtPanId(ZPS_pvAplZdoGetNwkHandle(), ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid);
                     }
                     vHandleJoinFailed();
@@ -1053,7 +1057,7 @@ PRIVATE void vHandleDiscovery(ZPS_tsAfEvent *pZPSevent)
  ****************************************************************************/
 PRIVATE void vHandleJoinedNwk(void)
 {
-
+	orphanStatus=0;
     OS_eStopSWTimer(APP_JoinTimer);
     OS_eStopSWTimer(APP_BackOffTimer);
     /*Rejoin is cleared now */
@@ -1082,7 +1086,6 @@ PRIVATE void vHandleJoinedNwk(void)
  ****************************************************************************/
 PRIVATE void vHandleFormedNwk(void)
 {
-
     OS_eStopSWTimer(APP_JoinTimer);
     OS_eStopSWTimer(APP_BackOffTimer);
     /* Now device part of network. Update state variable in persistent storage */
@@ -1104,12 +1107,18 @@ PRIVATE void vHandleFormedNwk(void)
  ****************************************************************************/
 PRIVATE void vHandleJoinFailed(void)
 {
-		DBG_vPrintf(TRACE_EZMODE, "Join Failed bRejoin=%d\n",bRejoin);
     if(bRejoin)
     {
-        //vStartStopTimer( APP_JoinTimer, APP_TIME_MS(1000),&(sEZModeData.u8EZSetUpState),E_EZ_START );
-				DBG_vPrintf(TRACE_EZMODE, "Rejoin failed,Gave up!!!\n\n\n");
-				vForceDeviceDeepSleepEx();        
+        orphanStatus++;
+		if(orphanStatus > REJOIN_RETRY_TIMES)
+		{
+			orphanStatus=0;
+			DBG_vPrintf(TRACE_EZMODE, "Rejoin failed,goto deep sleep\n\n\n");
+			vForceDeviceDeepSleepEx();
+		}else{
+			vReloadSleepTimers();
+			DBG_vPrintf(TRACE_EZMODE, "Rejoin failed,retry\n");
+		}
     }
     else
         vEZ_JoinSavedNetwork();
