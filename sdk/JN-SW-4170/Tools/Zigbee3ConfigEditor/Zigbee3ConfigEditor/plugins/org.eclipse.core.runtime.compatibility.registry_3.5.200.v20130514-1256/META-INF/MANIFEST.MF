@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Require-Capability: osgi.identity; filter:="(osgi.identity=org.eclipse
+ .core.runtime)"; resolution:=optional
+Bundle-Localization: fragment
+Fragment-Host: org.eclipse.equinox.registry;bundle-version="[3.5.0,3.6
+ .0)"
+Bundle-RequiredExecutionEnvironment: CDC-1.0/Foundation-1.0,J2SE-1.3
+Built-By: e4Build
+Bundle-SymbolicName: org.eclipse.core.runtime.compatibility.registry
+Eclipse-SourceReferences: scm:git:git://git.eclipse.org/gitroot/platfo
+ rm/eclipse.platform.runtime.git;path="bundles/org.eclipse.core.runtim
+ e.compatibility.registry";tag="I20130514-0919";commitId=3b16e56dc8b78
+ 989ebfd42f61ea59ca67c994a67
+Bundle-Version: 3.5.200.v20130514-1256
+Build-Jdk: 1.7.0_11
+Bundle-ClassPath: runtime_registry_compatibility.jar
+Eclipse-PatchFragment: true
+Bundle-Vendor: %providerName
+Bundle-Name: %fragmentName
+Eclipse-BundleShape: dir
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Bundle-ManifestVersion: 2
+
+Name: fragment.properties
+SHA1-Digest: 4yjHkU5Z/6ej6ZFYT+PE9sMOJPY=
+
+Name: runtime_registry_compatibility.jar
+SHA1-Digest: rARnK7X+d1pXUQrFgbZkUhDBHDI=
+
+Name: .api_description
+SHA1-Digest: KDOu4o+t4cuiX+38zvDyrJq/wGE=
+
+Name: about.html
+SHA1-Digest: ejOZra0kypGLQQ2bJtGTX+LI8tU=
+

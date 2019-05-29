@@ -1,22 +1,28 @@
-# NXP JN5169 zigbee 2.x 协议栈source code for 小米39元无线开关
+# NXP JN5169 zigbee 3.0 协议栈source code for 小米39元无线开关
 
 #### 备注
 - 针对小米39元无线开关，在NXP JN5169平台的代码实现，在按键按下之后能够实现组播的方式向外发送信号，而不是官方自带的固件，只能实现向网关(短地址0x0000)发送report attribute单播指令，这样就必须依赖网关才能实现对其他设备的控制,组播的方式可以脱离网关
 - 基于DimmerSwitch示例工程开发
 - 工作在end device模式，休眠功耗0.3uA，工作功耗比较高，入网功耗大概十几毫安，组播发送指令2毫安左右
-- 任何情况下，包括没有入网成功，入网成功以后rejoin失败，都能够实现完全自动休眠，sleep duration目前设置为120minutes，即120分钟自动唤醒一次，保持和网关的连接(zigbee alliance默认的enddevice timeout时间是256分钟)
+- 入网之后默认唤醒周期为60minutes，符合child aging特性
 - 目前LED灯控制部分没有实现，包括入网状态指示，后续补上，LED连接的是DIO11引脚，拉高灭，拉低亮。
-- 配置按钮连接的是DIO0引脚
+- 配置按钮连接的是DIO0引脚，点击一下直接steering入网
 - 板子中间功能键连接的是DIO16 DIO17引脚，默认为高阻状态，因外外部有很大的上下拉电阻，大概0.9M，下降沿中断
-- 长按配置按钮3S时间，自动离网，并删除PDM恢复出厂设置，之后自动深度休眠(必须外部按键唤醒，且只有配置按钮能够实现入网操作)
-- 默认工作在11信道上，source endpoint和distination endpoint都改为8
+- 长按配置按钮3S时间，自动删除PDM恢复出厂设置，之后自动深度休眠(必须外部按键唤醒，且只有配置按钮能够实现入网操作)
+- 默认工作在11信道上，distination endpoint为8
 - 可以通过指令配置组播的地址，并写入PDM保存，重新上电仍然在
 - 入网阶段单个信道尝试3次，如果失败，直接进入深度休眠
-
+- 通过BASIC cluster可以配置组播地址
+- [app.zpscfg编辑方法参考](https://blog.csdn.net/code_style/article/details/90487512)
 
 #### 已知问题
-- 莫名其妙crash导致watchdog重启
-- 入网阶段没有LED指示，目前只能依赖ubiqua抓包
+- 入网阶段没有LED指示，目前只能依赖ubiqua抓包分析数据
+
+#### 烧写方法
+- 先进入ISP模式
+```
+JN51xxProgrammer.exe -s COM7 -P115200 --eraseflash=full -f C:\NXP\bstudio_nxp\Application\JN-AN-1219-Zigbee-3-0-Controller-and-Switch\DimmerSwitch\Build\DimmerSwitch_JN5169_DR1199.bin
+```
 
 ![pic](https://am.zdmimg.com/201603/10/56e1344deed61.jpg_e600.jpg)
 ![pic](https://am.zdmimg.com/201609/25/57e74c058d09f.jpg_e600.jpg)

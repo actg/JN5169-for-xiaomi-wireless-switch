@@ -1,0 +1,5 @@
+#Eclipse Product File
+#Fri Feb 17 00:13:11 GMT 2017
+version=1.0.0
+name=%productName
+id=com.zpsconfig.zigbee3.rcp.zpscfgeditor.product

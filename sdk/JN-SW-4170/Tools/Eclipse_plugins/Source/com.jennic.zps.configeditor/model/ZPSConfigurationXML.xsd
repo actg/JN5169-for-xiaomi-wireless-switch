@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:zpscfg="http://www.nxp.com/zpscfg" targetNamespace="http://www.nxp.com/zpscfg">
+  <xsd:simpleType name="NodeLogicalType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="ZigbeeCoordinator"/>
+      <xsd:enumeration value="ZigbeeRouter"/>
+      <xsd:enumeration value="ZigbeeEndDevice"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="FrequencyBands">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="Freq868MHz"/>
+      <xsd:enumeration value="Freq914MHz"/>
+      <xsd:enumeration value="Freq2400MHz"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PowerSources">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="ConstantPower"/>
+      <xsd:enumeration value="RechargeableBattery"/>
+      <xsd:enumeration value="DisposableBattery"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PowerModes">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="RxOnWhenIdleSync"/>
+      <xsd:enumeration value="Periodic"/>
+      <xsd:enumeration value="Stimulated"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="NetworkSelectionTypes">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="User"/>
+      <xsd:enumeration value="Automatic"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RadioType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="RT2400MHz"/>
+      <xsd:enumeration value="RT868MHz"/>
+      <xsd:enumeration value="RT915MHz"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="Profile">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:NamedObject">
+        <xsd:sequence>
+          <xsd:element maxOccurs="65535" minOccurs="1" name="Clusters" type="zpscfg:Cluster"/>
+        </xsd:sequence>
+        <xsd:attribute default="1" name="Id" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="Profile" type="zpscfg:Profile"/>
+  <xsd:complexType name="Cluster">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:NamedObject">
+        <xsd:attribute default="0" name="Id" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="Cluster" type="zpscfg:Cluster"/>
+  <xsd:complexType abstract="true" name="Node">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:NamedObject">
+        <xsd:sequence>
+          <xsd:element maxOccurs="255" minOccurs="1" name="Endpoints" type="zpscfg:EndPoint"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="PDUConfiguration" type="zpscfg:PDUManager"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="ChannelMask" type="zpscfg:ChannelMask"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="NodeDescriptor" type="zpscfg:NodeDescriptor"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="NodePowerDescriptor" type="zpscfg:NodePowerDescriptor"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="UserDescriptor" type="zpscfg:UserDescriptor"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="BindingTable" type="zpscfg:BindingTable"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="GroupTable" type="zpscfg:GroupTable"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="KeyDescriptorTable" type="zpscfg:KeyDescriptorTable"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="GreenPowerTxQueue" type="zpscfg:GreenPowerTxQueue"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="GreenPowerSecurityTable" type="zpscfg:GreenPowerSecurityTable"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="MacInterfaceList" type="zpscfg:MacInterfaceList"/>
+        </xsd:sequence>
+        <xsd:attribute default="16" name="DiscoveryNeighbourTableSize" type="xsd:string" use="required"/>
+        <xsd:attribute default="26" name="ActiveNeighbourTableSize" type="xsd:string" use="required"/>
+        <xsd:attribute default="2" name="RouteDiscoveryTableSize" type="xsd:string" use="required"/>
+        <xsd:attribute default="255" name="RoutingTableSize" type="xsd:string" use="required"/>
+        <xsd:attribute default="9" name="BroadcastTransactionTableSize" type="xsd:string" use="required"/>
+        <xsd:attribute default="2" name="RouteRecordTableSize" type="xsd:string" use="required"/>
+        <xsd:attribute default="10" name="AddressMapTableSize" type="xsd:string" use="required"/>
+        <xsd:attribute default="2" name="SecurityMaterialSets" type="xsd:string" use="required"/>
+        <xsd:attribute default="5" name="MaxNumSimultaneousApsdeReq" type="xsd:int" use="required"/>
+        <xsd:attribute default="3" name="MaxNumSimultaneousApsdeAckReq" type="xsd:string" use="required"/>
+        <xsd:attribute default="mutexMAC" name="MACMutexName" type="xsd:string" use="required"/>
+        <xsd:attribute default="mutexZPS" name="ZPSMutexName" type="xsd:string" use="required"/>
+        <xsd:attribute default="0" name="FragmentationMaxNumSimulRx" type="xsd:int" use="required"/>
+        <xsd:attribute default="0" name="FragmentationMaxNumSimulTx" type="xsd:int" use="required"/>
+        <xsd:attribute default="APP_msgZpsEvents" name="DefaultEventMessageName" type="xsd:string" use="required"/>
+        <xsd:attribute default="zps_msgDcfmInd" name="MACDcfmIndMessage" type="xsd:string" use="required"/>
+        <xsd:attribute default="zps_msgTimeEvents" name="MACTimeEventMessage" type="xsd:string" use="required"/>
+        <xsd:attribute default="2" name="apsNonMemberRadius" type="xsd:int" use="required"/>
+        <xsd:attribute default="false" name="apsDesignatedCoordinator" type="xsd:boolean" use="required"/>
+        <xsd:attribute default="true" name="apsUseInsecureJoin" type="xsd:boolean" use="required"/>
+        <xsd:attribute default="8" name="apsMaxWindowSize" type="xsd:int" use="required"/>
+        <xsd:attribute default="10" name="apsInterframeDelay" type="xsd:int" use="required"/>
+        <xsd:attribute default="8" name="APSDuplicateTableSize" type="xsd:int" use="required"/>
+        <xsd:attribute default="1000" name="apsSecurityTimeoutPeriod" type="xsd:string" use="required"/>
+        <xsd:attribute default="0" name="apsUseExtPANId" type="xsd:string" use="required"/>
+        <xsd:attribute default="true" name="SecurityEnabled" type="xsd:boolean" use="required"/>
+        <xsd:attribute default="zps_msgMlmeDcfmInd" name="MACMlmeDcfmIndMessage" type="xsd:string" use="required"/>
+        <xsd:attribute default="zps_msgMcpsDcfmInd" name="MACMcpsDcfmIndMessage" type="xsd:string" use="required"/>
+        <xsd:attribute default="100" name="APSPersistenceTime" type="xsd:int" use="required"/>
+        <xsd:attribute default="4" name="NumAPSMESimulCommands" type="xsd:int" use="required"/>
+        <xsd:attribute default="2" name="StackProfile" type="xsd:int" use="required"/>
+        <xsd:attribute default="false" name="InterPAN" type="xsd:boolean" use="required"/>
+        <xsd:attribute default="false" name="GreenPowerSupport" type="xsd:boolean" use="required"/>
+        <xsd:attribute default="10" name="NwkFcSaveCountBitShift" type="xsd:int" use="required"/>
+        <xsd:attribute default="10" name="ApsFcSaveCountBitShift" type="xsd:int" use="required"/>
+        <xsd:attribute default="36" name="MacTableSize" type="xsd:string" use="required"/>
+        <xsd:attribute default="APP_vGenCallback" name="DefaultCallbackName" type="xsd:string" use="required"/>
+        <xsd:attribute name="InitialNetworkKey" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Coordinator">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:AlwaysOnNode">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="ZDOServers" type="zpscfg:ZDOServersCoordinator"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="Coordinator" type="zpscfg:Coordinator"/>
+  <xsd:complexType name="Router">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:AlwaysOnNode">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="ZDOServers" type="zpscfg:ZDOServersRouter"/>
+        </xsd:sequence>
+        <xsd:attribute default="3" name="ScanDuration" type="xsd:string" use="required"/>
+        <xsd:attribute default="User Selected" name="NetworkSelection" type="zpscfg:NetworkSelectionTypes" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="Router" type="zpscfg:Router"/>
+  <xsd:complexType name="EndDevice">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:Node">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="ZDOServers" type="zpscfg:ZDOServersEndDevice"/>
+        </xsd:sequence>
+        <xsd:attribute default="3" name="ScanDuration" type="xsd:string" use="required"/>
+        <xsd:attribute default="User Selected" name="NetworkSelection" type="zpscfg:NetworkSelectionTypes" use="required"/>
+        <xsd:attribute default="3" name="NumPollFailuresBeforeRejoin" type="xsd:int"/>
+        <xsd:attribute default="false" name="Sleeping" type="xsd:boolean" use="required"/>
+        <xsd:attribute default="25" name="FragmentedTxPollPeriod" type="xsd:int"/>
+        <xsd:attribute default="25" name="FragmentedRxPollPeriod" type="xsd:int"/>
+        <xsd:attribute default="100" name="APSPollPeriod" type="xsd:int"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="EndDevice" type="zpscfg:EndDevice"/>
+  <xsd:complexType name="EndPoint">
+    <xsd:sequence>
+      <xsd:element maxOccurs="255" minOccurs="0" name="InputClusters" type="zpscfg:InputCluster"/>
+      <xsd:element maxOccurs="255" minOccurs="0" name="OutputClusters" type="zpscfg:OutputCluster"/>
+    </xsd:sequence>
+    <xsd:attribute default="1" name="Id" type="xsd:int" use="required"/>
+    <xsd:attribute default="true" name="Enabled" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="0" name="ApplicationDeviceId" type="xsd:int" use="required"/>
+    <xsd:attribute default="0" name="ApplicationDeviceVersion" type="xsd:int" use="required"/>
+    <xsd:attribute name="Message" type="xsd:string"/>
+    <xsd:attribute name="Name" type="xsd:string" use="required"/>
+    <xsd:attribute name="Profile" type="xsd:string"/>
+    <xsd:attribute name="Node" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="EndPoint" type="zpscfg:EndPoint"/>
+  <xsd:complexType name="PrimaryDiscoveryCache">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:DiscoveryCache">
+        <xsd:attribute name="Size" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="PrimaryDiscoveryCache" type="zpscfg:PrimaryDiscoveryCache"/>
+  <xsd:complexType name="BackupDiscoveryCache">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:DiscoveryCache">
+        <xsd:attribute name="Size" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="BackupDiscoveryCache" type="zpscfg:BackupDiscoveryCache"/>
+  <xsd:complexType name="DiscoveryTable">
+    <xsd:attribute name="Size" type="xsd:int"/>
+  </xsd:complexType>
+  <xsd:element name="DiscoveryTable" type="zpscfg:DiscoveryTable"/>
+  <xsd:complexType name="BindingTable">
+    <xsd:attribute default="5" name="Size" type="xsd:int"/>
+  </xsd:complexType>
+  <xsd:element name="BindingTable" type="zpscfg:BindingTable"/>
+  <xsd:complexType name="GroupTable">
+    <xsd:attribute default="16" name="Size" type="xsd:int"/>
+  </xsd:complexType>
+  <xsd:element name="GroupTable" type="zpscfg:GroupTable"/>
+  <xsd:complexType name="ZigbeeWirelessNetwork">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="1" name="Profiles" type="zpscfg:Profile"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="Coordinator" type="zpscfg:Coordinator"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="ChildNodes" type="zpscfg:ChildNodes"/>
+    </xsd:sequence>
+    <xsd:attribute default="0" name="DefaultExtendedPANId" type="xsd:string"/>
+    <xsd:attribute default="20" name="MaxNumberNodes" type="xsd:int"/>
+    <xsd:attribute default="1.2" name="Version" type="xsd:string" use="required"/>
+    <xsd:attribute default="true" name="DefaultSecurityEnabled" type="xsd:boolean" use="required"/>
+  </xsd:complexType>
+  <xsd:element name="ZigbeeWirelessNetwork" type="zpscfg:ZigbeeWirelessNetwork"/>
+  <xsd:complexType name="PrimaryBindingCache">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:BindingCache">
+        <xsd:attribute name="TableSize" type="xsd:string" use="required"/>
+        <xsd:attribute name="NumTables" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="PrimaryBindingCache" type="zpscfg:PrimaryBindingCache"/>
+  <xsd:complexType name="BackupBindingCache">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:BindingCache">
+        <xsd:attribute name="TableSize" type="xsd:string" use="required"/>
+        <xsd:attribute name="NumTables" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="BackupBindingCache" type="zpscfg:BackupBindingCache"/>
+  <xsd:complexType name="PrimaryGroupCache">
+    <xsd:attribute name="Size" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="PrimaryGroupCache" type="zpscfg:PrimaryGroupCache"/>
+  <xsd:complexType name="BackupGroupCache">
+    <xsd:attribute name="Size" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="BackupGroupCache" type="zpscfg:BackupGroupCache"/>
+  <xsd:complexType name="InputCluster">
+    <xsd:attribute default="true" name="Discoverable" type="xsd:boolean" use="required"/>
+    <xsd:attribute name="Cluster" type="xsd:string"/>
+    <xsd:attribute name="RxAPDU" type="xsd:string"/>
+    <xsd:attribute name="EndPoint" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="InputCluster" type="zpscfg:InputCluster"/>
+  <xsd:complexType name="OutputCluster">
+    <xsd:attribute default="true" name="Discoverable" type="xsd:boolean" use="required"/>
+    <xsd:attribute name="Cluster" type="xsd:string"/>
+    <xsd:attribute name="EndPoint" type="xsd:string"/>
+    <xsd:attribute name="TxAPDUs" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="OutputCluster" type="zpscfg:OutputCluster"/>
+  <xsd:complexType abstract="true" name="AlwaysOnNode">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:Node">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="TrustCenter" type="zpscfg:TrustCenter"/>
+        </xsd:sequence>
+        <xsd:attribute default="255" name="PermitJoiningTime" type="xsd:int" use="required"/>
+        <xsd:attribute default="6" name="ChildTableSize" type="xsd:int" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ComplexDescriptor"/>
+  <xsd:element name="ComplexDescriptor" type="zpscfg:ComplexDescriptor"/>
+  <xsd:complexType name="UserDescriptor">
+    <xsd:attribute name="UserDescription" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:element name="UserDescriptor" type="zpscfg:UserDescriptor"/>
+  <xsd:complexType name="TrustCenter">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="0" name="Keys" type="zpscfg:TCKey"/>
+    </xsd:sequence>
+    <xsd:attribute name="DeviceTableSize" type="xsd:int" use="required"/>
+  </xsd:complexType>
+  <xsd:element name="TrustCenter" type="zpscfg:TrustCenter"/>
+  <xsd:complexType name="DiscoveryCache"/>
+  <xsd:element name="DiscoveryCache" type="zpscfg:DiscoveryCache"/>
+  <xsd:complexType abstract="true" name="BindingCache"/>
+  <xsd:complexType abstract="true" name="NamedObject">
+    <xsd:attribute name="Name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="ChildNodes">
+    <xsd:attribute default="3" name="ScanDuration" type="xsd:string" use="required"/>
+    <xsd:attribute default="User Selected" name="NetworkSelection" type="zpscfg:NetworkSelectionTypes" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="APDU">
+    <xsd:attribute default="" name="Id" type="xsd:string" use="required"/>
+    <xsd:attribute name="Name" type="xsd:string" use="required"/>
+    <xsd:attribute default="1" name="Size" type="xsd:int" use="required"/>
+    <xsd:attribute default="1" name="Instances" type="xsd:int" use="required"/>
+    <xsd:attribute name="PDUConfig" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="APDU" type="zpscfg:APDU"/>
+  <xsd:complexType name="PDUManager">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="APDUs" type="zpscfg:APDU"/>
+    </xsd:sequence>
+    <xsd:attribute default="25" name="NumNPDUs" type="xsd:int" use="required"/>
+    <xsd:attribute default="mutexPDUM" name="PDUMMutexName" type="xsd:string" use="required"/>
+    <xsd:attribute name="ContainerNode" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="PDUManager" type="zpscfg:PDUManager"/>
+  <xsd:complexType name="ChannelMask">
+    <xsd:attribute default="true" name="Channel11" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel12" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel13" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel14" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel15" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel16" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel17" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel18" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel19" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel20" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel21" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel22" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel23" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel24" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel25" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="Channel26" type="xsd:boolean" use="required"/>
+  </xsd:complexType>
+  <xsd:element name="ChannelMask" type="zpscfg:ChannelMask"/>
+  <xsd:complexType abstract="true" name="ZDOClientServer">
+    <xsd:attribute name="OutputAPdu" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType name="ZDOServersCoordinator">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOCommonServers">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="PermitJoiningServer" type="zpscfg:PermitJoiningServer"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="MgmtRtgServer" type="zpscfg:MgmtRtgServer"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="MgmtMibIeeeServer" type="zpscfg:MgmtMibIeeeServer"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="ParentAnnceServer" type="zpscfg:ParentAnnceServer"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="EndDeviceBindServer" type="zpscfg:EndDeviceBindServer"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ZDOServersCoordinator" type="zpscfg:ZDOServersCoordinator"/>
+  <xsd:complexType name="ZDOServersRouter">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOCommonServers">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="PermitJoiningServer" type="zpscfg:PermitJoiningServer"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="MgmtRtgServer" type="zpscfg:MgmtRtgServer"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="MgmtMibIeeeServer" type="zpscfg:MgmtMibIeeeServer"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="ParentAnnceServer" type="zpscfg:ParentAnnceServer"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ZDOServersRouter" type="zpscfg:ZDOServersRouter"/>
+  <xsd:complexType name="ZDOServersEndDevice">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOCommonServers"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ZDOServersEndDevice" type="zpscfg:ZDOServersEndDevice"/>
+  <xsd:complexType name="DefaultServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DefaultServer" type="zpscfg:DefaultServer"/>
+  <xsd:complexType name="EndDeviceBindServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer">
+        <xsd:attribute default="5" name="Timeout" type="xsd:int" use="required"/>
+        <xsd:attribute default="10" name="BindingTimeout" type="xsd:int"/>
+        <xsd:attribute default="3" name="BindNumRetries" type="xsd:int" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="EndDeviceBindServer" type="zpscfg:EndDeviceBindServer"/>
+  <xsd:complexType name="DeviceAnnceServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DeviceAnnceServer" type="zpscfg:DeviceAnnceServer"/>
+  <xsd:complexType name="ActiveEpServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ActiveEpServer" type="zpscfg:ActiveEpServer"/>
+  <xsd:complexType name="NwkAddrServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="NwkAddrServer" type="zpscfg:NwkAddrServer"/>
+  <xsd:complexType name="IeeeAddrServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="IeeeAddrServer" type="zpscfg:IeeeAddrServer"/>
+  <xsd:complexType name="MatchDescServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="MatchDescServer" type="zpscfg:MatchDescServer"/>
+  <xsd:complexType name="NodeDescServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="NodeDescServer" type="zpscfg:NodeDescServer"/>
+  <xsd:complexType name="PermitJoiningServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="PermitJoiningServer" type="zpscfg:PermitJoiningServer"/>
+  <xsd:complexType name="PowerDescServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="PowerDescServer" type="zpscfg:PowerDescServer"/>
+  <xsd:complexType name="SimpleDescServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="SimpleDescServer" type="zpscfg:SimpleDescServer"/>
+  <xsd:complexType name="SystemServerDiscoveryServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="SystemServerDiscoveryServer" type="zpscfg:SystemServerDiscoveryServer"/>
+  <xsd:complexType name="MgmtLqiServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="MgmtLqiServer" type="zpscfg:MgmtLqiServer"/>
+  <xsd:complexType name="MgmtRtgServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="MgmtRtgServer" type="zpscfg:MgmtRtgServer"/>
+  <xsd:complexType name="MgmtLeaveServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="MgmtLeaveServer" type="zpscfg:MgmtLeaveServer"/>
+  <xsd:complexType name="NodeDescriptor">
+    <xsd:attribute default="0" name="ManufacturerCode" type="xsd:int" use="required"/>
+    <xsd:attribute default="ZED" name="LogicalType" type="zpscfg:NodeLogicalType" use="required"/>
+    <xsd:attribute default="false" name="ComplexDescriptorAvailable" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="UserDescriptorAvailable" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="0" name="APSFlags" type="xsd:string" use="required"/>
+    <xsd:attribute default="2.4GHz" name="FrequencyBand" type="zpscfg:FrequencyBands"/>
+    <xsd:attribute default="false" name="AlternatePANCoordinator" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="DeviceType" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="PowerSource" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="RxOnWhenIdle" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="Security" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="true" name="AllocateAddress" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="127" name="MaximumBufferSize" type="xsd:string" use="required"/>
+    <xsd:attribute default="0" name="MaximumIncomingTransferSize" type="xsd:int" use="required"/>
+    <xsd:attribute default="0" name="MaximumOutgoingTransferSize" type="xsd:int" use="required"/>
+    <xsd:attribute default="false" name="ExtendedActiveEndpointListAvailable" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="ExtendedSimpleDescriptorListAvailable" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="PrimaryTrustCenter" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="BackupTrustCenter" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="PrimaryBindingTableCache" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="BackupBindingTableCache" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="PrimaryDiscoveryCache" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="BackupDiscoveryCache" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="NetworkManager" type="xsd:boolean" use="required"/>
+    <xsd:attribute name="Node" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:element name="NodeDescriptor" type="zpscfg:NodeDescriptor"/>
+  <xsd:complexType name="NodePowerDescriptor">
+    <xsd:attribute default="true" name="ConstantPower" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="RechargeableBattery" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="false" name="DisposableBattery" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="Constant Power" name="DefaultPowerSource" type="zpscfg:PowerSources" use="required"/>
+    <xsd:attribute default="Synchronised with RxOnWhenIdle" name="DefaultPowerMode" type="zpscfg:PowerModes" use="required"/>
+  </xsd:complexType>
+  <xsd:element name="NodePowerDescriptor" type="zpscfg:NodePowerDescriptor"/>
+  <xsd:complexType name="BindUnbindServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="BindUnbindServer" type="zpscfg:BindUnbindServer"/>
+  <xsd:complexType name="MgmtBindServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="MgmtBindServer" type="zpscfg:MgmtBindServer"/>
+  <xsd:complexType name="ExtendedActiveEpServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ExtendedActiveEpServer" type="zpscfg:ExtendedActiveEpServer"/>
+  <xsd:complexType name="ExtendedSimpleDescServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ExtendedSimpleDescServer" type="zpscfg:ExtendedSimpleDescServer"/>
+  <xsd:complexType name="ZdoClient">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ZdoClient" type="zpscfg:ZdoClient"/>
+  <xsd:complexType name="MgmtNWKUpdateServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="MgmtNWKUpdateServer" type="zpscfg:MgmtNWKUpdateServer"/>
+  <xsd:complexType abstract="true" name="ZDOCommonServers">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="1" name="DefaultServer" type="zpscfg:DefaultServer"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="ZdoClient" type="zpscfg:ZdoClient"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="DeviceAnnceServer" type="zpscfg:DeviceAnnceServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="ActiveEpServer" type="zpscfg:ActiveEpServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="NwkAddrServer" type="zpscfg:NwkAddrServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="IeeeAddrServer" type="zpscfg:IeeeAddrServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="SystemServerDiscoveryServer" type="zpscfg:SystemServerDiscoveryServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="NodeDescServer" type="zpscfg:NodeDescServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="PowerDescServer" type="zpscfg:PowerDescServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="MatchDescServer" type="zpscfg:MatchDescServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="SimpleDescServer" type="zpscfg:SimpleDescServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="MgmtLqiServer" type="zpscfg:MgmtLqiServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="MgmtLeaveServer" type="zpscfg:MgmtLeaveServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="MgmtNWKUpdateServer" type="zpscfg:MgmtNWKUpdateServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="BindUnbindServer" type="zpscfg:BindUnbindServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="ExtendedActiveEpServer" type="zpscfg:ExtendedActiveEpServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="ExtendedSimpleDescServer" type="zpscfg:ExtendedSimpleDescServer"/>
+      <xsd:element maxOccurs="1" minOccurs="1" name="BindRequestServer" type="zpscfg:BindRequestServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="MgmtBindServer" type="zpscfg:MgmtBindServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="MgmtNWKEnhanceUpdateServer" type="zpscfg:MgmtNWKEnhanceUpdateServer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="NotImplemented">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="0" name="ComplexDescriptor" type="zpscfg:ComplexDescriptor"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="DiscoveryTable" type="zpscfg:DiscoveryTable"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="DiscoveryCache" type="zpscfg:DiscoveryCache"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="BindingCache" type="zpscfg:BindingCache"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="NotImplemented" type="zpscfg:NotImplemented"/>
+  <xsd:complexType name="KeyDescriptorTable">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="PreconfiguredKey" type="zpscfg:PreconfiguredKey"/>
+    </xsd:sequence>
+    <xsd:attribute default="8" name="Size" type="xsd:int" use="required"/>
+  </xsd:complexType>
+  <xsd:element name="KeyDescriptorTable" type="zpscfg:KeyDescriptorTable"/>
+  <xsd:complexType name="PreconfiguredKey">
+    <xsd:attribute default="0" name="Key" type="xsd:string" use="required"/>
+    <xsd:attribute default="0" name="IEEEAddress" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:element name="PreconfiguredKey" type="zpscfg:PreconfiguredKey"/>
+  <xsd:complexType abstract="true" name="ZDOCoordRouterOnlyServers">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="0" name="PermitJoiningServer" type="zpscfg:PermitJoiningServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="MgmtRtgServer" type="zpscfg:MgmtRtgServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="MgmtMibIeeeServer" type="zpscfg:MgmtMibIeeeServer"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="ParentAnnceServer" type="zpscfg:ParentAnnceServer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PreConfiguredNwkKey">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:NwkKey"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="PreConfiguredNwkKey" type="zpscfg:PreConfiguredNwkKey"/>
+  <xsd:complexType name="DefaultNwkKey">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:NwkKey">
+        <xsd:attribute default="true" name="Random" type="xsd:boolean" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DefaultNwkKey" type="zpscfg:DefaultNwkKey"/>
+  <xsd:complexType abstract="true" name="NwkKey">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:TCKey">
+        <xsd:attribute default="1" name="KeySequenceNumber" type="xsd:int" use="required"/>
+        <xsd:attribute default="0" name="Key" type="xsd:string" use="required"/>
+        <xsd:attribute name="Id" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PreconfiguredTCLinkKey">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:TCKey">
+        <xsd:attribute name="Id" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="PreconfiguredTCLinkKey" type="zpscfg:PreconfiguredTCLinkKey"/>
+  <xsd:complexType abstract="true" name="TCKey"/>
+  <xsd:complexType name="BindRequestServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer">
+        <xsd:attribute default="3" name="SimultaneousRequests" type="xsd:string" use="required"/>
+        <xsd:attribute default="1" name="TimeInterval" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="BindRequestServer" type="zpscfg:BindRequestServer"/>
+  <xsd:complexType name="GreenPowerSecurityTable">
+    <xsd:attribute default="5" name="Size" type="xsd:int"/>
+  </xsd:complexType>
+  <xsd:element name="GreenPowerSecurityTable" type="zpscfg:GreenPowerSecurityTable"/>
+  <xsd:complexType name="GreenPowerTxQueue">
+    <xsd:attribute default="5" name="Size" type="xsd:int"/>
+  </xsd:complexType>
+  <xsd:element name="GreenPowerTxQueue" type="zpscfg:GreenPowerTxQueue"/>
+  <xsd:complexType name="MgmtMibIeeeServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="MgmtMibIeeeServer" type="zpscfg:MgmtMibIeeeServer"/>
+  <xsd:complexType name="ParentAnnceServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ParentAnnceServer" type="zpscfg:ParentAnnceServer"/>
+  <xsd:complexType name="MgmtNWKEnhanceUpdateServer">
+    <xsd:complexContent>
+      <xsd:extension base="zpscfg:ZDOClientServer"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="MgmtNWKEnhanceUpdateServer" type="zpscfg:MgmtNWKEnhanceUpdateServer"/>
+  <xsd:complexType name="MacInterfaceList">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="MacInterface" type="zpscfg:MacInterface"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="MacInterfaceList" type="zpscfg:MacInterfaceList"/>
+  <xsd:complexType name="MacInterface">
+    <xsd:attribute name="RouterAllowed" type="xsd:boolean" use="required"/>
+    <xsd:attribute default="1" name="ChannelListSize" type="xsd:int" use="required"/>
+    <xsd:attribute default="0" name="index" type="xsd:string" use="required"/>
+    <xsd:attribute default="RT2400MHz" name="RadioType" type="zpscfg:RadioType" use="required"/>
+    <xsd:attribute default="true" name="Enabled" type="xsd:boolean" use="required"/>
+  </xsd:complexType>
+  <xsd:element name="MacInterface" type="zpscfg:MacInterface"/>
+</xsd:schema>

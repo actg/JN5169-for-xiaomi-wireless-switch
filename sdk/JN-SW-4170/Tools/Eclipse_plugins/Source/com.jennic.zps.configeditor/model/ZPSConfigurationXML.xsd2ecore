@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xsd2ecore:XSD2EcoreMappingRoot xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsd2ecore="http://www.eclipse.org/emf/2002/XSD2Ecore" inputs="ZPSConfig.ecore#/" outputs="ZPSConfigurationXML.xsd#/">
+  <nested inputs="ZPSConfig.ecore#/" outputs="ZPSConfigurationXML.xsd#/">
+    <nested inputs="ZPSConfig.ecore#//NodeLogicalType" outputs="ZPSConfigurationXML.xsd#//NodeLogicalType;XSDSimpleTypeDefinition">
+      <nested inputs="ZPSConfig.ecore#//NodeLogicalType/ZigbeeCoordinator" outputs="ZPSConfigurationXML.xsd#//NodeLogicalType;XSDSimpleTypeDefinition/XSDEnumerationFacet"/>
+      <nested inputs="ZPSConfig.ecore#//NodeLogicalType/ZigbeeRouter" outputs="ZPSConfigurationXML.xsd#//NodeLogicalType;XSDSimpleTypeDefinition/XSDEnumerationFacet=1"/>
+      <nested inputs="ZPSConfig.ecore#//NodeLogicalType/ZigbeeEndDevice" outputs="ZPSConfigurationXML.xsd#//NodeLogicalType;XSDSimpleTypeDefinition/XSDEnumerationFacet=2"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//FrequencyBands" outputs="ZPSConfigurationXML.xsd#//FrequencyBands;XSDSimpleTypeDefinition=1">
+      <nested inputs="ZPSConfig.ecore#//FrequencyBands/Freq868MHz" outputs="ZPSConfigurationXML.xsd#//FrequencyBands;XSDSimpleTypeDefinition=1/XSDEnumerationFacet"/>
+      <nested inputs="ZPSConfig.ecore#//FrequencyBands/Freq914MHz" outputs="ZPSConfigurationXML.xsd#//FrequencyBands;XSDSimpleTypeDefinition=1/XSDEnumerationFacet=1"/>
+      <nested inputs="ZPSConfig.ecore#//FrequencyBands/Freq2400MHz" outputs="ZPSConfigurationXML.xsd#//FrequencyBands;XSDSimpleTypeDefinition=1/XSDEnumerationFacet=2"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//PowerSources" outputs="ZPSConfigurationXML.xsd#//PowerSources;XSDSimpleTypeDefinition=2">
+      <nested inputs="ZPSConfig.ecore#//PowerSources/ConstantPower" outputs="ZPSConfigurationXML.xsd#//PowerSources;XSDSimpleTypeDefinition=2/XSDEnumerationFacet"/>
+      <nested inputs="ZPSConfig.ecore#//PowerSources/RechargeableBattery" outputs="ZPSConfigurationXML.xsd#//PowerSources;XSDSimpleTypeDefinition=2/XSDEnumerationFacet=1"/>
+      <nested inputs="ZPSConfig.ecore#//PowerSources/DisposableBattery" outputs="ZPSConfigurationXML.xsd#//PowerSources;XSDSimpleTypeDefinition=2/XSDEnumerationFacet=2"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//PowerModes" outputs="ZPSConfigurationXML.xsd#//PowerModes;XSDSimpleTypeDefinition=3">
+      <nested inputs="ZPSConfig.ecore#//PowerModes/RxOnWhenIdleSync" outputs="ZPSConfigurationXML.xsd#//PowerModes;XSDSimpleTypeDefinition=3/XSDEnumerationFacet"/>
+      <nested inputs="ZPSConfig.ecore#//PowerModes/Periodic" outputs="ZPSConfigurationXML.xsd#//PowerModes;XSDSimpleTypeDefinition=3/XSDEnumerationFacet=1"/>
+      <nested inputs="ZPSConfig.ecore#//PowerModes/Stimulated" outputs="ZPSConfigurationXML.xsd#//PowerModes;XSDSimpleTypeDefinition=3/XSDEnumerationFacet=2"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//NetworkSelectionTypes" outputs="ZPSConfigurationXML.xsd#//NetworkSelectionTypes;XSDSimpleTypeDefinition=4">
+      <nested inputs="ZPSConfig.ecore#//NetworkSelectionTypes/User" outputs="ZPSConfigurationXML.xsd#//NetworkSelectionTypes;XSDSimpleTypeDefinition=4/XSDEnumerationFacet"/>
+      <nested inputs="ZPSConfig.ecore#//NetworkSelectionTypes/Automatic" outputs="ZPSConfigurationXML.xsd#//NetworkSelectionTypes;XSDSimpleTypeDefinition=4/XSDEnumerationFacet=1"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//RadioType" outputs="ZPSConfigurationXML.xsd#//RadioType;XSDSimpleTypeDefinition=5">
+      <nested inputs="ZPSConfig.ecore#//RadioType/RT2400MHz" outputs="ZPSConfigurationXML.xsd#//RadioType;XSDSimpleTypeDefinition=5/XSDEnumerationFacet"/>
+      <nested inputs="ZPSConfig.ecore#//RadioType/RT868MHz" outputs="ZPSConfigurationXML.xsd#//RadioType;XSDSimpleTypeDefinition=5/XSDEnumerationFacet=1"/>
+      <nested inputs="ZPSConfig.ecore#//RadioType/RT915MHz" outputs="ZPSConfigurationXML.xsd#//RadioType;XSDSimpleTypeDefinition=5/XSDEnumerationFacet=2"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//Profile" outputs="ZPSConfigurationXML.xsd#//Profile;XSDComplexTypeDefinition">
+      <nested inputs="ZPSConfig.ecore#//Profile/Id" outputs="ZPSConfigurationXML.xsd#//Profile;XSDComplexTypeDefinition/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//Profile/Clusters" outputs="ZPSConfigurationXML.xsd#//Profile;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//Profile" outputs="ZPSConfigurationXML.xsd#//Profile;XSDElementDeclaration"/>
+    <nested inputs="ZPSConfig.ecore#//Cluster" outputs="ZPSConfigurationXML.xsd#//Cluster;XSDComplexTypeDefinition=1">
+      <nested inputs="ZPSConfig.ecore#//Cluster/Id" outputs="ZPSConfigurationXML.xsd#//Cluster;XSDComplexTypeDefinition=1/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//Cluster" outputs="ZPSConfigurationXML.xsd#//Cluster;XSDElementDeclaration=1"/>
+    <nested inputs="ZPSConfig.ecore#//Node" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2">
+      <nested inputs="ZPSConfig.ecore#//Node/DiscoveryNeighbourTableSize" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//Node/ActiveNeighbourTableSize" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//Node/RouteDiscoveryTableSize" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=2"/>
+      <nested inputs="ZPSConfig.ecore#//Node/RoutingTableSize" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=3"/>
+      <nested inputs="ZPSConfig.ecore#//Node/BroadcastTransactionTableSize" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=4"/>
+      <nested inputs="ZPSConfig.ecore#//Node/RouteRecordTableSize" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=5"/>
+      <nested inputs="ZPSConfig.ecore#//Node/AddressMapTableSize" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=6"/>
+      <nested inputs="ZPSConfig.ecore#//Node/SecurityMaterialSets" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=7"/>
+      <nested inputs="ZPSConfig.ecore#//Node/MaxNumSimultaneousApsdeReq" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=8"/>
+      <nested inputs="ZPSConfig.ecore#//Node/MaxNumSimultaneousApsdeAckReq" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=9"/>
+      <nested inputs="ZPSConfig.ecore#//Node/MACMutexName" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=10"/>
+      <nested inputs="ZPSConfig.ecore#//Node/ZPSMutexName" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=11"/>
+      <nested inputs="ZPSConfig.ecore#//Node/FragmentationMaxNumSimulRx" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=12"/>
+      <nested inputs="ZPSConfig.ecore#//Node/FragmentationMaxNumSimulTx" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=13"/>
+      <nested inputs="ZPSConfig.ecore#//Node/DefaultEventMessageName" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=14"/>
+      <nested inputs="ZPSConfig.ecore#//Node/MACDcfmIndMessage" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=15"/>
+      <nested inputs="ZPSConfig.ecore#//Node/MACTimeEventMessage" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=16"/>
+      <nested inputs="ZPSConfig.ecore#//Node/apsNonMemberRadius" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=17"/>
+      <nested inputs="ZPSConfig.ecore#//Node/apsDesignatedCoordinator" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=18"/>
+      <nested inputs="ZPSConfig.ecore#//Node/apsUseInsecureJoin" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=19"/>
+      <nested inputs="ZPSConfig.ecore#//Node/apsMaxWindowSize" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=20"/>
+      <nested inputs="ZPSConfig.ecore#//Node/apsInterframeDelay" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=21"/>
+      <nested inputs="ZPSConfig.ecore#//Node/APSDuplicateTableSize" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=22"/>
+      <nested inputs="ZPSConfig.ecore#//Node/apsSecurityTimeoutPeriod" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=23"/>
+      <nested inputs="ZPSConfig.ecore#//Node/apsUseExtPANId" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=24"/>
+      <nested inputs="ZPSConfig.ecore#//Node/SecurityEnabled" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=25"/>
+      <nested inputs="ZPSConfig.ecore#//Node/MACMlmeDcfmIndMessage" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=26"/>
+      <nested inputs="ZPSConfig.ecore#//Node/MACMcpsDcfmIndMessage" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=27"/>
+      <nested inputs="ZPSConfig.ecore#//Node/APSPersistenceTime" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=28"/>
+      <nested inputs="ZPSConfig.ecore#//Node/NumAPSMESimulCommands" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=29"/>
+      <nested inputs="ZPSConfig.ecore#//Node/StackProfile" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=30"/>
+      <nested inputs="ZPSConfig.ecore#//Node/InterPAN" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=31"/>
+      <nested inputs="ZPSConfig.ecore#//Node/GreenPowerSupport" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=32"/>
+      <nested inputs="ZPSConfig.ecore#//Node/NwkFcSaveCountBitShift" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=33"/>
+      <nested inputs="ZPSConfig.ecore#//Node/ApsFcSaveCountBitShift" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=34"/>
+      <nested inputs="ZPSConfig.ecore#//Node/MacTableSize" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=35"/>
+      <nested inputs="ZPSConfig.ecore#//Node/DefaultCallbackName" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=36"/>
+      <nested inputs="ZPSConfig.ecore#//Node/Endpoints" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="ZPSConfig.ecore#//Node/PDUConfiguration" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="ZPSConfig.ecore#//Node/ChannelMask" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="ZPSConfig.ecore#//Node/NodeDescriptor" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+      <nested inputs="ZPSConfig.ecore#//Node/NodePowerDescriptor" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=4"/>
+      <nested inputs="ZPSConfig.ecore#//Node/UserDescriptor" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=5"/>
+      <nested inputs="ZPSConfig.ecore#//Node/BindingTable" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=6"/>
+      <nested inputs="ZPSConfig.ecore#//Node/GroupTable" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=7"/>
+      <nested inputs="ZPSConfig.ecore#//Node/KeyDescriptorTable" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=8"/>
+      <nested inputs="ZPSConfig.ecore#//Node/GreenPowerTxQueue" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=9"/>
+      <nested inputs="ZPSConfig.ecore#//Node/GreenPowerSecurityTable" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=10"/>
+      <nested inputs="ZPSConfig.ecore#//Node/InitialNetworkKey" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDAttributeUse=37"/>
+      <nested inputs="ZPSConfig.ecore#//Node/MacInterfaceList" outputs="ZPSConfigurationXML.xsd#//Node;XSDComplexTypeDefinition=2/XSDParticle/XSDModelGroup/XSDParticle=11"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//Coordinator" outputs="ZPSConfigurationXML.xsd#//Coordinator;XSDComplexTypeDefinition=3">
+      <nested inputs="ZPSConfig.ecore#//Coordinator/ZDOServers" outputs="ZPSConfigurationXML.xsd#//Coordinator;XSDComplexTypeDefinition=3/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//Coordinator" outputs="ZPSConfigurationXML.xsd#//Coordinator;XSDElementDeclaration=2"/>
+    <nested inputs="ZPSConfig.ecore#//Router" outputs="ZPSConfigurationXML.xsd#//Router;XSDComplexTypeDefinition=4">
+      <nested inputs="ZPSConfig.ecore#//Router/ZDOServers" outputs="ZPSConfigurationXML.xsd#//Router;XSDComplexTypeDefinition=4/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//ChildNodes/ScanDuration" outputs="ZPSConfigurationXML.xsd#//Router;XSDComplexTypeDefinition=4/XSDAttributeUse"/>
+    <nested inputs="ZPSConfig.ecore#//ChildNodes/NetworkSelection" outputs="ZPSConfigurationXML.xsd#//Router;XSDComplexTypeDefinition=4/XSDAttributeUse=1"/>
+    <nested inputs="ZPSConfig.ecore#//Router" outputs="ZPSConfigurationXML.xsd#//Router;XSDElementDeclaration=3"/>
+    <nested inputs="ZPSConfig.ecore#//EndDevice" outputs="ZPSConfigurationXML.xsd#//EndDevice;XSDComplexTypeDefinition=5">
+      <nested inputs="ZPSConfig.ecore#//EndDevice/NumPollFailuresBeforeRejoin" outputs="ZPSConfigurationXML.xsd#//EndDevice;XSDComplexTypeDefinition=5/XSDAttributeUse=2"/>
+      <nested inputs="ZPSConfig.ecore#//EndDevice/Sleeping" outputs="ZPSConfigurationXML.xsd#//EndDevice;XSDComplexTypeDefinition=5/XSDAttributeUse=3"/>
+      <nested inputs="ZPSConfig.ecore#//EndDevice/FragmentedTxPollPeriod" outputs="ZPSConfigurationXML.xsd#//EndDevice;XSDComplexTypeDefinition=5/XSDAttributeUse=4"/>
+      <nested inputs="ZPSConfig.ecore#//EndDevice/FragmentedRxPollPeriod" outputs="ZPSConfigurationXML.xsd#//EndDevice;XSDComplexTypeDefinition=5/XSDAttributeUse=5"/>
+      <nested inputs="ZPSConfig.ecore#//EndDevice/APSPollPeriod" outputs="ZPSConfigurationXML.xsd#//EndDevice;XSDComplexTypeDefinition=5/XSDAttributeUse=6"/>
+      <nested inputs="ZPSConfig.ecore#//EndDevice/ZDOServers" outputs="ZPSConfigurationXML.xsd#//EndDevice;XSDComplexTypeDefinition=5/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//ChildNodes/ScanDuration" outputs="ZPSConfigurationXML.xsd#//EndDevice;XSDComplexTypeDefinition=5/XSDAttributeUse"/>
+    <nested inputs="ZPSConfig.ecore#//ChildNodes/NetworkSelection" outputs="ZPSConfigurationXML.xsd#//EndDevice;XSDComplexTypeDefinition=5/XSDAttributeUse=1"/>
+    <nested inputs="ZPSConfig.ecore#//EndDevice" outputs="ZPSConfigurationXML.xsd#//EndDevice;XSDElementDeclaration=4"/>
+    <nested inputs="ZPSConfig.ecore#//EndPoint" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDComplexTypeDefinition=6">
+      <nested inputs="ZPSConfig.ecore#//EndPoint/Id" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDComplexTypeDefinition=6/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//EndPoint/Enabled" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDComplexTypeDefinition=6/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//EndPoint/ApplicationDeviceId" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDComplexTypeDefinition=6/XSDAttributeUse=2"/>
+      <nested inputs="ZPSConfig.ecore#//EndPoint/ApplicationDeviceVersion" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDComplexTypeDefinition=6/XSDAttributeUse=3"/>
+      <nested inputs="ZPSConfig.ecore#//EndPoint/Message" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDComplexTypeDefinition=6/XSDAttributeUse=4"/>
+      <nested inputs="ZPSConfig.ecore#//EndPoint/Name" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDComplexTypeDefinition=6/XSDAttributeUse=5"/>
+      <nested inputs="ZPSConfig.ecore#//EndPoint/InputClusters" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDComplexTypeDefinition=6/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="ZPSConfig.ecore#//EndPoint/OutputClusters" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDComplexTypeDefinition=6/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="ZPSConfig.ecore#//EndPoint/Profile" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDComplexTypeDefinition=6/XSDAttributeUse=6"/>
+      <nested inputs="ZPSConfig.ecore#//EndPoint/Node" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDComplexTypeDefinition=6/XSDAttributeUse=7"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//EndPoint" outputs="ZPSConfigurationXML.xsd#//EndPoint;XSDElementDeclaration=5"/>
+    <nested inputs="ZPSConfig.ecore#//PrimaryDiscoveryCache" outputs="ZPSConfigurationXML.xsd#//PrimaryDiscoveryCache;XSDComplexTypeDefinition=7">
+      <nested inputs="ZPSConfig.ecore#//PrimaryDiscoveryCache/Size" outputs="ZPSConfigurationXML.xsd#//PrimaryDiscoveryCache;XSDComplexTypeDefinition=7/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//PrimaryDiscoveryCache" outputs="ZPSConfigurationXML.xsd#//PrimaryDiscoveryCache;XSDElementDeclaration=6"/>
+    <nested inputs="ZPSConfig.ecore#//BackupDiscoveryCache" outputs="ZPSConfigurationXML.xsd#//BackupDiscoveryCache;XSDComplexTypeDefinition=8">
+      <nested inputs="ZPSConfig.ecore#//BackupDiscoveryCache/Size" outputs="ZPSConfigurationXML.xsd#//BackupDiscoveryCache;XSDComplexTypeDefinition=8/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//BackupDiscoveryCache" outputs="ZPSConfigurationXML.xsd#//BackupDiscoveryCache;XSDElementDeclaration=7"/>
+    <nested inputs="ZPSConfig.ecore#//DiscoveryTable" outputs="ZPSConfigurationXML.xsd#//DiscoveryTable;XSDComplexTypeDefinition=9">
+      <nested inputs="ZPSConfig.ecore#//DiscoveryTable/Size" outputs="ZPSConfigurationXML.xsd#//DiscoveryTable;XSDComplexTypeDefinition=9/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//DiscoveryTable" outputs="ZPSConfigurationXML.xsd#//DiscoveryTable;XSDElementDeclaration=8"/>
+    <nested inputs="ZPSConfig.ecore#//BindingTable" outputs="ZPSConfigurationXML.xsd#//BindingTable;XSDComplexTypeDefinition=10">
+      <nested inputs="ZPSConfig.ecore#//BindingTable/Size" outputs="ZPSConfigurationXML.xsd#//BindingTable;XSDComplexTypeDefinition=10/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//BindingTable" outputs="ZPSConfigurationXML.xsd#//BindingTable;XSDElementDeclaration=9"/>
+    <nested inputs="ZPSConfig.ecore#//GroupTable" outputs="ZPSConfigurationXML.xsd#//GroupTable;XSDComplexTypeDefinition=11">
+      <nested inputs="ZPSConfig.ecore#//GroupTable/Size" outputs="ZPSConfigurationXML.xsd#//GroupTable;XSDComplexTypeDefinition=11/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//GroupTable" outputs="ZPSConfigurationXML.xsd#//GroupTable;XSDElementDeclaration=10"/>
+    <nested inputs="ZPSConfig.ecore#//ZigbeeWirelessNetwork" outputs="ZPSConfigurationXML.xsd#//ZigbeeWirelessNetwork;XSDComplexTypeDefinition=12">
+      <nested inputs="ZPSConfig.ecore#//ZigbeeWirelessNetwork/DefaultExtendedPANId"
+          outputs="ZPSConfigurationXML.xsd#//ZigbeeWirelessNetwork;XSDComplexTypeDefinition=12/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//ZigbeeWirelessNetwork/MaxNumberNodes" outputs="ZPSConfigurationXML.xsd#//ZigbeeWirelessNetwork;XSDComplexTypeDefinition=12/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//ZigbeeWirelessNetwork/Version" outputs="ZPSConfigurationXML.xsd#//ZigbeeWirelessNetwork;XSDComplexTypeDefinition=12/XSDAttributeUse=2"/>
+      <nested inputs="ZPSConfig.ecore#//ZigbeeWirelessNetwork/DefaultSecurityEnabled"
+          outputs="ZPSConfigurationXML.xsd#//ZigbeeWirelessNetwork;XSDComplexTypeDefinition=12/XSDAttributeUse=3"/>
+      <nested inputs="ZPSConfig.ecore#//ZigbeeWirelessNetwork/Profiles" outputs="ZPSConfigurationXML.xsd#//ZigbeeWirelessNetwork;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="ZPSConfig.ecore#//ZigbeeWirelessNetwork/Coordinator" outputs="ZPSConfigurationXML.xsd#//ZigbeeWirelessNetwork;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="ZPSConfig.ecore#//ZigbeeWirelessNetwork/ChildNodes" outputs="ZPSConfigurationXML.xsd#//ZigbeeWirelessNetwork;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//ZigbeeWirelessNetwork" outputs="ZPSConfigurationXML.xsd#//ZigbeeWirelessNetwork;XSDElementDeclaration=11"/>
+    <nested inputs="ZPSConfig.ecore#//PrimaryBindingCache" outputs="ZPSConfigurationXML.xsd#//PrimaryBindingCache;XSDComplexTypeDefinition=13">
+      <nested inputs="ZPSConfig.ecore#//PrimaryBindingCache/TableSize" outputs="ZPSConfigurationXML.xsd#//PrimaryBindingCache;XSDComplexTypeDefinition=13/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//PrimaryBindingCache/NumTables" outputs="ZPSConfigurationXML.xsd#//PrimaryBindingCache;XSDComplexTypeDefinition=13/XSDAttributeUse=1"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//PrimaryBindingCache" outputs="ZPSConfigurationXML.xsd#//PrimaryBindingCache;XSDElementDeclaration=12"/>
+    <nested inputs="ZPSConfig.ecore#//BackupBindingCache" outputs="ZPSConfigurationXML.xsd#//BackupBindingCache;XSDComplexTypeDefinition=14">
+      <nested inputs="ZPSConfig.ecore#//BackupBindingCache/TableSize" outputs="ZPSConfigurationXML.xsd#//BackupBindingCache;XSDComplexTypeDefinition=14/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//BackupBindingCache/NumTables" outputs="ZPSConfigurationXML.xsd#//BackupBindingCache;XSDComplexTypeDefinition=14/XSDAttributeUse=1"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//BackupBindingCache" outputs="ZPSConfigurationXML.xsd#//BackupBindingCache;XSDElementDeclaration=13"/>
+    <nested inputs="ZPSConfig.ecore#//PrimaryGroupCache" outputs="ZPSConfigurationXML.xsd#//PrimaryGroupCache;XSDComplexTypeDefinition=15">
+      <nested inputs="ZPSConfig.ecore#//PrimaryGroupCache/Size" outputs="ZPSConfigurationXML.xsd#//PrimaryGroupCache;XSDComplexTypeDefinition=15/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//PrimaryGroupCache" outputs="ZPSConfigurationXML.xsd#//PrimaryGroupCache;XSDElementDeclaration=14"/>
+    <nested inputs="ZPSConfig.ecore#//BackupGroupCache" outputs="ZPSConfigurationXML.xsd#//BackupGroupCache;XSDComplexTypeDefinition=16">
+      <nested inputs="ZPSConfig.ecore#//BackupGroupCache/Size" outputs="ZPSConfigurationXML.xsd#//BackupGroupCache;XSDComplexTypeDefinition=16/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//BackupGroupCache" outputs="ZPSConfigurationXML.xsd#//BackupGroupCache;XSDElementDeclaration=15"/>
+    <nested inputs="ZPSConfig.ecore#//InputCluster" outputs="ZPSConfigurationXML.xsd#//InputCluster;XSDComplexTypeDefinition=17">
+      <nested inputs="ZPSConfig.ecore#//InputCluster/Discoverable" outputs="ZPSConfigurationXML.xsd#//InputCluster;XSDComplexTypeDefinition=17/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//InputCluster/Cluster" outputs="ZPSConfigurationXML.xsd#//InputCluster;XSDComplexTypeDefinition=17/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//InputCluster/RxAPDU" outputs="ZPSConfigurationXML.xsd#//InputCluster;XSDComplexTypeDefinition=17/XSDAttributeUse=2"/>
+      <nested inputs="ZPSConfig.ecore#//InputCluster/EndPoint" outputs="ZPSConfigurationXML.xsd#//InputCluster;XSDComplexTypeDefinition=17/XSDAttributeUse=3"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//InputCluster" outputs="ZPSConfigurationXML.xsd#//InputCluster;XSDElementDeclaration=16"/>
+    <nested inputs="ZPSConfig.ecore#//OutputCluster" outputs="ZPSConfigurationXML.xsd#//OutputCluster;XSDComplexTypeDefinition=18">
+      <nested inputs="ZPSConfig.ecore#//OutputCluster/Discoverable" outputs="ZPSConfigurationXML.xsd#//OutputCluster;XSDComplexTypeDefinition=18/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//OutputCluster/Cluster" outputs="ZPSConfigurationXML.xsd#//OutputCluster;XSDComplexTypeDefinition=18/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//OutputCluster/EndPoint" outputs="ZPSConfigurationXML.xsd#//OutputCluster;XSDComplexTypeDefinition=18/XSDAttributeUse=2"/>
+      <nested inputs="ZPSConfig.ecore#//OutputCluster/TxAPDUs" outputs="ZPSConfigurationXML.xsd#//OutputCluster;XSDComplexTypeDefinition=18/XSDAttributeUse=3"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//OutputCluster" outputs="ZPSConfigurationXML.xsd#//OutputCluster;XSDElementDeclaration=17"/>
+    <nested inputs="ZPSConfig.ecore#//AlwaysOnNode" outputs="ZPSConfigurationXML.xsd#//AlwaysOnNode;XSDComplexTypeDefinition=19">
+      <nested inputs="ZPSConfig.ecore#//AlwaysOnNode/PermitJoiningTime" outputs="ZPSConfigurationXML.xsd#//AlwaysOnNode;XSDComplexTypeDefinition=19/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//AlwaysOnNode/ChildTableSize" outputs="ZPSConfigurationXML.xsd#//AlwaysOnNode;XSDComplexTypeDefinition=19/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//AlwaysOnNode/TrustCenter" outputs="ZPSConfigurationXML.xsd#//AlwaysOnNode;XSDComplexTypeDefinition=19/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//ComplexDescriptor" outputs="ZPSConfigurationXML.xsd#//ComplexDescriptor;XSDComplexTypeDefinition=20"/>
+    <nested inputs="ZPSConfig.ecore#//ComplexDescriptor" outputs="ZPSConfigurationXML.xsd#//ComplexDescriptor;XSDElementDeclaration=18"/>
+    <nested inputs="ZPSConfig.ecore#//UserDescriptor" outputs="ZPSConfigurationXML.xsd#//UserDescriptor;XSDComplexTypeDefinition=21">
+      <nested inputs="ZPSConfig.ecore#//UserDescriptor/UserDescription" outputs="ZPSConfigurationXML.xsd#//UserDescriptor;XSDComplexTypeDefinition=21/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//UserDescriptor" outputs="ZPSConfigurationXML.xsd#//UserDescriptor;XSDElementDeclaration=19"/>
+    <nested inputs="ZPSConfig.ecore#//TrustCenter" outputs="ZPSConfigurationXML.xsd#//TrustCenter;XSDComplexTypeDefinition=22">
+      <nested inputs="ZPSConfig.ecore#//TrustCenter/DeviceTableSize" outputs="ZPSConfigurationXML.xsd#//TrustCenter;XSDComplexTypeDefinition=22/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//TrustCenter/Keys" outputs="ZPSConfigurationXML.xsd#//TrustCenter;XSDComplexTypeDefinition=22/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//TrustCenter" outputs="ZPSConfigurationXML.xsd#//TrustCenter;XSDElementDeclaration=20"/>
+    <nested inputs="ZPSConfig.ecore#//DiscoveryCache" outputs="ZPSConfigurationXML.xsd#//DiscoveryCache;XSDComplexTypeDefinition=23"/>
+    <nested inputs="ZPSConfig.ecore#//DiscoveryCache" outputs="ZPSConfigurationXML.xsd#//DiscoveryCache;XSDElementDeclaration=21"/>
+    <nested inputs="ZPSConfig.ecore#//BindingCache" outputs="ZPSConfigurationXML.xsd#//BindingCache;XSDComplexTypeDefinition=24"/>
+    <nested inputs="ZPSConfig.ecore#//NamedObject" outputs="ZPSConfigurationXML.xsd#//NamedObject;XSDComplexTypeDefinition=25">
+      <nested inputs="ZPSConfig.ecore#//NamedObject/Name" outputs="ZPSConfigurationXML.xsd#//NamedObject;XSDComplexTypeDefinition=25/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//ChildNodes" outputs="ZPSConfigurationXML.xsd#//ChildNodes;XSDComplexTypeDefinition=26">
+      <nested inputs="ZPSConfig.ecore#//ChildNodes/ScanDuration" outputs="ZPSConfigurationXML.xsd#//ChildNodes;XSDComplexTypeDefinition=26/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//ChildNodes/NetworkSelection" outputs="ZPSConfigurationXML.xsd#//ChildNodes;XSDComplexTypeDefinition=26/XSDAttributeUse=1"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//APDU" outputs="ZPSConfigurationXML.xsd#//APDU;XSDComplexTypeDefinition=27">
+      <nested inputs="ZPSConfig.ecore#//APDU/Id" outputs="ZPSConfigurationXML.xsd#//APDU;XSDComplexTypeDefinition=27/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//APDU/Name" outputs="ZPSConfigurationXML.xsd#//APDU;XSDComplexTypeDefinition=27/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//APDU/Size" outputs="ZPSConfigurationXML.xsd#//APDU;XSDComplexTypeDefinition=27/XSDAttributeUse=2"/>
+      <nested inputs="ZPSConfig.ecore#//APDU/Instances" outputs="ZPSConfigurationXML.xsd#//APDU;XSDComplexTypeDefinition=27/XSDAttributeUse=3"/>
+      <nested inputs="ZPSConfig.ecore#//APDU/PDUConfig" outputs="ZPSConfigurationXML.xsd#//APDU;XSDComplexTypeDefinition=27/XSDAttributeUse=4"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//APDU" outputs="ZPSConfigurationXML.xsd#//APDU;XSDElementDeclaration=22"/>
+    <nested inputs="ZPSConfig.ecore#//PDUManager" outputs="ZPSConfigurationXML.xsd#//PDUManager;XSDComplexTypeDefinition=28">
+      <nested inputs="ZPSConfig.ecore#//PDUManager/NumNPDUs" outputs="ZPSConfigurationXML.xsd#//PDUManager;XSDComplexTypeDefinition=28/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//PDUManager/PDUMMutexName" outputs="ZPSConfigurationXML.xsd#//PDUManager;XSDComplexTypeDefinition=28/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//PDUManager/APDUs" outputs="ZPSConfigurationXML.xsd#//PDUManager;XSDComplexTypeDefinition=28/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="ZPSConfig.ecore#//PDUManager/ContainerNode" outputs="ZPSConfigurationXML.xsd#//PDUManager;XSDComplexTypeDefinition=28/XSDAttributeUse=2"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//PDUManager" outputs="ZPSConfigurationXML.xsd#//PDUManager;XSDElementDeclaration=23"/>
+    <nested inputs="ZPSConfig.ecore#//ChannelMask" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29">
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel11" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel12" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel13" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=2"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel14" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=3"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel15" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=4"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel16" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=5"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel17" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=6"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel18" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=7"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel19" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=8"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel20" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=9"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel21" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=10"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel22" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=11"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel23" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=12"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel24" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=13"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel25" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=14"/>
+      <nested inputs="ZPSConfig.ecore#//ChannelMask/Channel26" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDComplexTypeDefinition=29/XSDAttributeUse=15"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//ChannelMask" outputs="ZPSConfigurationXML.xsd#//ChannelMask;XSDElementDeclaration=24"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOClientServer" outputs="ZPSConfigurationXML.xsd#//ZDOClientServer;XSDComplexTypeDefinition=30">
+      <nested inputs="ZPSConfig.ecore#//ZDOClientServer/OutputAPdu" outputs="ZPSConfigurationXML.xsd#//ZDOClientServer;XSDComplexTypeDefinition=30/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//ZDOServersCoordinator" outputs="ZPSConfigurationXML.xsd#//ZDOServersCoordinator;XSDComplexTypeDefinition=31">
+      <nested inputs="ZPSConfig.ecore#//ZDOServersCoordinator/EndDeviceBindServer"
+          outputs="ZPSConfigurationXML.xsd#//ZDOServersCoordinator;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=4"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/PermitJoiningServer"
+        outputs="ZPSConfigurationXML.xsd#//ZDOServersCoordinator;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/MgmtRtgServer" outputs="ZPSConfigurationXML.xsd#//ZDOServersCoordinator;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/MgmtMibIeeeServer"
+        outputs="ZPSConfigurationXML.xsd#//ZDOServersCoordinator;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/ParentAnnceServer"
+        outputs="ZPSConfigurationXML.xsd#//ZDOServersCoordinator;XSDComplexTypeDefinition=31/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOServersCoordinator" outputs="ZPSConfigurationXML.xsd#//ZDOServersCoordinator;XSDElementDeclaration=25"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOServersRouter" outputs="ZPSConfigurationXML.xsd#//ZDOServersRouter;XSDComplexTypeDefinition=32"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/PermitJoiningServer"
+        outputs="ZPSConfigurationXML.xsd#//ZDOServersRouter;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/MgmtRtgServer" outputs="ZPSConfigurationXML.xsd#//ZDOServersRouter;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/MgmtMibIeeeServer"
+        outputs="ZPSConfigurationXML.xsd#//ZDOServersRouter;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/ParentAnnceServer"
+        outputs="ZPSConfigurationXML.xsd#//ZDOServersRouter;XSDComplexTypeDefinition=32/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOServersRouter" outputs="ZPSConfigurationXML.xsd#//ZDOServersRouter;XSDElementDeclaration=26"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOServersEndDevice" outputs="ZPSConfigurationXML.xsd#//ZDOServersEndDevice;XSDComplexTypeDefinition=33"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOServersEndDevice" outputs="ZPSConfigurationXML.xsd#//ZDOServersEndDevice;XSDElementDeclaration=27"/>
+    <nested inputs="ZPSConfig.ecore#//DefaultServer" outputs="ZPSConfigurationXML.xsd#//DefaultServer;XSDComplexTypeDefinition=34"/>
+    <nested inputs="ZPSConfig.ecore#//DefaultServer" outputs="ZPSConfigurationXML.xsd#//DefaultServer;XSDElementDeclaration=28"/>
+    <nested inputs="ZPSConfig.ecore#//EndDeviceBindServer" outputs="ZPSConfigurationXML.xsd#//EndDeviceBindServer;XSDComplexTypeDefinition=35">
+      <nested inputs="ZPSConfig.ecore#//EndDeviceBindServer/Timeout" outputs="ZPSConfigurationXML.xsd#//EndDeviceBindServer;XSDComplexTypeDefinition=35/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//EndDeviceBindServer/BindingTimeout" outputs="ZPSConfigurationXML.xsd#//EndDeviceBindServer;XSDComplexTypeDefinition=35/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//EndDeviceBindServer/BindNumRetries" outputs="ZPSConfigurationXML.xsd#//EndDeviceBindServer;XSDComplexTypeDefinition=35/XSDAttributeUse=2"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//EndDeviceBindServer" outputs="ZPSConfigurationXML.xsd#//EndDeviceBindServer;XSDElementDeclaration=29"/>
+    <nested inputs="ZPSConfig.ecore#//DeviceAnnceServer" outputs="ZPSConfigurationXML.xsd#//DeviceAnnceServer;XSDComplexTypeDefinition=36"/>
+    <nested inputs="ZPSConfig.ecore#//DeviceAnnceServer" outputs="ZPSConfigurationXML.xsd#//DeviceAnnceServer;XSDElementDeclaration=30"/>
+    <nested inputs="ZPSConfig.ecore#//ActiveEpServer" outputs="ZPSConfigurationXML.xsd#//ActiveEpServer;XSDComplexTypeDefinition=37"/>
+    <nested inputs="ZPSConfig.ecore#//ActiveEpServer" outputs="ZPSConfigurationXML.xsd#//ActiveEpServer;XSDElementDeclaration=31"/>
+    <nested inputs="ZPSConfig.ecore#//NwkAddrServer" outputs="ZPSConfigurationXML.xsd#//NwkAddrServer;XSDComplexTypeDefinition=38"/>
+    <nested inputs="ZPSConfig.ecore#//NwkAddrServer" outputs="ZPSConfigurationXML.xsd#//NwkAddrServer;XSDElementDeclaration=32"/>
+    <nested inputs="ZPSConfig.ecore#//IeeeAddrServer" outputs="ZPSConfigurationXML.xsd#//IeeeAddrServer;XSDComplexTypeDefinition=39"/>
+    <nested inputs="ZPSConfig.ecore#//IeeeAddrServer" outputs="ZPSConfigurationXML.xsd#//IeeeAddrServer;XSDElementDeclaration=33"/>
+    <nested inputs="ZPSConfig.ecore#//MatchDescServer" outputs="ZPSConfigurationXML.xsd#//MatchDescServer;XSDComplexTypeDefinition=40"/>
+    <nested inputs="ZPSConfig.ecore#//MatchDescServer" outputs="ZPSConfigurationXML.xsd#//MatchDescServer;XSDElementDeclaration=34"/>
+    <nested inputs="ZPSConfig.ecore#//NodeDescServer" outputs="ZPSConfigurationXML.xsd#//NodeDescServer;XSDComplexTypeDefinition=41"/>
+    <nested inputs="ZPSConfig.ecore#//NodeDescServer" outputs="ZPSConfigurationXML.xsd#//NodeDescServer;XSDElementDeclaration=35"/>
+    <nested inputs="ZPSConfig.ecore#//PermitJoiningServer" outputs="ZPSConfigurationXML.xsd#//PermitJoiningServer;XSDComplexTypeDefinition=42"/>
+    <nested inputs="ZPSConfig.ecore#//PermitJoiningServer" outputs="ZPSConfigurationXML.xsd#//PermitJoiningServer;XSDElementDeclaration=36"/>
+    <nested inputs="ZPSConfig.ecore#//PowerDescServer" outputs="ZPSConfigurationXML.xsd#//PowerDescServer;XSDComplexTypeDefinition=43"/>
+    <nested inputs="ZPSConfig.ecore#//PowerDescServer" outputs="ZPSConfigurationXML.xsd#//PowerDescServer;XSDElementDeclaration=37"/>
+    <nested inputs="ZPSConfig.ecore#//SimpleDescServer" outputs="ZPSConfigurationXML.xsd#//SimpleDescServer;XSDComplexTypeDefinition=44"/>
+    <nested inputs="ZPSConfig.ecore#//SimpleDescServer" outputs="ZPSConfigurationXML.xsd#//SimpleDescServer;XSDElementDeclaration=38"/>
+    <nested inputs="ZPSConfig.ecore#//SystemServerDiscoveryServer" outputs="ZPSConfigurationXML.xsd#//SystemServerDiscoveryServer;XSDComplexTypeDefinition=45"/>
+    <nested inputs="ZPSConfig.ecore#//SystemServerDiscoveryServer" outputs="ZPSConfigurationXML.xsd#//SystemServerDiscoveryServer;XSDElementDeclaration=39"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtLqiServer" outputs="ZPSConfigurationXML.xsd#//MgmtLqiServer;XSDComplexTypeDefinition=46"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtLqiServer" outputs="ZPSConfigurationXML.xsd#//MgmtLqiServer;XSDElementDeclaration=40"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtRtgServer" outputs="ZPSConfigurationXML.xsd#//MgmtRtgServer;XSDComplexTypeDefinition=47"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtRtgServer" outputs="ZPSConfigurationXML.xsd#//MgmtRtgServer;XSDElementDeclaration=41"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtLeaveServer" outputs="ZPSConfigurationXML.xsd#//MgmtLeaveServer;XSDComplexTypeDefinition=48"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtLeaveServer" outputs="ZPSConfigurationXML.xsd#//MgmtLeaveServer;XSDElementDeclaration=42"/>
+    <nested inputs="ZPSConfig.ecore#//NodeDescriptor" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49">
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/ManufacturerCode" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/LogicalType" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/ComplexDescriptorAvailable"
+          outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=2"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/UserDescriptorAvailable" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=3"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/APSFlags" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=4"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/FrequencyBand" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=5"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/AlternatePANCoordinator" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=6"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/DeviceType" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=7"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/PowerSource" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=8"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/RxOnWhenIdle" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=9"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/Security" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=10"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/AllocateAddress" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=11"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/MaximumBufferSize" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=12"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/MaximumIncomingTransferSize"
+          outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=13"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/MaximumOutgoingTransferSize"
+          outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=14"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/ExtendedActiveEndpointListAvailable"
+          outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=15"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/ExtendedSimpleDescriptorListAvailable"
+          outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=16"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/PrimaryTrustCenter" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=17"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/BackupTrustCenter" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=18"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/PrimaryBindingTableCache" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=19"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/BackupBindingTableCache" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=20"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/PrimaryDiscoveryCache" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=21"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/BackupDiscoveryCache" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=22"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/NetworkManager" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=23"/>
+      <nested inputs="ZPSConfig.ecore#//NodeDescriptor/Node" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDComplexTypeDefinition=49/XSDAttributeUse=24"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//NodeDescriptor" outputs="ZPSConfigurationXML.xsd#//NodeDescriptor;XSDElementDeclaration=43"/>
+    <nested inputs="ZPSConfig.ecore#//NodePowerDescriptor" outputs="ZPSConfigurationXML.xsd#//NodePowerDescriptor;XSDComplexTypeDefinition=50">
+      <nested inputs="ZPSConfig.ecore#//NodePowerDescriptor/ConstantPower" outputs="ZPSConfigurationXML.xsd#//NodePowerDescriptor;XSDComplexTypeDefinition=50/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//NodePowerDescriptor/RechargeableBattery" outputs="ZPSConfigurationXML.xsd#//NodePowerDescriptor;XSDComplexTypeDefinition=50/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//NodePowerDescriptor/DisposableBattery" outputs="ZPSConfigurationXML.xsd#//NodePowerDescriptor;XSDComplexTypeDefinition=50/XSDAttributeUse=2"/>
+      <nested inputs="ZPSConfig.ecore#//NodePowerDescriptor/DefaultPowerSource" outputs="ZPSConfigurationXML.xsd#//NodePowerDescriptor;XSDComplexTypeDefinition=50/XSDAttributeUse=3"/>
+      <nested inputs="ZPSConfig.ecore#//NodePowerDescriptor/DefaultPowerMode" outputs="ZPSConfigurationXML.xsd#//NodePowerDescriptor;XSDComplexTypeDefinition=50/XSDAttributeUse=4"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//NodePowerDescriptor" outputs="ZPSConfigurationXML.xsd#//NodePowerDescriptor;XSDElementDeclaration=44"/>
+    <nested inputs="ZPSConfig.ecore#//BindUnbindServer" outputs="ZPSConfigurationXML.xsd#//BindUnbindServer;XSDComplexTypeDefinition=51"/>
+    <nested inputs="ZPSConfig.ecore#//BindUnbindServer" outputs="ZPSConfigurationXML.xsd#//BindUnbindServer;XSDElementDeclaration=45"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtBindServer" outputs="ZPSConfigurationXML.xsd#//MgmtBindServer;XSDComplexTypeDefinition=52"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtBindServer" outputs="ZPSConfigurationXML.xsd#//MgmtBindServer;XSDElementDeclaration=46"/>
+    <nested inputs="ZPSConfig.ecore#//ExtendedActiveEpServer" outputs="ZPSConfigurationXML.xsd#//ExtendedActiveEpServer;XSDComplexTypeDefinition=53"/>
+    <nested inputs="ZPSConfig.ecore#//ExtendedActiveEpServer" outputs="ZPSConfigurationXML.xsd#//ExtendedActiveEpServer;XSDElementDeclaration=47"/>
+    <nested inputs="ZPSConfig.ecore#//ExtendedSimpleDescServer" outputs="ZPSConfigurationXML.xsd#//ExtendedSimpleDescServer;XSDComplexTypeDefinition=54"/>
+    <nested inputs="ZPSConfig.ecore#//ExtendedSimpleDescServer" outputs="ZPSConfigurationXML.xsd#//ExtendedSimpleDescServer;XSDElementDeclaration=48"/>
+    <nested inputs="ZPSConfig.ecore#//ZdoClient" outputs="ZPSConfigurationXML.xsd#//ZdoClient;XSDComplexTypeDefinition=55"/>
+    <nested inputs="ZPSConfig.ecore#//ZdoClient" outputs="ZPSConfigurationXML.xsd#//ZdoClient;XSDElementDeclaration=49"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtNWKUpdateServer" outputs="ZPSConfigurationXML.xsd#//MgmtNWKUpdateServer;XSDComplexTypeDefinition=56"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtNWKUpdateServer" outputs="ZPSConfigurationXML.xsd#//MgmtNWKUpdateServer;XSDElementDeclaration=50"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOCommonServers" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57">
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/DefaultServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/ZdoClient" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/DeviceAnnceServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/ActiveEpServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/NwkAddrServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=4"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/IeeeAddrServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=5"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/SystemServerDiscoveryServer"
+          outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=6"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/NodeDescServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=7"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/PowerDescServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=8"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/MatchDescServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=9"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/SimpleDescServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=10"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/MgmtLqiServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=11"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/MgmtLeaveServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=12"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/MgmtNWKUpdateServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=13"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/BindUnbindServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=14"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/ExtendedActiveEpServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=15"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/ExtendedSimpleDescServer"
+          outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=16"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/BindRequestServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=17"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/MgmtBindServer" outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=18"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCommonServers/MgmtNWKEnhanceUpdateServer"
+          outputs="ZPSConfigurationXML.xsd#//ZDOCommonServers;XSDComplexTypeDefinition=57/XSDParticle/XSDModelGroup/XSDParticle=19"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//NotImplemented" outputs="ZPSConfigurationXML.xsd#//NotImplemented;XSDComplexTypeDefinition=58">
+      <nested inputs="ZPSConfig.ecore#//NotImplemented/ComplexDescriptor" outputs="ZPSConfigurationXML.xsd#//NotImplemented;XSDComplexTypeDefinition=58/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="ZPSConfig.ecore#//NotImplemented/DiscoveryTable" outputs="ZPSConfigurationXML.xsd#//NotImplemented;XSDComplexTypeDefinition=58/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="ZPSConfig.ecore#//NotImplemented/DiscoveryCache" outputs="ZPSConfigurationXML.xsd#//NotImplemented;XSDComplexTypeDefinition=58/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="ZPSConfig.ecore#//NotImplemented/BindingCache" outputs="ZPSConfigurationXML.xsd#//NotImplemented;XSDComplexTypeDefinition=58/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//NotImplemented" outputs="ZPSConfigurationXML.xsd#//NotImplemented;XSDElementDeclaration=51"/>
+    <nested inputs="ZPSConfig.ecore#//KeyDescriptorTable" outputs="ZPSConfigurationXML.xsd#//KeyDescriptorTable;XSDComplexTypeDefinition=59">
+      <nested inputs="ZPSConfig.ecore#//KeyDescriptorTable/Size" outputs="ZPSConfigurationXML.xsd#//KeyDescriptorTable;XSDComplexTypeDefinition=59/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//KeyDescriptorTable/PreconfiguredKey" outputs="ZPSConfigurationXML.xsd#//KeyDescriptorTable;XSDComplexTypeDefinition=59/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//KeyDescriptorTable" outputs="ZPSConfigurationXML.xsd#//KeyDescriptorTable;XSDElementDeclaration=52"/>
+    <nested inputs="ZPSConfig.ecore#//PreconfiguredKey" outputs="ZPSConfigurationXML.xsd#//PreconfiguredKey;XSDComplexTypeDefinition=60">
+      <nested inputs="ZPSConfig.ecore#//PreconfiguredKey/Key" outputs="ZPSConfigurationXML.xsd#//PreconfiguredKey;XSDComplexTypeDefinition=60/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//PreconfiguredKey/IEEEAddress" outputs="ZPSConfigurationXML.xsd#//PreconfiguredKey;XSDComplexTypeDefinition=60/XSDAttributeUse=1"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//PreconfiguredKey" outputs="ZPSConfigurationXML.xsd#//PreconfiguredKey;XSDElementDeclaration=53"/>
+    <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers" outputs="ZPSConfigurationXML.xsd#//ZDOCoordRouterOnlyServers;XSDComplexTypeDefinition=61">
+      <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/PermitJoiningServer"
+          outputs="ZPSConfigurationXML.xsd#//ZDOCoordRouterOnlyServers;XSDComplexTypeDefinition=61/XSDParticle/XSDModelGroup/XSDParticle"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/MgmtRtgServer" outputs="ZPSConfigurationXML.xsd#//ZDOCoordRouterOnlyServers;XSDComplexTypeDefinition=61/XSDParticle/XSDModelGroup/XSDParticle=1"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/MgmtMibIeeeServer"
+          outputs="ZPSConfigurationXML.xsd#//ZDOCoordRouterOnlyServers;XSDComplexTypeDefinition=61/XSDParticle/XSDModelGroup/XSDParticle=2"/>
+      <nested inputs="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/ParentAnnceServer"
+          outputs="ZPSConfigurationXML.xsd#//ZDOCoordRouterOnlyServers;XSDComplexTypeDefinition=61/XSDParticle/XSDModelGroup/XSDParticle=3"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//PreConfiguredNwkKey" outputs="ZPSConfigurationXML.xsd#//PreConfiguredNwkKey;XSDComplexTypeDefinition=62"/>
+    <nested inputs="ZPSConfig.ecore#//PreConfiguredNwkKey" outputs="ZPSConfigurationXML.xsd#//PreConfiguredNwkKey;XSDElementDeclaration=54"/>
+    <nested inputs="ZPSConfig.ecore#//DefaultNwkKey" outputs="ZPSConfigurationXML.xsd#//DefaultNwkKey;XSDComplexTypeDefinition=63">
+      <nested inputs="ZPSConfig.ecore#//DefaultNwkKey/Random" outputs="ZPSConfigurationXML.xsd#//DefaultNwkKey;XSDComplexTypeDefinition=63/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//DefaultNwkKey" outputs="ZPSConfigurationXML.xsd#//DefaultNwkKey;XSDElementDeclaration=55"/>
+    <nested inputs="ZPSConfig.ecore#//NwkKey" outputs="ZPSConfigurationXML.xsd#//NwkKey;XSDComplexTypeDefinition=64">
+      <nested inputs="ZPSConfig.ecore#//NwkKey/KeySequenceNumber" outputs="ZPSConfigurationXML.xsd#//NwkKey;XSDComplexTypeDefinition=64/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//NwkKey/Key" outputs="ZPSConfigurationXML.xsd#//NwkKey;XSDComplexTypeDefinition=64/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//NwkKey/Id" outputs="ZPSConfigurationXML.xsd#//NwkKey;XSDComplexTypeDefinition=64/XSDAttributeUse=2"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//PreconfiguredTCLinkKey" outputs="ZPSConfigurationXML.xsd#//PreconfiguredTCLinkKey;XSDComplexTypeDefinition=65">
+      <nested inputs="ZPSConfig.ecore#//PreconfiguredTCLinkKey/Id" outputs="ZPSConfigurationXML.xsd#//PreconfiguredTCLinkKey;XSDComplexTypeDefinition=65/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//PreconfiguredTCLinkKey" outputs="ZPSConfigurationXML.xsd#//PreconfiguredTCLinkKey;XSDElementDeclaration=56"/>
+    <nested inputs="ZPSConfig.ecore#//TCKey" outputs="ZPSConfigurationXML.xsd#//TCKey;XSDComplexTypeDefinition=66"/>
+    <nested inputs="ZPSConfig.ecore#//BindRequestServer" outputs="ZPSConfigurationXML.xsd#//BindRequestServer;XSDComplexTypeDefinition=67">
+      <nested inputs="ZPSConfig.ecore#//BindRequestServer/SimultaneousRequests" outputs="ZPSConfigurationXML.xsd#//BindRequestServer;XSDComplexTypeDefinition=67/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//BindRequestServer/TimeInterval" outputs="ZPSConfigurationXML.xsd#//BindRequestServer;XSDComplexTypeDefinition=67/XSDAttributeUse=1"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//BindRequestServer" outputs="ZPSConfigurationXML.xsd#//BindRequestServer;XSDElementDeclaration=57"/>
+    <nested inputs="ZPSConfig.ecore#//GreenPowerSecurityTable" outputs="ZPSConfigurationXML.xsd#//GreenPowerSecurityTable;XSDComplexTypeDefinition=68">
+      <nested inputs="ZPSConfig.ecore#//GreenPowerSecurityTable/Size" outputs="ZPSConfigurationXML.xsd#//GreenPowerSecurityTable;XSDComplexTypeDefinition=68/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//GreenPowerSecurityTable" outputs="ZPSConfigurationXML.xsd#//GreenPowerSecurityTable;XSDElementDeclaration=58"/>
+    <nested inputs="ZPSConfig.ecore#//GreenPowerTxQueue" outputs="ZPSConfigurationXML.xsd#//GreenPowerTxQueue;XSDComplexTypeDefinition=69">
+      <nested inputs="ZPSConfig.ecore#//GreenPowerTxQueue/Size" outputs="ZPSConfigurationXML.xsd#//GreenPowerTxQueue;XSDComplexTypeDefinition=69/XSDAttributeUse"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//GreenPowerTxQueue" outputs="ZPSConfigurationXML.xsd#//GreenPowerTxQueue;XSDElementDeclaration=59"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtMibIeeeServer" outputs="ZPSConfigurationXML.xsd#//MgmtMibIeeeServer;XSDComplexTypeDefinition=70"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtMibIeeeServer" outputs="ZPSConfigurationXML.xsd#//MgmtMibIeeeServer;XSDElementDeclaration=60"/>
+    <nested inputs="ZPSConfig.ecore#//ParentAnnceServer" outputs="ZPSConfigurationXML.xsd#//ParentAnnceServer;XSDComplexTypeDefinition=71"/>
+    <nested inputs="ZPSConfig.ecore#//ParentAnnceServer" outputs="ZPSConfigurationXML.xsd#//ParentAnnceServer;XSDElementDeclaration=61"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtNWKEnhanceUpdateServer" outputs="ZPSConfigurationXML.xsd#//MgmtNWKEnhanceUpdateServer;XSDComplexTypeDefinition=72"/>
+    <nested inputs="ZPSConfig.ecore#//MgmtNWKEnhanceUpdateServer" outputs="ZPSConfigurationXML.xsd#//MgmtNWKEnhanceUpdateServer;XSDElementDeclaration=62"/>
+    <nested inputs="ZPSConfig.ecore#//MacInterfaceList" outputs="ZPSConfigurationXML.xsd#//MacInterfaceList;XSDComplexTypeDefinition=73">
+      <nested inputs="ZPSConfig.ecore#//MacInterfaceList/MacInterface" outputs="ZPSConfigurationXML.xsd#//MacInterfaceList;XSDComplexTypeDefinition=73/XSDParticle/XSDModelGroup/XSDParticle"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//MacInterfaceList" outputs="ZPSConfigurationXML.xsd#//MacInterfaceList;XSDElementDeclaration=63"/>
+    <nested inputs="ZPSConfig.ecore#//MacInterface" outputs="ZPSConfigurationXML.xsd#//MacInterface;XSDComplexTypeDefinition=74">
+      <nested inputs="ZPSConfig.ecore#//MacInterface/RouterAllowed" outputs="ZPSConfigurationXML.xsd#//MacInterface;XSDComplexTypeDefinition=74/XSDAttributeUse"/>
+      <nested inputs="ZPSConfig.ecore#//MacInterface/ChannelListSize" outputs="ZPSConfigurationXML.xsd#//MacInterface;XSDComplexTypeDefinition=74/XSDAttributeUse=1"/>
+      <nested inputs="ZPSConfig.ecore#//MacInterface/index" outputs="ZPSConfigurationXML.xsd#//MacInterface;XSDComplexTypeDefinition=74/XSDAttributeUse=2"/>
+      <nested inputs="ZPSConfig.ecore#//MacInterface/RadioType" outputs="ZPSConfigurationXML.xsd#//MacInterface;XSDComplexTypeDefinition=74/XSDAttributeUse=3"/>
+      <nested inputs="ZPSConfig.ecore#//MacInterface/Enabled" outputs="ZPSConfigurationXML.xsd#//MacInterface;XSDComplexTypeDefinition=74/XSDAttributeUse=4"/>
+    </nested>
+    <nested inputs="ZPSConfig.ecore#//MacInterface" outputs="ZPSConfigurationXML.xsd#//MacInterface;XSDElementDeclaration=64"/>
+  </nested>
+</xsd2ecore:XSD2EcoreMappingRoot>

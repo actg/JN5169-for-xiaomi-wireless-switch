@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="(C) NXP B.V" modelDirectory="/com.jennic.zps.configeditor/src"
+    modelPluginID="com.jennic.zps.configeditor" modelName="ZPSConfig" generateSchema="true"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" language="">
+  <foreignModel>ZPSConfig.ecore</foreignModel>
+  <genPackages prefix="ZPSConfiguration" basePackage="com.jennic" resource="XML" disposableProviderFactory="true"
+      fileExtensions="zpscfg" ecorePackage="ZPSConfig.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ZPSConfig.ecore#//NodeLogicalType">
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//NodeLogicalType/ZigbeeCoordinator"/>
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//NodeLogicalType/ZigbeeRouter"/>
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//NodeLogicalType/ZigbeeEndDevice"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ZPSConfig.ecore#//FrequencyBands">
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//FrequencyBands/Freq868MHz"/>
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//FrequencyBands/Freq914MHz"/>
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//FrequencyBands/Freq2400MHz"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ZPSConfig.ecore#//PowerSources">
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//PowerSources/ConstantPower"/>
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//PowerSources/RechargeableBattery"/>
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//PowerSources/DisposableBattery"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ZPSConfig.ecore#//PowerModes">
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//PowerModes/RxOnWhenIdleSync"/>
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//PowerModes/Periodic"/>
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//PowerModes/Stimulated"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ZPSConfig.ecore#//NetworkSelectionTypes">
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//NetworkSelectionTypes/User"/>
+      <genEnumLiterals ecoreEnumLiteral="ZPSConfig.ecore#//NetworkSelectionTypes/Automatic"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="ZPSConfig.ecore#//EUShort"/>
+    <genDataTypes ecoreDataType="ZPSConfig.ecore#//EExtPANId"/>
+    <genDataTypes ecoreDataType="ZPSConfig.ecore#//EPermitJoining"/>
+    <genDataTypes ecoreDataType="ZPSConfig.ecore#//ESecKey"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//Profile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Profile/Id"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Profile/Clusters"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//Cluster">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Cluster/Id"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="ZPSConfig.ecore#//Node">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/Endpoints"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/PDUConfiguration"/>
+      <genFeatures property="None" children="true" createChild="true" propertyCategory=""
+          ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/ChannelMask"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/NodeDescriptor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/NodePowerDescriptor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/UserDescriptor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/BindingTable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/GroupTable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/KeyDescriptorTable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/GreenPowerTxQueue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/GreenPowerSecurityTable"/>
+      <genFeatures createChild="false" propertyCategory="Network Layer Configuration"
+          propertyDescription="Size of the discovery table." ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/DiscoveryNeighbourTableSize">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Network Layer Configuration"
+          propertyDescription="Size of the active neighbour table." ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/ActiveNeighbourTableSize">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Network Layer Configuration"
+          propertyDescription="Size fo the route discovery table." ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/RouteDiscoveryTableSize">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Network Layer Configuration"
+          propertyDescription="Size of the routing table." ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/RoutingTableSize">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Network Layer Configuration"
+          propertyDescription="Size of the broadcast transaction table." ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/BroadcastTransactionTableSize">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Network Layer Configuration"
+          propertyDescription="Size of the route record table." ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/RouteRecordTableSize">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Network Layer Configuration"
+          propertyDescription="Size fo the address map table." ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/AddressMapTableSize">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Network Layer Configuration"
+          propertyDescription="Number of security material sets." ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/SecurityMaterialSets">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="APS Layer Configuration"
+          propertyDescription="The maximum number of simultaneous APSDE requests."
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/MaxNumSimultaneousApsdeReq">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="APS Layer Configuration"
+          propertyDescription="The maximum number of simultaneous APSDE requests with APS acknowledgement."
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/MaxNumSimultaneousApsdeAckReq">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Internal" propertyDescription="Name of the MAC mutex"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/MACMutexName">
+        <propertyFilterFlags>com.jennic.internal</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="AF Configuration" propertyDescription="ZBPro stack mutex"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/ZPSMutexName">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="APS Layer Configuration"
+          propertyDescription="Controlls the maximum number of simultaneously received fragmented cluster messages"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/FragmentationMaxNumSimulRx">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="APS Layer Configuration"
+          propertyDescription="Controlls the maximum number of simultaneously received fragmented cluster messages"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/FragmentationMaxNumSimulTx">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="AF Configuration" propertyDescription="Default OS message name for stack events"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/DefaultEventMessageName">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures property="None" createChild="false" propertyCategory="Internal"
+          propertyDescription="Redundant - see MAC MLME / MCPS queues instead " ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/MACDcfmIndMessage">
+        <propertyFilterFlags>com.jennic.internal</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Internal" propertyDescription="Name of the message containing time events from MAC timer server"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/MACTimeEventMessage">
+        <propertyFilterFlags>com.jennic.internal</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="AIB" propertyDescription="Multicast non-member radius"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/apsNonMemberRadius">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="AIB"
+          propertyDescription="Indicates whether the node should become a coordinator on startup"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/apsDesignatedCoordinator">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="AIB" propertyDescription="Indicates whether the node should attempt to rejoin a network insecurely (i.e. via association)"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/apsUseInsecureJoin">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="AIB" propertyDescription="Specifies the maximum window size to be used when fragmenting frames"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/apsMaxWindowSize">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="AIB" propertyDescription="Specified the time in milliseconds between sending two block in a fragmented transmission."
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/apsInterframeDelay">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="APS Layer Configuration"
+          propertyDescription="Duplicate rejection table size" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/APSDuplicateTableSize">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="AIB" propertyDescription="Timeout period in milliseconds to authenticate a joining node "
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/apsSecurityTimeoutPeriod">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="AIB" propertyDescription="The Extended PAN ID of the network that the node should use."
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/apsUseExtPANId">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/InitialNetworkKey"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/SecurityEnabled"/>
+      <genFeatures createChild="false" propertyCategory="Internal" propertyDescription="MAC MLME Queue RTOS Message Name"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/MACMlmeDcfmIndMessage">
+        <propertyFilterFlags>com.jennic.internal</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Internal" propertyDescription="MAC MCPS Queue RTOS Message Name"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/MACMcpsDcfmIndMessage">
+        <propertyFilterFlags>com.jennic.internal</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="APS Layer Configuration"
+          propertyDescription="" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/APSPersistenceTime">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Internal" propertyDescription="The number of APSME commands that can be simultaneously outstanding"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/NumAPSMESimulCommands">
+        <propertyFilterFlags>com.jennic.internal</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="Network Layer Configuration"
+          propertyDescription="ZigBee Stack Profile Identifier" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/StackProfile">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="APS Layer Configuration"
+          propertyDescription="Enables or disables InterPAN communications" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/InterPAN">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyDescription="Enable support for ZigBee Green Power on this Node"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/GreenPowerSupport"/>
+      <genFeatures createChild="false" propertyCategory="Network Layer Configuration"
+          propertyDescription="Network Layer Frame Counter persistance shift factor"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/NwkFcSaveCountBitShift">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="APS Layer Configuration"
+          propertyDescription="Application Layer Frame Counter persistance shift factor"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/ApsFcSaveCountBitShift">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/MacTableSize"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//Node/DefaultCallbackName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Node/MacInterfaceList"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//Coordinator">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Coordinator/ZDOServers"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//Router">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//Router/ZDOServers"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//EndDevice">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//EndDevice/ZDOServers"/>
+      <genFeatures createChild="false" propertyCategory="" propertyDescription="The number of consecutive poll failures before a network rejoin is attempted."
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndDevice/NumPollFailuresBeforeRejoin"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndDevice/Sleeping"/>
+      <genFeatures property="None" createChild="false" propertyCategory="APS Layer Configuration"
+          propertyDescription="Period of data requests when a sleeping end device polls during transmission of a fragmented message"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndDevice/FragmentedTxPollPeriod">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures property="None" createChild="false" propertyCategory="APS Layer Configuration"
+          propertyDescription="Period of data requests when a sleeping end device polls during reception of a fragmented message"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndDevice/FragmentedRxPollPeriod">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" propertyCategory="APS Layer Configuration"
+          propertyDescription="Polling period when a sleeping end device receives data requiring an APS ack. This also includes the fragmented data."
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndDevice/APSPollPeriod">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//EndPoint">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//EndPoint/InputClusters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//EndPoint/OutputClusters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndPoint/Id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndPoint/Enabled"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndPoint/ApplicationDeviceId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndPoint/ApplicationDeviceVersion"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//EndPoint/Profile"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndPoint/Message"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ZPSConfig.ecore#//EndPoint/Node"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndPoint/Name"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//PrimaryDiscoveryCache">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//PrimaryDiscoveryCache/Size"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//BackupDiscoveryCache">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//BackupDiscoveryCache/Size"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//DiscoveryTable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//DiscoveryTable/Size"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//BindingTable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//BindingTable/Size"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//GroupTable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//GroupTable/Size"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//ZigbeeWirelessNetwork">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZigbeeWirelessNetwork/Profiles"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZigbeeWirelessNetwork/Coordinator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZigbeeWirelessNetwork/ChildNodes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ZigbeeWirelessNetwork/DefaultExtendedPANId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ZigbeeWirelessNetwork/MaxNumberNodes"/>
+      <genFeatures createChild="false" propertyCategory="" propertyDescription=""
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ZigbeeWirelessNetwork/Version">
+        <propertyFilterFlags>com.jennic.internal</propertyFilterFlags>
+      </genFeatures>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ZigbeeWirelessNetwork/DefaultSecurityEnabled"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//PrimaryBindingCache">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//PrimaryBindingCache/TableSize"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//PrimaryBindingCache/NumTables"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//BackupBindingCache">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//BackupBindingCache/TableSize"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//BackupBindingCache/NumTables"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//PrimaryGroupCache">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//PrimaryGroupCache/Size"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//BackupGroupCache">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//BackupGroupCache/Size"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//InputCluster">
+      <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//InputCluster/Cluster"/>
+      <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//InputCluster/RxAPDU"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference ZPSConfig.ecore#//InputCluster/EndPoint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//InputCluster/Discoverable"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//OutputCluster">
+      <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//OutputCluster/Cluster"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference ZPSConfig.ecore#//OutputCluster/EndPoint"/>
+      <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//OutputCluster/TxAPDUs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//OutputCluster/Discoverable"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="ZPSConfig.ecore#//AlwaysOnNode">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//AlwaysOnNode/TrustCenter"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//AlwaysOnNode/PermitJoiningTime"/>
+      <genFeatures createChild="false" propertyCategory="Network Layer Configuration"
+          propertyDescription="The size of the Child Table. Determines the maximum number of children a Router or Coordinator may be the parent for."
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//AlwaysOnNode/ChildTableSize">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//ComplexDescriptor"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//UserDescriptor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//UserDescriptor/UserDescription"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//TrustCenter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//TrustCenter/DeviceTableSize"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//TrustCenter/Keys"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//DiscoveryCache"/>
+    <genClasses image="false" ecoreClass="ZPSConfig.ecore#//BindingCache"/>
+    <genClasses image="false" ecoreClass="ZPSConfig.ecore#//NamedObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NamedObject/Name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="ZPSConfig.ecore#//ChildNodes">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChildNodes/ScanDuration"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChildNodes/NetworkSelection"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//APDU">
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//APDU/Id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//APDU/Name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//APDU/Size"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//APDU/Instances"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ZPSConfig.ecore#//APDU/PDUConfig"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//PDUManager">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//PDUManager/APDUs"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ZPSConfig.ecore#//PDUManager/ContainerNode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//PDUManager/NumNPDUs"/>
+      <genFeatures createChild="false" propertyCategory="Internal" propertyDescription="Name of the PDU Manager mutex"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//PDUManager/PDUMMutexName">
+        <propertyFilterFlags>org.eclipse.ui.views.properties.expert</propertyFilterFlags>
+      </genFeatures>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//ChannelMask">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel11"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel12"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel13"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel14"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel15"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel16"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel17"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel18"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel19"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel20"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel21"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel22"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel23"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel24"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel25"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//ChannelMask/Channel26"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="ZPSConfig.ecore#//ZDOClientServer">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOClientServer/OutputAPdu"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//ZDOServersCoordinator">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOServersCoordinator/EndDeviceBindServer"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//ZDOServersRouter"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//ZDOServersEndDevice"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//DefaultServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//EndDeviceBindServer">
+      <genFeatures createChild="false" propertyCategory="" propertyDescription="The timeout in seconds between receipts of ZDP EndDeviceBind requests"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndDeviceBindServer/Timeout"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndDeviceBindServer/BindingTimeout"/>
+      <genFeatures createChild="false" propertyDescription="The number of times a ZDP Bind/Unbind request will be retried when processing a successful EndDeviceBind request"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//EndDeviceBindServer/BindNumRetries"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//DeviceAnnceServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//ActiveEpServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//NwkAddrServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//IeeeAddrServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//MatchDescServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//NodeDescServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//PermitJoiningServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//PowerDescServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//SimpleDescServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//SystemServerDiscoveryServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//MgmtLqiServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//MgmtRtgServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//MgmtLeaveServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//NodeDescriptor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/ManufacturerCode"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/LogicalType"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="Descriptor Availability"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/ComplexDescriptorAvailable"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="Descriptor Availability"
+          propertyDescription="" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/UserDescriptorAvailable"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/APSFlags"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/FrequencyBand"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="MAC Capability Flags"
+          propertyDescription="Specifies the node capabilities as per IEEE 802.15.4-2003"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/AlternatePANCoordinator"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="MAC Capability Flags"
+          propertyDescription="Specifies the node capabilities as per IEEE 802.15.4-2003"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/DeviceType"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="MAC Capability Flags"
+          propertyDescription="Specifies the node capabilities as per IEEE 802.15.4-2003"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/PowerSource"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="MAC Capability Flags"
+          propertyDescription="Specifies the node capabilities as per IEEE 802.15.4-2003"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/RxOnWhenIdle"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="MAC Capability Flags"
+          propertyDescription="Specifies the node capabilities as per IEEE 802.15.4-2003"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/Security"/>
+      <genFeatures createChild="false" propertyCategory="MAC Capability Flags" propertyDescription="Specifies the node capabilities as per IEEE 802.15.4-2003"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/AllocateAddress"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/MaximumBufferSize"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/MaximumIncomingTransferSize"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/MaximumOutgoingTransferSize"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="Descriptor Capabilities"
+          propertyDescription="" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/ExtendedActiveEndpointListAvailable"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="Descriptor Capabilities"
+          propertyDescription="" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/ExtendedSimpleDescriptorListAvailable"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="System Server Capabilities"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/PrimaryTrustCenter"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="System Server Capabilities"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/BackupTrustCenter"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="System Server Capabilities"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/PrimaryBindingTableCache"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="System Server Capabilities"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/BackupBindingTableCache"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="System Server Capabilities"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/PrimaryDiscoveryCache"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="System Server Capabilities"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/BackupDiscoveryCache"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ZPSConfig.ecore#//NodeDescriptor/Node"/>
+      <genFeatures property="Readonly" createChild="false" propertyCategory="System Server Capabilities"
+          propertyDescription="" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodeDescriptor/NetworkManager"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//NodePowerDescriptor">
+      <genFeatures createChild="false" propertyCategory="Available Power Sources"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodePowerDescriptor/ConstantPower"/>
+      <genFeatures createChild="false" propertyCategory="Available Power Sources"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodePowerDescriptor/RechargeableBattery"/>
+      <genFeatures createChild="false" propertyCategory="Available Power Sources"
+          ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodePowerDescriptor/DisposableBattery"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodePowerDescriptor/DefaultPowerSource"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NodePowerDescriptor/DefaultPowerMode"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//BindUnbindServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//MgmtBindServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//ExtendedActiveEpServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//ExtendedSimpleDescServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//ZdoClient"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//MgmtNWKUpdateServer"/>
+    <genClasses image="false" ecoreClass="ZPSConfig.ecore#//ZDOCommonServers">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/DefaultServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/ZdoClient"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/DeviceAnnceServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/ActiveEpServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/NwkAddrServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/IeeeAddrServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/SystemServerDiscoveryServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/NodeDescServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/PowerDescServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/MatchDescServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/SimpleDescServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/MgmtLqiServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/MgmtLeaveServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/MgmtNWKUpdateServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/BindUnbindServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/ExtendedActiveEpServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/ExtendedSimpleDescServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/BindRequestServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/MgmtBindServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCommonServers/MgmtNWKEnhanceUpdateServer"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//NotImplemented">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//NotImplemented/ComplexDescriptor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//NotImplemented/DiscoveryTable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//NotImplemented/DiscoveryCache"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//NotImplemented/BindingCache"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//KeyDescriptorTable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//KeyDescriptorTable/Size"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//KeyDescriptorTable/PreconfiguredKey"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//PreconfiguredKey">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//PreconfiguredKey/Key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//PreconfiguredKey/IEEEAddress"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="ZPSConfig.ecore#//ZDOCoordRouterOnlyServers">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/PermitJoiningServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/MgmtRtgServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/MgmtMibIeeeServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//ZDOCoordRouterOnlyServers/ParentAnnceServer"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//PreConfiguredNwkKey"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//DefaultNwkKey">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//DefaultNwkKey/Random"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="ZPSConfig.ecore#//NwkKey">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NwkKey/KeySequenceNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NwkKey/Key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//NwkKey/Id"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//PreconfiguredTCLinkKey">
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//PreconfiguredTCLinkKey/Id"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="ZPSConfig.ecore#//TCKey"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//BindRequestServer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//BindRequestServer/SimultaneousRequests"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//BindRequestServer/TimeInterval"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//GreenPowerSecurityTable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//GreenPowerSecurityTable/Size"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//GreenPowerTxQueue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//GreenPowerTxQueue/Size"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//MgmtMibIeeeServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//ParentAnnceServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//MgmtNWKEnhanceUpdateServer"/>
+    <genClasses ecoreClass="ZPSConfig.ecore#//MacInterfaceList">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//MacInterfaceList/Size"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ZPSConfig.ecore#//MacInterfaceList/MacInterface"/>
+    </genClasses>
+    <genClasses ecoreClass="ZPSConfig.ecore#//MacInterface">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//MacInterface/RouterAllowed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ZPSConfig.ecore#//MacInterface/ChannelListSize"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

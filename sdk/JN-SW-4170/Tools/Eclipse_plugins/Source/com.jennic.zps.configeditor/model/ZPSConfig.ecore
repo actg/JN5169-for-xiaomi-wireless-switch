@@ -1,0 +1,967 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ZPSConfiguration" nsURI="http://www.nxp.com/zpscfg" nsPrefix="zpscfg">
+  <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+    <details key="elementFormDefault" value="qualified"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Profile" eSuperTypes="#//NamedObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Id" lowerBound="1" eType="#//EUShort"
+        defaultValueLiteral="1">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="65535"/>
+        <details key="hex" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Clusters" lowerBound="1"
+        upperBound="65535" eType="#//Cluster" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cluster" eSuperTypes="#//NamedObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Id" lowerBound="1" eType="#//EUShort"
+        defaultValueLiteral="0">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="65535"/>
+        <details key="hex" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true" eSuperTypes="#//NamedObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Endpoints" lowerBound="1"
+        upperBound="255" eType="#//EndPoint" containment="true" eOpposite="#//EndPoint/Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PDUConfiguration" lowerBound="1"
+        eType="#//PDUManager" containment="true" eOpposite="#//PDUManager/ContainerNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ChannelMask" lowerBound="1"
+        eType="#//ChannelMask" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="NodeDescriptor" lowerBound="1"
+        eType="#//NodeDescriptor" containment="true" eOpposite="#//NodeDescriptor/Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="NodePowerDescriptor" lowerBound="1"
+        eType="#//NodePowerDescriptor" derived="true" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="UserDescriptor" eType="#//UserDescriptor"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="BindingTable" eType="#//BindingTable"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="GroupTable" eType="#//GroupTable"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="KeyDescriptorTable" eType="#//KeyDescriptorTable"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="GreenPowerTxQueue" eType="#//GreenPowerTxQueue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="GreenPowerSecurityTable"
+        eType="#//GreenPowerSecurityTable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DiscoveryNeighbourTableSize"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="16">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ActiveNeighbourTableSize"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="26">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="RouteDiscoveryTableSize"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="2">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="RoutingTableSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="255">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="BroadcastTransactionTableSize"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="9">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="RouteRecordTableSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="2">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="AddressMapTableSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="10">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="SecurityMaterialSets" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="2">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MaxNumSimultaneousApsdeReq"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="5">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MaxNumSimultaneousApsdeAckReq"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="3">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MACMutexName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="mutexMAC">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value="zpscfg"/>
+        <details key="name" value="MACMutexName"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+      <eAnnotations source="http://jennic.com/internal"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ZPSMutexName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="mutexZPS">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value="##targetNamespace"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="FragmentationMaxNumSimulRx"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value="##targetNamespace"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="FragmentationMaxNumSimulTx"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value="##targetNamespace"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DefaultEventMessageName"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="APP_msgZpsEvents">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value="##targetNamespace"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MACDcfmIndMessage" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="zps_msgDcfmInd">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value="##targetNamespace"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+      <eAnnotations source="http://jennic.com/internal"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MACTimeEventMessage" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="zps_msgTimeEvents">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value="##targetNamespace"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+      <eAnnotations source="http://jennic.com/internal"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="apsNonMemberRadius" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="2">
+      <eAnnotations source="http:///com/jennic/zpsconfig">
+        <details key="propertyClass" value="Jennic,Standard,Advanced"/>
+      </eAnnotations>
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="7"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="apsDesignatedCoordinator"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false" derived="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="apsUseInsecureJoin" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="apsMaxWindowSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="8">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value=""/>
+      </eAnnotations>
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="8"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="apsInterframeDelay" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="10">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="10"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="APSDuplicateTableSize"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="8">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="apsSecurityTimeoutPeriod"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="1000">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1000"/>
+        <details key="max" value="4294967295"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="apsUseExtPANId" lowerBound="1"
+        eType="#//EExtPANId" defaultValueLiteral="0">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="18446744073709551615"/>
+        <details key="hex" value=""/>
+        <details key="hex_width" value="16"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="InitialNetworkKey" eType="#//TCKey"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="SecurityEnabled" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MACMlmeDcfmIndMessage"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="zps_msgMlmeDcfmInd">
+      <eAnnotations source="http://jennic.com/internal"/>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value="##targetNamespace"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MACMcpsDcfmIndMessage"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="zps_msgMcpsDcfmInd">
+      <eAnnotations source="http://jennic.com/internal"/>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value="##targetNamespace"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="APSPersistenceTime" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="100">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="25"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NumAPSMESimulCommands"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="4">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="StackProfile" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="2">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="15"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="InterPAN" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GreenPowerSupport" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NwkFcSaveCountBitShift"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="10">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="32"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ApsFcSaveCountBitShift"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="10">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="32"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MacTableSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="36"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DefaultCallbackName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="APP_vGenCallback"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MacInterfaceList" eType="#//MacInterfaceList"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Coordinator" eSuperTypes="#//AlwaysOnNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ZDOServers" lowerBound="1"
+        eType="#//ZDOServersCoordinator" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Router" eSuperTypes="#//AlwaysOnNode #//ChildNodes">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ZDOServers" lowerBound="1"
+        eType="#//ZDOServersRouter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EndDevice" eSuperTypes="#//Node #//ChildNodes">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ZDOServers" lowerBound="1"
+        eType="#//ZDOServersEndDevice" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NumPollFailuresBeforeRejoin"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="3">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Sleeping" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="FragmentedTxPollPeriod"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="25">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="25"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="FragmentedRxPollPeriod"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="25">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="25"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="APSPollPeriod" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="100">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="25"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EndPoint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="InputClusters" upperBound="255"
+        eType="#//InputCluster" containment="true" eOpposite="#//InputCluster/EndPoint"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="OutputClusters" upperBound="255"
+        eType="#//OutputCluster" containment="true" eOpposite="#//OutputCluster/EndPoint"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Enabled" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ApplicationDeviceId" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ApplicationDeviceVersion"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="15"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Profile" lowerBound="1"
+        eType="#//Profile"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Node" lowerBound="1" eType="#//Node"
+        eOpposite="#//Node/Endpoints"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimaryDiscoveryCache" eSuperTypes="#//DiscoveryCache">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BackupDiscoveryCache" eSuperTypes="#//DiscoveryCache">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiscoveryTable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BindingTable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="5">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GroupTable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="16">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ZigbeeWirelessNetwork">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Profiles" lowerBound="1"
+        upperBound="-1" eType="#//Profile" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Coordinator" eType="#//Coordinator"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ChildNodes" upperBound="-1"
+        eType="#//ChildNodes" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DefaultExtendedPANId" eType="#//EExtPANId"
+        defaultValueLiteral="0">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="hex" value=""/>
+        <details key="hex_width" value="16"/>
+        <details key="min" value="0"/>
+        <details key="max" value="0xFFFFFFFFFFFFFFFF"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value="##targetNamespace"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MaxNumberNodes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="20">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="500"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Version" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="1.2"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DefaultSecurityEnabled"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimaryBindingCache" eSuperTypes="#//BindingCache">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="TableSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NumTables" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BackupBindingCache" eSuperTypes="#//BindingCache">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="TableSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NumTables" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimaryGroupCache">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BackupGroupCache">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InputCluster">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Cluster" lowerBound="1"
+        eType="#//Cluster"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="RxAPDU" lowerBound="1"
+        eType="#//APDU"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EndPoint" lowerBound="1"
+        eType="#//EndPoint" eOpposite="#//EndPoint/InputClusters"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Discoverable" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputCluster">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Cluster" lowerBound="1"
+        eType="#//Cluster"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EndPoint" lowerBound="1"
+        eType="#//EndPoint" eOpposite="#//EndPoint/OutputClusters"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="TxAPDUs" upperBound="-1"
+        eType="#//APDU"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Discoverable" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlwaysOnNode" abstract="true" eSuperTypes="#//Node">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="TrustCenter" eType="#//TrustCenter"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="PermitJoiningTime" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="255">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ChildTableSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="6">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="48"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexDescriptor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="UserDescription" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrustCenter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DeviceTableSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Keys" eType="#//TCKey"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiscoveryCache"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BindingCache" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedObject" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChildNodes" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ScanDuration" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByte" defaultValueLiteral="3">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="14"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NetworkSelection" lowerBound="1"
+        eType="#//NetworkSelectionTypes" defaultValueLiteral="User Selected"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="APDU">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true" defaultValueLiteral="" unsettable="true" derived="true" iD="true">
+      <eAnnotations source="OCL" references="#//APDU/Id/%OCL%/@details.0">
+        <details key="derive" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Size" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="25500"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Instances" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PDUConfig" lowerBound="1"
+        eType="#//PDUManager" eOpposite="#//PDUManager/APDUs"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PDUManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="APDUs" upperBound="-1"
+        eType="#//APDU" containment="true" eOpposite="#//APDU/PDUConfig"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ContainerNode" eType="#//Node"
+        eOpposite="#//Node/PDUConfiguration"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NumNPDUs" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="25">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="8"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="PDUMMutexName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="mutexPDUM">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="namespace" value="##targetNamespace"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="EUShort" instanceClassName="Integer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ChannelMask">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel11" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel12" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel13" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel14" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel15" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel16" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel17" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel18" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel19" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel20" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel21" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel22" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel23" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel24" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel25" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Channel26" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="EExtPANId" instanceClassName="BigInteger">
+    <eAnnotations source="http://jennic.com/hexdec">
+      <details key="editor" value="hexdec"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ZDOClientServer" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="OutputAPdu" lowerBound="1"
+        eType="#//APDU"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ZDOServersCoordinator" eSuperTypes="#//ZDOCommonServers #//ZDOCoordRouterOnlyServers">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EndDeviceBindServer" eType="#//EndDeviceBindServer"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ZDOServersRouter" eSuperTypes="#//ZDOCommonServers #//ZDOCoordRouterOnlyServers"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ZDOServersEndDevice" eSuperTypes="#//ZDOCommonServers"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DefaultServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EndDeviceBindServer" eSuperTypes="#//ZDOClientServer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Timeout" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="5"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="BindingTimeout" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="10"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="BindNumRetries" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeviceAnnceServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActiveEpServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NwkAddrServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IeeeAddrServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MatchDescServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeDescServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PermitJoiningServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PowerDescServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleDescServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemServerDiscoveryServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MgmtLqiServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MgmtRtgServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MgmtLeaveServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ManufacturerCode" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="LogicalType" lowerBound="1"
+        eType="#//NodeLogicalType" changeable="false" volatile="true" defaultValueLiteral="ZED"
+        derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ComplexDescriptorAvailable"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        changeable="false" volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="UserDescriptorAvailable"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="APSFlags" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        changeable="false" volatile="true" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="FrequencyBand" eType="#//FrequencyBands"
+        changeable="false" volatile="true" defaultValueLiteral="2.4GHz" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="AlternatePANCoordinator"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        changeable="false" volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DeviceType" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" changeable="false"
+        volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="PowerSource" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" changeable="false"
+        volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="RxOnWhenIdle" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" changeable="false"
+        volatile="true" defaultValueLiteral="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Security" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" changeable="false"
+        volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="AllocateAddress" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MaximumBufferSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        changeable="false" defaultValueLiteral="127"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MaximumIncomingTransferSize"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false" volatile="true" defaultValueLiteral="0" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MaximumOutgoingTransferSize"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false" volatile="true" defaultValueLiteral="0" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ExtendedActiveEndpointListAvailable"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        changeable="false" volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ExtendedSimpleDescriptorListAvailable"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        changeable="false" volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="PrimaryTrustCenter" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" changeable="false"
+        volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="BackupTrustCenter" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" changeable="false"
+        volatile="true" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="PrimaryBindingTableCache"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        changeable="false" volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="BackupBindingTableCache"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        changeable="false" volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="PrimaryDiscoveryCache"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        changeable="false" volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="BackupDiscoveryCache" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" changeable="false"
+        volatile="true" defaultValueLiteral="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Node" eType="#//Node" eOpposite="#//Node/NodeDescriptor"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NetworkManager" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" changeable="false"
+        volatile="true" defaultValueLiteral="false" derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="NodeLogicalType">
+    <eLiterals name="ZigbeeCoordinator" literal="ZC"/>
+    <eLiterals name="ZigbeeRouter" value="1" literal="ZR"/>
+    <eLiterals name="ZigbeeEndDevice" value="2" literal="ZED"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FrequencyBands">
+    <eLiterals name="Freq868MHz" literal="868MHz"/>
+    <eLiterals name="Freq914MHz" value="2" literal="914MHz"/>
+    <eLiterals name="Freq2400MHz" value="3" literal="2.4GHz"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NodePowerDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ConstantPower" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="RechargeableBattery" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DisposableBattery" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DefaultPowerSource" lowerBound="1"
+        eType="#//PowerSources" defaultValueLiteral="Constant Power"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DefaultPowerMode" lowerBound="1"
+        eType="#//PowerModes" defaultValueLiteral="Synchronised with RxOnWhenIdle"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PowerSources">
+    <eLiterals name="ConstantPower" literal="Constant Power"/>
+    <eLiterals name="RechargeableBattery" value="1" literal="Rechargeable Battery"/>
+    <eLiterals name="DisposableBattery" value="2" literal="Disposable Battery"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PowerModes">
+    <eLiterals name="RxOnWhenIdleSync" literal="Synchronised with RxOnWhenIdle"/>
+    <eLiterals name="Periodic" value="1"/>
+    <eLiterals name="Stimulated" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BindUnbindServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MgmtBindServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtendedActiveEpServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtendedSimpleDescServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ZdoClient" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MgmtNWKUpdateServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ZDOCommonServers" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DefaultServer" lowerBound="1"
+        eType="#//DefaultServer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ZdoClient" lowerBound="1"
+        eType="#//ZdoClient" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DeviceAnnceServer" eType="#//DeviceAnnceServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ActiveEpServer" eType="#//ActiveEpServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="NwkAddrServer" eType="#//NwkAddrServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="IeeeAddrServer" eType="#//IeeeAddrServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="SystemServerDiscoveryServer"
+        eType="#//SystemServerDiscoveryServer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="NodeDescServer" eType="#//NodeDescServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PowerDescServer" eType="#//PowerDescServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MatchDescServer" eType="#//MatchDescServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="SimpleDescServer" eType="#//SimpleDescServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MgmtLqiServer" eType="#//MgmtLqiServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MgmtLeaveServer" eType="#//MgmtLeaveServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MgmtNWKUpdateServer" eType="#//MgmtNWKUpdateServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="BindUnbindServer" eType="#//BindUnbindServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ExtendedActiveEpServer"
+        eType="#//ExtendedActiveEpServer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ExtendedSimpleDescServer"
+        eType="#//ExtendedSimpleDescServer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="BindRequestServer" lowerBound="1"
+        eType="#//BindRequestServer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MgmtBindServer" eType="#//MgmtBindServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MgmtNWKEnhanceUpdateServer"
+        eType="#//MgmtNWKEnhanceUpdateServer" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotImplemented">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ComplexDescriptor" eType="#//ComplexDescriptor"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DiscoveryTable" eType="#//DiscoveryTable"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DiscoveryCache" eType="#//DiscoveryCache"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="BindingCache" eType="#//BindingCache"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KeyDescriptorTable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Size" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="8">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PreconfiguredKey" upperBound="-1"
+        eType="#//PreconfiguredKey" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PreconfiguredKey">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Key" lowerBound="1" eType="#//ESecKey"
+        defaultValueLiteral="0">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="hex" value=""/>
+        <details key="hex_width" value="32"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="IEEEAddress" lowerBound="1"
+        eType="#//EExtPANId" defaultValueLiteral="0">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="hex" value=""/>
+        <details key="min" value="0"/>
+        <details key="max" value="18446744073709551615"/>
+        <details key="hex_width" value="16"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="EPermitJoining" instanceClassName="Integer"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="ESecKey" instanceClassName="BigInteger"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ZDOCoordRouterOnlyServers" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PermitJoiningServer" eType="#//PermitJoiningServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MgmtRtgServer" eType="#//MgmtRtgServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MgmtMibIeeeServer" eType="#//MgmtMibIeeeServer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ParentAnnceServer" eType="#//ParentAnnceServer"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PreConfiguredNwkKey" eSuperTypes="#//NwkKey"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DefaultNwkKey" eSuperTypes="#//NwkKey">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Random" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NwkKey" abstract="true" eSuperTypes="#//TCKey">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="KeySequenceNumber" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="0"/>
+        <details key="max" value="255"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Key" lowerBound="1" eType="#//ESecKey"
+        defaultValueLiteral="0">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="hex" value=""/>
+        <details key="hex_width" value="32"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true" unsettable="true" derived="true" iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="NetworkSelectionTypes">
+    <eLiterals name="User" value="1" literal="User Selected"/>
+    <eLiterals name="Automatic" value="2" literal="Automatically Selected"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PreconfiguredTCLinkKey" eSuperTypes="#//TCKey">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true" unsettable="true" derived="true" iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TCKey" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BindRequestServer" eSuperTypes="#//ZDOClientServer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="SimultaneousRequests" lowerBound="1"
+        eType="#//EUShort" defaultValueLiteral="3"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="TimeInterval" lowerBound="1"
+        eType="#//EUShort" defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GreenPowerSecurityTable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="5">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GreenPowerTxQueue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="5">
+      <eAnnotations source="http://jennic.com/hexdec">
+        <details key="min" value="1"/>
+        <details key="max" value="65535"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MgmtMibIeeeServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParentAnnceServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MgmtNWKEnhanceUpdateServer" eSuperTypes="#//ZDOClientServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MacInterfaceList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MacInterface" upperBound="-1"
+        eType="#//MacInterface" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MacInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="RouterAllowed" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ChannelListSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShort"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="RadioType" lowerBound="1"
+        eType="#//RadioType" defaultValueLiteral="RT2400MHz"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Enabled" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RadioType">
+    <eLiterals name="RT2400MHz" literal="RT2400MHz"/>
+    <eLiterals name="RT868MHz" value="1"/>
+    <eLiterals name="RT915MHz" value="2"/>
+  </eClassifiers>
+</ecore:EPackage>

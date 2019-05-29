@@ -1,0 +1,5 @@
+*.bin
+*.d
+*.log
+*.txt
+*.obj

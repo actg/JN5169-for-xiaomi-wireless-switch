@@ -1,0 +1,21 @@
+!SESSION 2017-02-17 00:14:34.196 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_121
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_GB
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.osgi 2 0 2017-02-17 00:14:35.046
+!MESSAGE The plugin "com.zpsconfig.zigbee3.rcp.zpscfgeditor" with the version "1.0.0" and location "initial@reference:file:plugins/com.zpsconfig.zigbee3.rcp.zpscfgeditor_1.0.0.jar" is an old style Eclipse 2.0 plugin with no OSGi bundle manifest.  Support for Eclipse 2.0 style plugins will be removed in a future release. Refer to the migration guide for details.
+
+!ENTRY org.eclipse.ui 4 4 2017-02-17 00:14:36.846
+!MESSAGE Unable to create intro descriptor.
+
+!ENTRY com.zpsconfig.zigbee3.rcp.zpscfgeditor 4 0 2017-02-17 00:14:36.846
+!MESSAGE Invalid extension (Missing class name): null
+
+!ENTRY org.eclipse.ui 4 4 2017-02-17 00:14:36.846
+!MESSAGE Unable to create intro descriptor.
+
+!ENTRY com.zpsconfig.zigbee3.rcp.zpscfgeditor 4 0 2017-02-17 00:14:36.846
+!MESSAGE Invalid extension (Missing class name): null

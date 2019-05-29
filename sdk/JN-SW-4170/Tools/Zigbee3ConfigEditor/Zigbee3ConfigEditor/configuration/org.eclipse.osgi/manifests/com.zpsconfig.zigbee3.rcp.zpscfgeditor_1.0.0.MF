@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Generated-from: 1487290402000;type=10
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.zpsconfig.zigbee3.rcp.zpscfgeditor; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: .,
+ com.zpsconfig.zigbee3.rcp.zpscfgeditor,
+ com.zpsconfig.zigbee3.rcp.zpscfgeditor.actions,
+ icons,
+ src.com.zpsconfig.zigbee3.rcp.zpscfgeditor,
+ src.com.zpsconfig.zigbee3.rcp.zpscfgeditor.actions
+Require-Bundle: org.eclipse.core.filesystem;bundle-version="1.1.0",
+ org.eclipse.core.runtime;bundle-version="3.3.0",
+ org.eclipse.ui;bundle-version="3.3.0",
+ org.eclipse.ui.ide;bundle-version="3.3.0",
+ org.eclipse.jface.text;bundle-version="3.3.0",
+ org.eclipse.ui.editors;bundle-version="3.3.0",
+ com.jennic.zps.configeditor;bundle-version="[1.4.1,2.0.0)",
+ com.jennic.zps.configeditor.edit;bundle-version="[1.4.1,2.0.0)",
+ com.jennic.zps.configeditor.editor;bundle-version="[1.4.1,2.0.0)"
+Eclipse-LazyStart: true
+Created-By: 1.8.0_121-b13 (Oracle Corporation)
+Ant-Version: Apache Ant 1.8.4
