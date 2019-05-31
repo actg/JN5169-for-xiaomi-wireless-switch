@@ -45,6 +45,7 @@
 /***        Macro Definitions                                             ***/
 /****************************************************************************/
 #define ZCL_TICK_TIME           ZTIMER_TIME_MSEC(1000)
+#define LED_BLINK_PERIOD		ZTIMER_TIME_MSEC(200)
 
 /****************************************************************************/
 /***        Type Definitions                                              ***/

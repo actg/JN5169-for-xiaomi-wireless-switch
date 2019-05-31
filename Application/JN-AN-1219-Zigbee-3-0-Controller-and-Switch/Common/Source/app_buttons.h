@@ -92,6 +92,7 @@
         #endif
         #define APP_BUTTONS_DIO_MASK        ((1 << APP_BUTTONS_BUTTON_1) | (1 << APP_BUTTONS_BUTTON_SW1))
         #define APP_BUTTONS_DIO_MASK_FOR_DEEP_SLEEP        ((1 << APP_BUTTONS_BUTTON_1) | (1 << APP_BUTTONS_BUTTON_SW1))
+		#define APP_BUTTONS_LONG_PRESSED_TIMEOUT	ZTIMER_TIME_MSEC(3000)
     #endif
 #elif (defined DR1216 )
     /* DIO used for DR1216 switch */

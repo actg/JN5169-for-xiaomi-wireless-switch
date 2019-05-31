@@ -125,7 +125,6 @@ PUBLIC void vStopTimer(uint8 u8Timer);
 #endif
 
 PRIVATE void vSetAddress(tsZCL_Address * psAddress, bool_t bBroadcast, uint16 u16ClusterId);
-PRIVATE void vDeletePDMOnButtonPress(uint8 u8ButtonDIO);
 PRIVATE void vHandleJoinAndRejoin(void);
 PRIVATE void app_vRestartNode (void);
 PRIVATE void app_vStartNodeFactoryNew(void);
@@ -133,6 +132,7 @@ PRIVATE void vAppHandleAfEvent( BDB_tsZpsAfEvent *psZpsAfEvent);
 PRIVATE void vHandleRunningStackEvent(ZPS_tsAfEvent* psStackEvent);
 PRIVATE bool bAddressInTable( uint16 u16AddressToCheck );
 PRIVATE void vAppHandleZdoEvents( BDB_tsZpsAfEvent *psZpsAfEvent);
+PRIVATE void vDeletePDMOnButtonPress(uint8 u8ButtonDIO);
 
 /****************************************************************************/
 /***        Exported Variables                                            ***/
@@ -142,7 +142,8 @@ PUBLIC PDM_tsRecordDescriptor   sDevicePDDesc;
 PUBLIC tsDeviceDesc             sDeviceDesc;
 PUBLIC uint16                   u16GroupId;
 PUBLIC uint16 u16GlobalGroupId=1;
-
+extern PUBLIC uint8 u8TimerLedBlinks;
+PUBLIC ledVset_t ledVsetParam;
 
 tsConvertR21toR22 sConvertR21toR22 = { FALSE };
 
@@ -380,6 +381,12 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
             // go to running state
             DBG_vPrintf(TRACE_SWITCH_NODE,"GoRunningState!\n");
             vHandleJoinAndRejoin();
+			//led indicate join successful
+			memset(&ledVsetParam,0,sizeof(ledVsetParam));
+			ledVsetParam.duty=10;
+			ledVsetParam.period=1000;
+			ledVsetParam.times=3;
+			ZTIMER_eStart(u8TimerLedBlinks,1);
             break;
 
         case BDB_EVENT_NO_NETWORK:
@@ -718,7 +725,7 @@ PUBLIC void APP_taskSwitch(void)
 								ZTIMER_eGetState(u8TimerButtonLongPressed) == E_ZTIMER_STATE_STOPPED)
 							{
 								DBG_vPrintf(TRACE_SWITCH_NODE, "Start Long Pressed timer\n");
-								ZTIMER_eStart(u8TimerButtonLongPressed,3000);
+								ZTIMER_eStart(u8TimerButtonLongPressed,APP_BUTTONS_LONG_PRESSED_TIMEOUT);
 							}
 						}
 						break;
@@ -798,6 +805,12 @@ PUBLIC void APP_taskSwitch(void)
 								DBG_vPrintf(TRACE_SWITCH_NODE, "Stop Long Pressed timer\n");
 								ZTIMER_eStop(u8TimerButtonLongPressed);
 							}
+
+							memset(&ledVsetParam,0,sizeof(ledVsetParam));
+							ledVsetParam.duty=10;
+							ledVsetParam.period=1000;
+							ledVsetParam.times=1;
+							ZTIMER_eStart(u8TimerLedBlinks,1);
 						}
 						break;
 						case APP_E_BUTTONS_BUTTON_SW1:
@@ -1936,6 +1949,32 @@ PUBLIC void APP_vFactoryResetRecords( void)
                             sizeof(tsDeviceDesc));
     ZPS_vSaveAllZpsRecords();
 }
+
+PUBLIC void APP_cbTimerLedBlinks(void *pvParam)
+{
+	ledVset_t *param=(ledVset_t *)pvParam;
+
+	if(param->times > 0)
+	{
+		if(param->type == 0)
+		{
+			param->type=1;
+			APP_vSetLED(LED1,1);
+			if(param->duty>100)
+			{
+				param->duty=100;
+			}
+			ZTIMER_eStart(u8TimerLedBlinks,((uint32)param->duty * (uint32)param->period)/100);
+		}else if(param->type == 1)
+		{
+			param->times--;
+			param->type=0;
+			APP_vSetLED(LED1,0);
+			ZTIMER_eStart(u8TimerLedBlinks,((100-param->duty)* (uint32)param->period)/100);
+		}
+	}
+}
+
 
 /****************************************************************************/
 /***        END OF FILE                                                   ***/

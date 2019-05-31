@@ -65,6 +65,8 @@
 /****************************************************************************/
 /***        Exported Variables                                            ***/
 /****************************************************************************/
+extern PUBLIC ledVset_t ledVsetParam;
+extern PUBLIC uint8 u8TimerLedBlinks;
 /****************************************************************************/
 /***        Local Variables                                               ***/
 /****************************************************************************/
@@ -364,13 +366,28 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
 
 PUBLIC void APP_cbTimerButtonLongPressed(void *pvParam)
 {
-	DBG_vPrintf(TRACE_APP_BUTTON, "Reset Factory New\n");
+	PRIVATE uint8 state=0;
 
-	//blink LED indicate reset factory new
-	
-	
-	PDM_vDeleteAllDataRecords();
-	vAHI_SwReset();
+	if(state == 0)
+	{
+		state++;
+		DBG_vPrintf(TRACE_APP_BUTTON, "Key long pressed\n");
+		//blink LED indicate reset factory new
+		memset(&ledVsetParam,0,sizeof(ledVsetParam));
+		ledVsetParam.duty=10;
+		ledVsetParam.period=1000;
+		ledVsetParam.times=3;
+		ZTIMER_eStart(u8TimerLedBlinks,1);
+		ZTIMER_eStart(u8TimerButtonLongPressed,APP_BUTTONS_LONG_PRESSED_TIMEOUT);
+	}else{
+		//reset facotry new if needed 
+		DBG_vPrintf(TRACE_APP_BUTTON,"Would leave and delete the PDM\n");
+        if (ZPS_E_SUCCESS !=  ZPS_eAplZdoLeaveNetwork(0, FALSE,FALSE)) {
+            /* Leave failed, probably lost parent, so just reset everything */
+            PDM_vDeleteAllDataRecords();
+            vAHI_SwReset();
+        }
+	}
 }
 
 

@@ -83,6 +83,13 @@ typedef struct {
 	bool bConvertRequired;
 }tsConvertR21toR22;
 
+typedef struct{
+	uint16 period;
+	uint8 duty;
+	uint8 type;
+	uint16 times;
+}ledVset_t;
+
 extern tsConvertR21toR22 sConvertR21toR22;
 /****************************************************************************/
 /***        Exported Functions                                            ***/
@@ -133,6 +140,8 @@ PUBLIC void vSelectLight(void);
 PUBLIC void APP_cbTimerPoll(void *pvParam);
 PUBLIC void APP_vSleepTask(void);
 PUBLIC void APP_vFactoryResetRecords( void);
+PUBLIC void APP_cbTimerLedBlinks(void *pvParam);
+
 /****************************************************************************/
 /***        External Variables                                            ***/
 /****************************************************************************/
