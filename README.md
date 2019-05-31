@@ -15,6 +15,8 @@
 - 通过BASIC cluster可以配置组播地址
 - 实现了LED控制，入网成功之后，LED闪烁3次，占空比为50,
 - 长按网络配置按钮3s，LED闪烁3次之后Leave网络并删除PDM，占空比为10
+- 修复了长按恢复出厂后LED闪烁4次又重新加入网络的问题
+- 修复了rejoin失败之后，无法再rejoin必须reset才能rejoin成功的问题
 - [app.zpscfg编辑方法参考](https://blog.csdn.net/code_style/article/details/90487512)
 
 #### 已知问题

@@ -689,12 +689,13 @@ PRIVATE void vHandleRunningStackEvent(ZPS_tsAfEvent* psStackEvent)
 PUBLIC void APP_taskSwitch(void)
 {
 	static uint8 flag=FALSE;
+	static uint8 previousKeyStatus=FALSE;
     APP_tsEvent sAppEvent;
     sAppEvent.eType = APP_E_EVENT_NONE;
 
     if (ZQ_bQueueReceive(&APP_msgAppEvents, &sAppEvent) == TRUE)
     {
-        DBG_vPrintf(TRACE_SWITCH_NODE, "ZPR: App event %d, NodeState=%d\n", sAppEvent.eType, sDeviceDesc.eNodeState);
+        DBG_vPrintf(TRACE_SWITCH_NODE, "ZPR: App event %d, NodeState=%d, CommissioningStatus=%d\n", sAppEvent.eType, sDeviceDesc.eNodeState,sBDB.sAttrib.ebdbCommissioningStatus);
 
 #if (defined APP_NTAG_ICODE) || (defined APP_NTAG_AES)
         /* Is this a button event on NTAG_FD ? */
@@ -783,18 +784,23 @@ PUBLIC void APP_taskSwitch(void)
 #ifdef SLEEP_ENABLE
                   vReloadSleepTimers();
 #endif
-
+				previousKeyStatus=TRUE;
 				break;
                 case APP_E_EVENT_BUTTON_UP:
 					switch(sAppEvent.uEvent.sButton.u8Button)
 					{
 						case APP_E_BUTTONS_BUTTON_1:
 						{
-							if(sDeviceDesc.eNodeState == E_STARTUP)
+							if(sDeviceDesc.eNodeState == E_STARTUP && previousKeyStatus == TRUE)
 							{
 								DBG_vPrintf(TRACE_SWITCH_NODE,"APP_taskSwitch: Start Steering \n");
 
 								// TODO: blink led indicate
+								memset(&ledVsetParam,0,sizeof(ledVsetParam));
+								ledVsetParam.duty=10;
+								ledVsetParam.period=1000;
+								ledVsetParam.times=1;
+								ZTIMER_eStart(u8TimerLedBlinks,1);
 								
 								sBDB.sAttrib.u32bdbPrimaryChannelSet = BDB_PRIMARY_CHANNEL_SET;
 								sBDB.sAttrib.u32bdbSecondaryChannelSet = 0;
@@ -805,19 +811,19 @@ PUBLIC void APP_taskSwitch(void)
 								DBG_vPrintf(TRACE_SWITCH_NODE, "Stop Long Pressed timer\n");
 								ZTIMER_eStop(u8TimerButtonLongPressed);
 							}
-
-							memset(&ledVsetParam,0,sizeof(ledVsetParam));
-							ledVsetParam.duty=10;
-							ledVsetParam.period=1000;
-							ledVsetParam.times=1;
-							ZTIMER_eStart(u8TimerLedBlinks,1);
 						}
 						break;
 						case APP_E_BUTTONS_BUTTON_SW1:
 						{
 							if (sDeviceDesc.eNodeState == E_RUNNING)
 							{
-							
+								//rejoin failed previous,we need retry whenever key released
+								if(sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_NO_NETWORK)
+								{
+									sBDB.sAttrib.u32bdbPrimaryChannelSet = BDB_PRIMARY_CHANNEL_SET;
+									sBDB.sAttrib.u32bdbSecondaryChannelSet = 0;
+									BDB_eNsStartNwkSteering();
+								}
 							}
 							else if(sDeviceDesc.eNodeState == E_STARTUP)
 							{
@@ -830,6 +836,7 @@ PUBLIC void APP_taskSwitch(void)
                   vReloadSleepTimers();
 #endif
 
+				previousKeyStatus=FALSE;
 				break;
 
 				case APP_E_EVENT_BUTTON_ALL_UP:
