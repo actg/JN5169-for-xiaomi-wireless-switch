@@ -22,6 +22,13 @@
 #### 已知问题
 - 暂无
 
+#### 如何编译
+- import project to BeyondStudio 
+![pic](how2build_0.png)
+
+- select Active "DimmerSwitch,JN5169,DR1199" configuration in properties of project
+![pic](how2build_1.png)
+
 #### 烧写方法
 - 先进入ISP模式
 ```

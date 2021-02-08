@@ -50,7 +50,7 @@ extern "C" {
 
 /* Channel Definitions */
 #if (SINGLE_CHANNEL < 11 || SINGLE_CHANNEL > 26)
-#define BDB_PRIMARY_CHANNEL_SET                 (0x02108800)                               /* bdbPrimaryChannelSet */
+#define BDB_PRIMARY_CHANNEL_SET                 (0x07fff800)                               /* bdbPrimaryChannelSet */
 #define BDBC_TL_SECONDARY_CHANNEL_SET           (0x07fff800 ^ BDBC_TL_PRIMARY_CHANNEL_SET) /* bdbcTLSecondaryChannelSet */
 #else
 #warning Single channel only!

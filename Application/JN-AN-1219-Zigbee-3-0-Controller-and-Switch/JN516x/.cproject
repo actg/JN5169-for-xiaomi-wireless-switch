@@ -61,7 +61,7 @@
 					<folderInfo id="com.beyondsemi.toolchain.gnu.ba.elf.base.831067073.179954090." name="/" resourcePath="">
 						<toolChain id="com.beyondsemi.toolchain.gnu.ba.elf.base.1436141490" name="com.beyondsemi.toolchain.gnu.ba.elf.base" superClass="com.beyondsemi.toolchain.gnu.ba.elf.base">
 							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF" id="com.beyondsemi.target.gnu.platform.ba.elf.2061930513" superClass="com.beyondsemi.target.gnu.platform.ba.elf"/>
-							<builder arguments="JENNIC_CHIP=JN5169 JENNIC_CHIP_FAMILY=JN516x SWITCH=DimmerSwitch TRACE=0 OTA=0 KEEPALIVETIME=1 APP_NTAG_ICODE=0" buildPath="${ProjDirPath}/../Common_Switch/Build/ " command="make" id="com.beyondsemi.builder.cdt.gnu.1424801745" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="com.beyondsemi.builder.cdt.gnu"/>
+							<builder arguments="JENNIC_CHIP=JN5169 JENNIC_CHIP_FAMILY=JN516x SWITCH=DimmerSwitch TRACE=1 OTA=0 KEEPALIVETIME=1 APP_NTAG_ICODE=0" buildPath="${ProjDirPath}/../Common_Switch/Build/ " command="make" id="com.beyondsemi.builder.cdt.gnu.1424801745" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="com.beyondsemi.builder.cdt.gnu"/>
 							<tool id="com.beyondsemi.tool.gnu.ba.elf.compiler.c.base.415395280" name="BA ELF GNU C compiler" superClass="com.beyondsemi.tool.gnu.ba.elf.compiler.c.base">
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.915756823" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="BUTTON_MAP_DR1199=0"/>
@@ -296,4 +296,5 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.beyondsemi.base.elf.c.scanner.configdiscovery"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>
