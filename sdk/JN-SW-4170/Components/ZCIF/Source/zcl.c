@@ -1202,7 +1202,7 @@ PUBLIC teZCL_Status eZCL_ReportAttribute(
               hAPduInst, eFrameType,
               FALSE, 0, //Not mfr.specific
               TRUE, //From server to client
-              FALSE, // TRUE //Disable default response
+              TRUE, // TRUE //Disable default response
               u8Seq, E_ZCL_REPORT_ATTRIBUTES);
 
 
