@@ -60,6 +60,7 @@ extern "C" {
 #include "Groups.h"
 #include "Scenes.h"
 #include "LevelControl.h"
+#include "privateCluster.h"
 #ifdef CLD_OTA
 #include "OTA.h"
 #endif
@@ -116,6 +117,10 @@ typedef struct
     #if (defined CLD_GROUPS) && (defined GROUPS_CLIENT)
         tsZCL_ClusterInstance sGroupsClient;
     #endif
+
+	#if (defined CLD_PRIVATE)
+		tsZCL_ClusterInstance sPrivateServer;
+	#endif
 
     #if (defined CLD_OTA) && (defined OTA_CLIENT)
         /* Add  cluster instance for the OTA cluster */
@@ -184,6 +189,10 @@ typedef struct
         /* Groups Cluster - Client */
         tsCLD_Groups sGroupsClientCluster;
         tsCLD_GroupsCustomDataStructure sGroupsClientCustomDataStructure;
+    #endif
+
+	#if (defined CLD_PRIVATE)
+    	tsCLD_Private sPrivateServerCluster;
     #endif
 
     #if (defined CLD_OTA) && (defined OTA_CLIENT)

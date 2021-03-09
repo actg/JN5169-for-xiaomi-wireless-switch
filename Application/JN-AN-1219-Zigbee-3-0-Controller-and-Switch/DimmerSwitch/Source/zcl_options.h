@@ -76,6 +76,7 @@
 
 #define CLD_GROUPS
 #define GROUPS_CLIENT
+#define CLD_PRIVATE
 
 #define CLD_ONOFF
 #define ONOFF_CLIENT

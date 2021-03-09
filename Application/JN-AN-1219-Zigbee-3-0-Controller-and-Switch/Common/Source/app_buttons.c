@@ -46,14 +46,15 @@
 #include "app_main.h"
 #include "app_zlo_switch_node.h"
 #include "PDM.h"
+#include "PDM_IDs.h"
 
 /****************************************************************************/
 /***        Macro Definitions                                             ***/
 /****************************************************************************/
 #ifndef DEBUG_APP_BUTTON
-    #define TRACE_APP_BUTTON            FALSE
+#define TRACE_APP_BUTTON            FALSE
 #else
-    #define TRACE_APP_BUTTON            TRUE
+#define TRACE_APP_BUTTON            TRUE
 #endif
 
 /****************************************************************************/
@@ -72,33 +73,33 @@ extern PUBLIC uint8 u8TimerLedBlinks;
 /****************************************************************************/
 
 #if (defined BUTTON_MAP_DR1199)
-    #if (defined APP_NTAG_ICODE) || (defined APP_NTAG_AES)
-        PRIVATE uint8 s_u8ButtonDebounce[APP_BUTTONS_NUM] = { 0xff,0xff,0xff,0xff,0xff,0xff };
-        PRIVATE uint8 s_u8ButtonState[APP_BUTTONS_NUM] = { 0,0,0,0,0,0 };
-        PRIVATE const uint8 s_u8ButtonDIOLine[APP_BUTTONS_NUM] =
-        {
-            APP_BUTTONS_BUTTON_1,
-            APP_BUTTONS_BUTTON_SW1,
-            APP_BUTTONS_BUTTON_SW2,
-            APP_BUTTONS_BUTTON_SW3,
-            APP_BUTTONS_BUTTON_SW4,
-        };
-    #else
-        PRIVATE uint8 s_u8ButtonDebounce[APP_BUTTONS_NUM] = { 0xff,0xff};
-        PRIVATE uint8 s_u8ButtonState[APP_BUTTONS_NUM] = { 0,0};
-        PRIVATE const uint8 s_u8ButtonDIOLine[APP_BUTTONS_NUM] =
-        {
-            APP_BUTTONS_BUTTON_1,
-            APP_BUTTONS_BUTTON_SW1
-        };
-    #endif
+#if (defined APP_NTAG_ICODE) || (defined APP_NTAG_AES)
+PRIVATE uint8 s_u8ButtonDebounce[APP_BUTTONS_NUM] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
+PRIVATE uint8 s_u8ButtonState[APP_BUTTONS_NUM] = { 0, 0, 0, 0, 0, 0 };
+PRIVATE const uint8 s_u8ButtonDIOLine[APP_BUTTONS_NUM] =
+{
+    APP_BUTTONS_BUTTON_1,
+    APP_BUTTONS_BUTTON_SW1,
+    APP_BUTTONS_BUTTON_SW2,
+    APP_BUTTONS_BUTTON_SW3,
+    APP_BUTTONS_BUTTON_SW4,
+};
 #else
-    PRIVATE uint8 s_u8ButtonDebounce[APP_BUTTONS_NUM] = { 0xff};
-    PRIVATE uint8 s_u8ButtonState[APP_BUTTONS_NUM] = {0};
-    PRIVATE const uint8 s_u8ButtonDIOLine[APP_BUTTONS_NUM] =
-    {
-        APP_BUTTONS_BUTTON_1
-    };
+PRIVATE uint8 s_u8ButtonDebounce[APP_BUTTONS_NUM] = { 0xff, 0xff};
+PRIVATE uint8 s_u8ButtonState[APP_BUTTONS_NUM] = { 0, 0};
+PRIVATE const uint8 s_u8ButtonDIOLine[APP_BUTTONS_NUM] =
+{
+    APP_BUTTONS_BUTTON_1,
+    APP_BUTTONS_BUTTON_SW1
+};
+#endif
+#else
+PRIVATE uint8 s_u8ButtonDebounce[APP_BUTTONS_NUM] = { 0xff};
+PRIVATE uint8 s_u8ButtonState[APP_BUTTONS_NUM] = {0};
+PRIVATE const uint8 s_u8ButtonDIOLine[APP_BUTTONS_NUM] =
+{
+    APP_BUTTONS_BUTTON_1
+};
 #endif
 
 
@@ -137,7 +138,7 @@ PUBLIC bool_t APP_bButtonInitialise(void)
        on button press.*/
     APP_cbTimerButtonScan(NULL);
 
-    if (u32Buttons != APP_BUTTONS_DIO_MASK)
+    if(u32Buttons != APP_BUTTONS_DIO_MASK)
     {
         return TRUE;
     }
@@ -182,7 +183,7 @@ PUBLIC void vISR_SystemController(void)
 #endif
     }
 
-    if (u8WakeInt & E_AHI_WAKE_TIMER_MASK_1)
+    if(u8WakeInt & E_AHI_WAKE_TIMER_MASK_1)
     {
         /* wake timer interrupt got us here */
         DBG_vPrintf(TRACE_APP_BUTTON, "APP: Wake Timer 1 Interrupt\n");
@@ -220,8 +221,8 @@ PUBLIC void vISR_SystemController(uint32 u32DeviceId, uint32 u32BitMap)
 #endif
 
     DBG_vPrintf(TRACE_APP_BUTTON, "In vISR_SystemController Device %08x BitMap %08x\n",
-            u32DeviceId,
-            u32BitMap );
+                u32DeviceId,
+                u32BitMap);
 
     if(u32BitMap & APP_BUTTONS_DIO_MASK)
     {
@@ -235,7 +236,7 @@ PUBLIC void vISR_SystemController(uint32 u32DeviceId, uint32 u32BitMap)
 #endif
     }
 
-    if (u32BitMap & E_AHI_SYSCTRL_WK1_MASK)
+    if(u32BitMap & E_AHI_SYSCTRL_WK1_MASK)
     {
         /* wake timer interrupt got us here */
         DBG_vPrintf(TRACE_APP_BUTTON, "APP: Wake Timer 1 Interrupt\n");
@@ -296,15 +297,15 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
     uint32 u32DIOState = u32AHI_DioReadInput() & APP_BUTTONS_DIO_MASK;
 
 
-    for (i = 0; i < APP_BUTTONS_NUM; i++)
+    for(i = 0; i < APP_BUTTONS_NUM; i++)
     {
-        uint8 u8Button = (uint8) ((u32DIOState >> s_u8ButtonDIOLine[i]) & 1);
+        uint8 u8Button = (uint8)((u32DIOState >> s_u8ButtonDIOLine[i]) & 1);
 
         s_u8ButtonDebounce[i] <<= 1;
         s_u8ButtonDebounce[i] |= u8Button;
         u8AllReleased &= s_u8ButtonDebounce[i];
 
-        if (0 == s_u8ButtonDebounce[i] && !s_u8ButtonState[i])
+        if(0 == s_u8ButtonDebounce[i] && !s_u8ButtonState[i])
         {
             s_u8ButtonState[i] = TRUE;
 
@@ -316,12 +317,12 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
             APP_tsEvent sButtonEvent;
             sButtonEvent.eType = APP_E_EVENT_BUTTON_DOWN;
             sButtonEvent.uEvent.sButton.u8Button = i;
-            sButtonEvent.uEvent.sButton.u32DIOState=u32DIOState;
+            sButtonEvent.uEvent.sButton.u32DIOState = u32DIOState;
             DBG_vPrintf(TRACE_APP_BUTTON, "Button DN=%d\n", i);
 
             ZQ_bQueueSend(&APP_msgAppEvents, &sButtonEvent);
         }
-        else if (0xff == s_u8ButtonDebounce[i] && s_u8ButtonState[i] != FALSE)
+        else if(0xff == s_u8ButtonDebounce[i] && s_u8ButtonState[i] != FALSE)
         {
             s_u8ButtonState[i] = FALSE;
 
@@ -333,14 +334,14 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
             APP_tsEvent sButtonEvent;
             sButtonEvent.eType = APP_E_EVENT_BUTTON_UP;
             sButtonEvent.uEvent.sButton.u8Button = i;
-            sButtonEvent.uEvent.sButton.u32DIOState=u32DIOState;
+            sButtonEvent.uEvent.sButton.u32DIOState = u32DIOState;
             DBG_vPrintf(TRACE_APP_BUTTON, "Button UP=%i\n", i);
 
             ZQ_bQueueSend(&APP_msgAppEvents, &sButtonEvent);
         }
     }
 
-    if (0xff == u8AllReleased)
+    if(0xff == u8AllReleased)
     {
         /*
          * all buttons high so set dio to interrupt on change
@@ -351,9 +352,9 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
 
         APP_tsEvent sButtonEvent;
         sButtonEvent.eType = APP_E_EVENT_BUTTON_ALL_UP;
-        sButtonEvent.uEvent.sButton.u8Button = 0;		//don't care
-        sButtonEvent.uEvent.sButton.u32DIOState=0;		//don't care
-        ZQ_bQueueSend(&APP_msgAppEvents, &sButtonEvent);			
+        sButtonEvent.uEvent.sButton.u8Button = 0;       //don't care
+        sButtonEvent.uEvent.sButton.u32DIOState = 0;    //don't care
+        ZQ_bQueueSend(&APP_msgAppEvents, &sButtonEvent);
     }
     else
     {
@@ -364,32 +365,27 @@ PUBLIC void APP_cbTimerButtonScan(void *pvParam)
     }
 }
 
-PUBLIC void APP_cbTimerButtonLongPressed(void *pvParam)
+PRIVATE void APP_cbResetFactory(void *pvParam)
 {
-	PRIVATE uint8 state=0;
-
-	if(state == 0)
-	{
-		state++;
-		DBG_vPrintf(TRACE_APP_BUTTON, "Key long pressed\n");
-		//blink LED indicate reset factory new
-		memset(&ledVsetParam,0,sizeof(ledVsetParam));
-		ledVsetParam.duty=10;
-		ledVsetParam.period=1000;
-		ledVsetParam.times=3;
-		ZTIMER_eStart(u8TimerLedBlinks,1);
-		ZTIMER_eStart(u8TimerButtonLongPressed,APP_BUTTONS_LONG_PRESSED_TIMEOUT);
-	}else{
-		//reset facotry new if needed 
-		DBG_vPrintf(TRACE_APP_BUTTON,"Would leave and delete the PDM\n");
-        if (ZPS_E_SUCCESS !=  ZPS_eAplZdoLeaveNetwork(0, FALSE,FALSE)) {
-            /* Leave failed, probably lost parent, so just reset everything */
-            PDM_vDeleteAllDataRecords();
-            vAHI_SwReset();
-        }
-	}
+    bool_t u8StartSteering = TRUE;
+    //reset facotry new if needed
+    DBG_vPrintf(TRACE_APP_BUTTON, "Would leave and delete the PDM\n");
+    ZPS_eAplZdoLeaveNetwork(0, FALSE, FALSE);
+    PDM_vDeleteAllDataRecords();
+    PDM_eSaveRecordData(PDM_ID_APP_START_STEERING, &u8StartSteering, sizeof(u8StartSteering));
+    vAHI_SwReset();
 }
 
+PUBLIC void APP_cbTimerButtonLongPressed(void *pvParam)
+{
+    //blink LED indicate reset factory new
+    memset(&ledVsetParam, 0, sizeof(ledVsetParam));
+    ledVsetParam.duty = 50;
+    ledVsetParam.period = 500;
+    ledVsetParam.times = 6;
+    ledVsetParam.cb = (void *)APP_cbResetFactory;       //blink timeout,we call callback
+    ZTIMER_eStart(u8TimerLedBlinks, 1);
+}
 
 /****************************************************************************/
 /***        Local Functions                                               ***/

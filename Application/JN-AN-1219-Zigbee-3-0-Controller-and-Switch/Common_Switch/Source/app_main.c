@@ -114,6 +114,7 @@ PUBLIC uint8 u8TimerNtag;
 PUBLIC uint8 u8TimerButtonLongPressed;
 PUBLIC uint8 u8TimerLedBlinks;
 extern PUBLIC ledVset_t ledVsetParam;
+PUBLIC uint8 u8TimerSecondStep;
 
 PUBLIC tszQueue APP_msgAppEvents;
 PUBLIC tszQueue APP_msgBdbEvents;
@@ -234,6 +235,7 @@ PUBLIC void APP_vInitResources(void)
 #endif
 	ZTIMER_eOpen(&u8TimerButtonLongPressed,APP_cbTimerButtonLongPressed,NULL, ZTIMER_FLAG_PREVENT_SLEEP);
 	ZTIMER_eOpen(&u8TimerLedBlinks,APP_cbTimerLedBlinks,&ledVsetParam, ZTIMER_FLAG_PREVENT_SLEEP);
+	ZTIMER_eOpen(&u8TimerSecondStep,APP_cbTimerSteering,NULL, ZTIMER_FLAG_PREVENT_SLEEP);
     /* Create all the queues */
     ZQ_vQueueCreate(&APP_msgBdbEvents,          BDB_QUEUE_SIZE,         sizeof(BDB_tsZpsAfEvent),   (uint8*)asBdbEvent);
     ZQ_vQueueCreate(&APP_msgAppEvents,          APP_QUEUE_SIZE,         sizeof(APP_tsEvent),        (uint8*)asAppEvent);

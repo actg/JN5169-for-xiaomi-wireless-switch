@@ -60,7 +60,8 @@ extern "C" {
 #define PDM_ID_APP_NFC_ICODE        0x31
 #define PDM_ID_APP_CONVERT          0xA109
 
-#define PDM_ID_DEVICE_SWITCH_GROUPID		 0x10
+#define PDM_ID_APP_START_STEERING            0xA10A
+#define PDM_ID_DEVICE_SWITCH_GROUPID         0xA10B
 
 /****************************************************************************/
 /***        Type Definitions                                              ***/

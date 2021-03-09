@@ -238,6 +238,17 @@ PUBLIC teZCL_Status eZLO_RegisterDimmerSwitchEndPoint(uint8 u8EndPointIdentifier
         } 
     #endif
 
+	#if (defined CLD_PRIVATE)
+		if(eCLD_PrivateCreateCustom(&psDeviceInfo->sClusterInstance.sPrivateServer,
+							TRUE,
+							&sCLD_PrivateCustom,
+							&psDeviceInfo->sPrivateServerCluster,
+							&au8PrivateClusterAttributeControlBits[0]) != E_ZCL_SUCCESS)
+		{
+			return E_ZCL_FAIL;
+		}
+	#endif
+
     #if (defined CLD_OTA) && (defined OTA_CLIENT)
        if (eOTA_Create(
            &psDeviceInfo->sClusterInstance.sOTAClient,

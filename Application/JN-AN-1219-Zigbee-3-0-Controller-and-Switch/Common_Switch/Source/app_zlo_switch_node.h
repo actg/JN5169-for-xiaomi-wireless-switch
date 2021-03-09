@@ -88,7 +88,10 @@ typedef struct{
 	uint8 duty;
 	uint8 type;
 	uint16 times;
+	void *cb;
 }ledVset_t;
+
+typedef void(*pTimerExpireCallback)(void *);
 
 extern tsConvertR21toR22 sConvertR21toR22;
 /****************************************************************************/
@@ -141,6 +144,7 @@ PUBLIC void APP_cbTimerPoll(void *pvParam);
 PUBLIC void APP_vSleepTask(void);
 PUBLIC void APP_vFactoryResetRecords( void);
 PUBLIC void APP_cbTimerLedBlinks(void *pvParam);
+PUBLIC void APP_cbTimerSteering(void *pvParam);
 
 /****************************************************************************/
 /***        External Variables                                            ***/

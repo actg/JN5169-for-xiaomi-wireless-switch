@@ -75,8 +75,8 @@
 #include "app_switch_state_machine.h"
 #include "zcl_common.h"
 #ifdef CLD_OTA
-    #include "OTA.h"
-    #include "app_ota_client.h"
+#include "OTA.h"
+#include "app_ota_client.h"
 #endif
 
 #ifdef APP_NTAG_ICODE
@@ -95,14 +95,14 @@
 /***        Macro Definitions                                             ***/
 /****************************************************************************/
 #ifdef DEBUG_SWITCH_NODE
-    #define TRACE_SWITCH_NODE   TRUE
+#define TRACE_SWITCH_NODE   TRUE
 #else
-    #define TRACE_SWITCH_NODE   FALSE
+#define TRACE_SWITCH_NODE   FALSE
 #endif
 
 #define bWakeUpFromSleep() bWaitingToSleep()  /* For readability purpose */
 
-#define APP_LONG_SLEEP_DURATION_IN_SEC (60*60)			//60 minutes
+#define APP_LONG_SLEEP_DURATION_IN_SEC (60*60)          //60 minutes
 
 /* ZDO endpoint for all devices is always 0 */
 #define SWITCH_ZDO_ENDPOINT    (0)
@@ -117,21 +117,21 @@
 /****************************************************************************/
 PUBLIC void vStopTimer(uint8 u8Timer);
 #ifdef SLEEP_ENABLE
-    PRIVATE void vStopAllTimers(void);
-    PRIVATE void vLoadKeepAliveTime(uint8 u8TimeInSec);
-    #ifdef DEEP_SLEEP_ENABLE
-        PRIVATE void vActionOnButtonActivationAfterDeepSleep(void);
-    #endif
+PRIVATE void vStopAllTimers(void);
+PRIVATE void vLoadKeepAliveTime(uint8 u8TimeInSec);
+#ifdef DEEP_SLEEP_ENABLE
+PRIVATE void vActionOnButtonActivationAfterDeepSleep(void);
+#endif
 #endif
 
 PRIVATE void vSetAddress(tsZCL_Address * psAddress, bool_t bBroadcast, uint16 u16ClusterId);
 PRIVATE void vHandleJoinAndRejoin(void);
-PRIVATE void app_vRestartNode (void);
+PRIVATE void app_vRestartNode(void);
 PRIVATE void app_vStartNodeFactoryNew(void);
-PRIVATE void vAppHandleAfEvent( BDB_tsZpsAfEvent *psZpsAfEvent);
+PRIVATE void vAppHandleAfEvent(BDB_tsZpsAfEvent *psZpsAfEvent);
 PRIVATE void vHandleRunningStackEvent(ZPS_tsAfEvent* psStackEvent);
-PRIVATE bool bAddressInTable( uint16 u16AddressToCheck );
-PRIVATE void vAppHandleZdoEvents( BDB_tsZpsAfEvent *psZpsAfEvent);
+PRIVATE bool bAddressInTable(uint16 u16AddressToCheck);
+PRIVATE void vAppHandleZdoEvents(BDB_tsZpsAfEvent *psZpsAfEvent);
 PRIVATE void vDeletePDMOnButtonPress(uint8 u8ButtonDIO);
 
 /****************************************************************************/
@@ -141,8 +141,9 @@ PRIVATE void vDeletePDMOnButtonPress(uint8 u8ButtonDIO);
 PUBLIC PDM_tsRecordDescriptor   sDevicePDDesc;
 PUBLIC tsDeviceDesc             sDeviceDesc;
 PUBLIC uint16                   u16GroupId;
-PUBLIC uint16 u16GlobalGroupId=1;
+PUBLIC uint16 u16GlobalGroupId = 1;
 extern PUBLIC uint8 u8TimerLedBlinks;
+extern PUBLIC uint8 u8TimerSecondStep;
 PUBLIC ledVset_t ledVsetParam;
 
 tsConvertR21toR22 sConvertR21toR22 = { FALSE };
@@ -156,12 +157,12 @@ PRIVATE tsDeviceInfo sDeviceInfo;
 PRIVATE uint16 u16FastPoll;
 
 #ifdef SLEEP_ENABLE
-    PRIVATE bool bDataPending=FALSE;
-    #ifdef DEEP_SLEEP_ENABLE
-        PRIVATE uint8 u8DeepSleepTime= DEEP_SLEEP_TIME;
-    #endif
-    PRIVATE uint8 u8KeepAliveTime = KEEP_ALIVETIME;
-    PRIVATE pwrm_tsWakeTimerEvent    sWake;
+PRIVATE bool bDataPending = FALSE;
+#ifdef DEEP_SLEEP_ENABLE
+PRIVATE uint8 u8DeepSleepTime = DEEP_SLEEP_TIME;
+#endif
+PRIVATE uint8 u8KeepAliveTime = KEEP_ALIVETIME;
+PRIVATE pwrm_tsWakeTimerEvent    sWake;
 #endif
 PRIVATE bool bWaitingForLeave = FALSE;
 /****************************************************************************/
@@ -181,7 +182,7 @@ PRIVATE bool bWaitingForLeave = FALSE;
  ****************************************************************************/
 PUBLIC void APP_vInitialiseNode(void)
 {
-    DBG_vPrintf(TRACE_SWITCH_NODE, "\nAPP_vInitialiseNode\n");
+    DBG_vPrintf(TRACE_SWITCH_NODE, "APP: Entering %s()\n", __func__);
 
     APP_vInitLeds();
 
@@ -191,9 +192,9 @@ PUBLIC void APP_vInitialiseNode(void)
     /*Initialise the application buttons*/
     APP_bButtonInitialise();
 
-    #ifdef CLD_OTA
-        vLoadOTAPersistedData();
-    #endif
+#ifdef CLD_OTA
+    vLoadOTAPersistedData();
+#endif
 
     /* Restore any application data previously saved to flash */
     uint16 u16ByteRead;
@@ -203,27 +204,27 @@ PUBLIC void APP_vInitialiseNode(void)
                             &u16ByteRead);
 
     PDM_eReadDataFromRecord(PDM_ID_APP_CONVERT,
-    						&sConvertR21toR22,
-							sizeof(tsConvertR21toR22),
-							&u16ByteRead);
+                            &sConvertR21toR22,
+                            sizeof(tsConvertR21toR22),
+                            &u16ByteRead);
 
 #ifdef JN517x
     /* Default module configuration: change E_MODULE_DEFAULT as appropriate */
-      vAHI_ModuleConfigure(E_MODULE_DEFAULT);
+    vAHI_ModuleConfigure(E_MODULE_DEFAULT);
 #endif
 
 
-      /* Check if the device is running but not converted Structures */
-	  if ((sDeviceDesc.eNodeState == E_RUNNING) && (sConvertR21toR22.bConvertRequired != TRUE))
-	  {
-		/* Device has been OTA'ed so convert records */
-		APP_vConvertR21_PdmToR22_Records();
-	  }
+    /* Check if the device is running but not converted Structures */
+    if((sDeviceDesc.eNodeState == E_RUNNING) && (sConvertR21toR22.bConvertRequired != TRUE))
+    {
+        /* Device has been OTA'ed so convert records */
+        APP_vConvertR21_PdmToR22_Records();
+    }
 
-	  /* Device just started up, or conversion complete */
-	  sConvertR21toR22.bConvertRequired = TRUE;
+    /* Device just started up, or conversion complete */
+    sConvertR21toR22.bConvertRequired = TRUE;
 
-	  PDM_eSaveRecordData(PDM_ID_APP_CONVERT,&sConvertR21toR22,sizeof(tsConvertR21toR22));
+    PDM_eSaveRecordData(PDM_ID_APP_CONVERT, &sConvertR21toR22, sizeof(tsConvertR21toR22));
 
 
     /* Initialise ZBPro stack */
@@ -235,17 +236,17 @@ PUBLIC void APP_vInitialiseNode(void)
     /* If the device state has been restored from flash, re-start the stack
      * and set the application running again.
      */
-    if (sDeviceDesc.eNodeState == E_RUNNING)
+    if(sDeviceDesc.eNodeState == E_RUNNING)
     {
-    	DBG_vPrintf(TRACE_SWITCH_NODE, "\nNon Factory New Start\n");
+        DBG_vPrintf(TRACE_SWITCH_NODE, "\nNon Factory New Start\n");
         app_vRestartNode();
         sBDB.sAttrib.bbdbNodeIsOnANetwork = TRUE;
         //read u16GlobalGroupId
-        PDM_eReadDataFromRecord(PDM_ID_DEVICE_SWITCH_GROUPID, &u16GlobalGroupId, sizeof(u16GlobalGroupId), &u16ByteRead);		
+        PDM_eReadDataFromRecord(PDM_ID_DEVICE_SWITCH_GROUPID, &u16GlobalGroupId, sizeof(u16GlobalGroupId), &u16ByteRead);
     }
     else
     {
-    	DBG_vPrintf(TRACE_SWITCH_NODE, "\nFactory New Start\n");
+        DBG_vPrintf(TRACE_SWITCH_NODE, "\nFactory New Start\n");
         app_vStartNodeFactoryNew();
         sBDB.sAttrib.bbdbNodeIsOnANetwork = FALSE;
     }
@@ -257,29 +258,30 @@ PUBLIC void APP_vInitialiseNode(void)
 
     BDB_vInit(&sInitArgs);
 
-	//comment it to prevent delete PDM
+    //comment it to prevent delete PDM
 #if 0
     /*In case of a deep sleep device any button wake up would cause a PDM delete , only check for DIO8
      * pressed for deleting the context */
-     #ifdef DEEP_SLEEP_ENABLE
-        if (FALSE == (u16AHI_PowerStatus() & WAKE_FROM_DEEP_SLEEP))
-        {
-        	DBG_vPrintf(TRACE_SWITCH_NODE, "wake from deep sleep\n");
-            vDeletePDMOnButtonPress(APP_BUTTONS_BUTTON_1);
-        }
-        else if(sDeviceDesc.eNodeState == E_STARTUP)
-        {
-        	DBG_vPrintf(TRACE_SWITCH_NODE, "wake from non-deep sleep\n");
-            /* As in startup state re trigger the network steering */
-            vActionOnButtonActivationAfterDeepSleep();
-        }
-    #else
+#ifdef DEEP_SLEEP_ENABLE
+    if(FALSE == (u16AHI_PowerStatus() & WAKE_FROM_DEEP_SLEEP))
+    {
+        DBG_vPrintf(TRACE_SWITCH_NODE, "wake from deep sleep\n");
         vDeletePDMOnButtonPress(APP_BUTTONS_BUTTON_1);
-    #endif
+    }
+    else if(sDeviceDesc.eNodeState == E_STARTUP)
+    {
+        DBG_vPrintf(TRACE_SWITCH_NODE, "wake from non-deep sleep\n");
+        /* As in startup state re trigger the network steering */
+        vActionOnButtonActivationAfterDeepSleep();
+    }
+#else
+    vDeletePDMOnButtonPress(APP_BUTTONS_BUTTON_1);
 #endif
-    #ifdef PDM_EEPROM
-        vDisplayPDMUsage();
-    #endif
+#endif
+#ifdef PDM_EEPROM
+    vDisplayPDMUsage();
+#endif
+    ZTIMER_eStart(u8TimerSecondStep, 50);
 }
 
 
@@ -318,7 +320,7 @@ PUBLIC bool bLightsDiscovered(void)
 PUBLIC void vStartFastPolling(uint8 u8Seconds)
 {
     /* Fast poll is every 100ms, so times by 10 */
-    u16FastPoll = 10*u8Seconds;
+    u16FastPoll = 10 * u8Seconds;
 }
 
 /****************************************************************************
@@ -336,7 +338,7 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
 {
     static uint8 u8NoQueryCount;
 
-   // DBG_vPrintf(1,"BdbCb type %d\n", psBdbEvent->eEventType);
+    // DBG_vPrintf(1,"BdbCb type %d\n", psBdbEvent->eEventType);
 
     switch(psBdbEvent->eEventType)
     {
@@ -347,7 +349,7 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
             break;
 
         case BDB_EVENT_INIT_SUCCESS:
-            DBG_vPrintf(TRACE_SWITCH_NODE,"APP: BdbInitSuccessful\n");
+            DBG_vPrintf(TRACE_SWITCH_NODE, "APP: BdbInitSuccessful\n");
             break;
 
         case BDB_EVENT_REJOIN_FAILURE: // only for ZED
@@ -355,55 +357,46 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
             /* If waiting for leave do not try to go to sleep*/
             if(bWaitingForLeave == FALSE)
             {
-                DBG_vPrintf(TRACE_SWITCH_NODE,"Init Rejoin Failure!\n");
+                DBG_vPrintf(TRACE_SWITCH_NODE, "Init Rejoin Failure!\n");
                 // Go to deep sleep
-                #ifdef SLEEP_ENABLE
-                    vLoadKeepAliveTime(0);
-                    #ifdef DEEP_SLEEP_ENABLE
-                        vLoadDeepSleepTimer(0);
-                    #endif
-                    ZTIMER_eStart(u8TimerTick, ZTIMER_TIME_MSEC(10));
-                #endif
+#ifdef SLEEP_ENABLE
+                vLoadKeepAliveTime(0);
+#ifdef DEEP_SLEEP_ENABLE
+                vLoadDeepSleepTimer(0);
+#endif
+                ZTIMER_eStart(u8TimerTick, ZTIMER_TIME_MSEC(10));
+#endif
             }
             break;
 
         case BDB_EVENT_REJOIN_SUCCESS: // only for ZED
             DBG_vPrintf(TRACE_SWITCH_NODE, "BDB EVT INIT Join success\n");
             vHandleJoinAndRejoin();
-            #ifdef DEEP_SLEEP_ENABLE
-                /*If it is coming out of deep sleep take action on button press */
-                vActionOnButtonActivationAfterDeepSleep();
-            #endif
+#ifdef DEEP_SLEEP_ENABLE
+            /*If it is coming out of deep sleep take action on button press */
+            vActionOnButtonActivationAfterDeepSleep();
+#endif
             break;
 
 
         case BDB_EVENT_NWK_STEERING_SUCCESS:
             // go to running state
-            DBG_vPrintf(TRACE_SWITCH_NODE,"GoRunningState!\n");
+            DBG_vPrintf(TRACE_SWITCH_NODE, "GoRunningState!\n");
             vHandleJoinAndRejoin();
-			//led indicate join successful
-			memset(&ledVsetParam,0,sizeof(ledVsetParam));
-			ledVsetParam.duty=10;
-			ledVsetParam.period=1000;
-			ledVsetParam.times=3;
-			ZTIMER_eStart(u8TimerLedBlinks,1);
+            //led indicate join successful
+            memset(&ledVsetParam, 0, sizeof(ledVsetParam));
+            ledVsetParam.duty = 10;
+            ledVsetParam.period = 1000;
+            ledVsetParam.times = 3;
+            ZTIMER_eStart(u8TimerLedBlinks, 1);
             break;
 
         case BDB_EVENT_NO_NETWORK:
             DBG_vPrintf(TRACE_SWITCH_NODE, "No Network\n");
-            // Go to deep sleep if no button pressed
-            
-            #ifdef SLEEP_ENABLE
-                vLoadKeepAliveTime(0);
-                #ifdef DEEP_SLEEP_ENABLE
-                    vLoadDeepSleepTimer(0);
-                    vUpdateKeepAliveTimer();
-                #endif
-            #endif
             break;
 
         case BDB_EVENT_APP_START_POLLING:
-            DBG_vPrintf(TRACE_SWITCH_NODE,"Start Polling!\n");
+            DBG_vPrintf(TRACE_SWITCH_NODE, "Start Polling!\n");
             /* Start 1 seconds polling */
             DBG_vPrintf(TRACE_SWITCH_NODE, "APP_vBdbCallback: eNodeState = E_WAIT_STARTUP\n");
             sDeviceDesc.eNodeState = E_WAIT_STARTUP;
@@ -412,27 +405,27 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
             break;
 
         case BDB_EVENT_FB_HANDLE_SIMPLE_DESC_RESP_OF_TARGET:
-            DBG_vPrintf(TRACE_SWITCH_NODE,"Simple descriptor %d %d %04x %04x %d \n",psBdbEvent->uEventData.psFindAndBindEvent->u8TargetEp,
-                    psBdbEvent->uEventData.psFindAndBindEvent->u16TargetAddress,
-                    psBdbEvent->uEventData.psFindAndBindEvent->u16ProfileId,
-                    psBdbEvent->uEventData.psFindAndBindEvent->u16DeviceId,
-                    psBdbEvent->uEventData.psFindAndBindEvent->u8DeviceVersion);
+            DBG_vPrintf(TRACE_SWITCH_NODE, "Simple descriptor %d %d %04x %04x %d \n", psBdbEvent->uEventData.psFindAndBindEvent->u8TargetEp,
+                        psBdbEvent->uEventData.psFindAndBindEvent->u16TargetAddress,
+                        psBdbEvent->uEventData.psFindAndBindEvent->u16ProfileId,
+                        psBdbEvent->uEventData.psFindAndBindEvent->u16DeviceId,
+                        psBdbEvent->uEventData.psFindAndBindEvent->u8DeviceVersion);
             break;
 
         case BDB_EVENT_FB_CHECK_BEFORE_BINDING_CLUSTER_FOR_TARGET:
-            DBG_vPrintf(TRACE_SWITCH_NODE,"Check For Binding Cluster %d \n",psBdbEvent->uEventData.psFindAndBindEvent->uEvent.u16ClusterId);
+            DBG_vPrintf(TRACE_SWITCH_NODE, "Check For Binding Cluster %d \n", psBdbEvent->uEventData.psFindAndBindEvent->uEvent.u16ClusterId);
             break;
 
         case BDB_EVENT_FB_CLUSTER_BIND_CREATED_FOR_TARGET:
-            DBG_vPrintf(TRACE_SWITCH_NODE,"Bind Created for cluster %d \n",psBdbEvent->uEventData.psFindAndBindEvent->uEvent.u16ClusterId);
+            DBG_vPrintf(TRACE_SWITCH_NODE, "Bind Created for cluster %d \n", psBdbEvent->uEventData.psFindAndBindEvent->uEvent.u16ClusterId);
             vSetIndividualLightInformation();
             break;
 
         case BDB_EVENT_FB_BIND_CREATED_FOR_TARGET:
-        {
-            DBG_vPrintf(TRACE_SWITCH_NODE,"Bind Created for target EndPt %d \n",psBdbEvent->uEventData.psFindAndBindEvent->u8TargetEp);
-            u8NoQueryCount = 0;
-            // Example to ask to stop identification to an end point on completing discovery
+            {
+                DBG_vPrintf(TRACE_SWITCH_NODE, "Bind Created for target EndPt %d \n", psBdbEvent->uEventData.psFindAndBindEvent->u8TargetEp);
+                u8NoQueryCount = 0;
+                // Example to ask to stop identification to an end point on completing discovery
 
                 uint8 u8Seq;
                 tsZCL_Address sAddress;
@@ -443,51 +436,51 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
                 sAddress.uAddress.u16DestinationAddress = psBdbEvent->uEventData.psFindAndBindEvent->u16TargetAddress;
 
                 eCLD_IdentifyCommandIdentifyRequestSend(
-                                        psBdbEvent->uEventData.psFindAndBindEvent->u8InitiatorEp,
-                                        psBdbEvent->uEventData.psFindAndBindEvent->u8TargetEp,
-                                        &sAddress,
-                                        &u8Seq,
-                                        &sPayload);
+                    psBdbEvent->uEventData.psFindAndBindEvent->u8InitiatorEp,
+                    psBdbEvent->uEventData.psFindAndBindEvent->u8TargetEp,
+                    &sAddress,
+                    &u8Seq,
+                    &sPayload);
 
                 break;
-        }
+            }
 
         case BDB_EVENT_FB_GROUP_ADDED_TO_TARGET:
-        {
-            DBG_vPrintf(TRACE_SWITCH_NODE,"Group Added with ID %d \n",psBdbEvent->uEventData.psFindAndBindEvent->uEvent.u16GroupId);
-            u8NoQueryCount = 0;
-            //Example to ask to Stop identification to that group
-            uint8 u8Seq;
-            tsZCL_Address sAddress;
-            tsCLD_Identify_IdentifyRequestPayload sPayload;
+            {
+                DBG_vPrintf(TRACE_SWITCH_NODE, "Group Added with ID %d \n", psBdbEvent->uEventData.psFindAndBindEvent->uEvent.u16GroupId);
+                u8NoQueryCount = 0;
+                //Example to ask to Stop identification to that group
+                uint8 u8Seq;
+                tsZCL_Address sAddress;
+                tsCLD_Identify_IdentifyRequestPayload sPayload;
 
-            sPayload.u16IdentifyTime = 0;
-            sAddress.eAddressMode = E_ZCL_AM_GROUP;
-            sAddress.uAddress.u16GroupAddress = psBdbEvent->uEventData.psFindAndBindEvent->uEvent.u16GroupId;
+                sPayload.u16IdentifyTime = 0;
+                sAddress.eAddressMode = E_ZCL_AM_GROUP;
+                sAddress.uAddress.u16GroupAddress = psBdbEvent->uEventData.psFindAndBindEvent->uEvent.u16GroupId;
 
-            eCLD_IdentifyCommandIdentifyRequestSend(
-                                    psBdbEvent->uEventData.psFindAndBindEvent->u8InitiatorEp,
-                                    psBdbEvent->uEventData.psFindAndBindEvent->u8TargetEp,
-                                    &sAddress,
-                                    &u8Seq,
-                                    &sPayload);
-            break;
-        }
+                eCLD_IdentifyCommandIdentifyRequestSend(
+                    psBdbEvent->uEventData.psFindAndBindEvent->u8InitiatorEp,
+                    psBdbEvent->uEventData.psFindAndBindEvent->u8TargetEp,
+                    &sAddress,
+                    &u8Seq,
+                    &sPayload);
+                break;
+            }
 
         case BDB_EVENT_FB_ERR_BINDING_TABLE_FULL:
-            DBG_vPrintf(TRACE_SWITCH_NODE,"ERR: Bind Table Full\n");
+            DBG_vPrintf(TRACE_SWITCH_NODE, "ERR: Bind Table Full\n");
             break;
 
         case BDB_EVENT_FB_ERR_BINDING_FAILED:
-            DBG_vPrintf(TRACE_SWITCH_NODE,"ERR: Bind\n");
+            DBG_vPrintf(TRACE_SWITCH_NODE, "ERR: Bind\n");
             break;
 
         case BDB_EVENT_FB_ERR_GROUPING_FAILED:
-            DBG_vPrintf(TRACE_SWITCH_NODE,"ERR: Group\n");
+            DBG_vPrintf(TRACE_SWITCH_NODE, "ERR: Group\n");
             break;
 
         case BDB_EVENT_FB_NO_QUERY_RESPONSE:
-            DBG_vPrintf(TRACE_SWITCH_NODE,"ERR: No Query response\n");
+            DBG_vPrintf(TRACE_SWITCH_NODE, "ERR: No Query response\n");
             //Example to stop further query repeating
             if(u8NoQueryCount >= 2)
             {
@@ -501,7 +494,7 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
             break;
 
         case BDB_EVENT_FB_TIMEOUT:
-            DBG_vPrintf(TRACE_SWITCH_NODE,"ERR: TimeOut\n");
+            DBG_vPrintf(TRACE_SWITCH_NODE, "ERR: TimeOut\n");
             break;
 
         default:
@@ -522,28 +515,29 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
  * ZPS_tsAfEvent sAppStackEvent Stack event information.
  *
  ****************************************************************************/
-PRIVATE void vAppHandleAfEvent( BDB_tsZpsAfEvent *psZpsAfEvent)
+PRIVATE void vAppHandleAfEvent(BDB_tsZpsAfEvent *psZpsAfEvent)
 {
-    if (psZpsAfEvent->u8EndPoint == app_u8GetDeviceEndpoint() )
+    if(psZpsAfEvent->u8EndPoint == app_u8GetDeviceEndpoint())
     {
-        if ((psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_DATA_INDICATION) ||
-            (psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_INTERPAN_DATA_INDICATION))
+        if((psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_DATA_INDICATION) ||
+           (psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_INTERPAN_DATA_INDICATION))
         {
             DBG_vPrintf(TRACE_SWITCH_NODE, "Pass to ZCL\n");
-            APP_ZCL_vEventHandler( &psZpsAfEvent->sStackEvent);
-         }
-    } else if (psZpsAfEvent->u8EndPoint == SWITCH_ZDO_ENDPOINT)
+            APP_ZCL_vEventHandler(&psZpsAfEvent->sStackEvent);
+        }
+    }
+    else if(psZpsAfEvent->u8EndPoint == SWITCH_ZDO_ENDPOINT)
     {
         // events for ep 0
-        vAppHandleZdoEvents( psZpsAfEvent);
+        vAppHandleZdoEvents(psZpsAfEvent);
     }
 
     /* Ensure Freeing of Apdus */
-    if (psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_DATA_INDICATION)
+    if(psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_DATA_INDICATION)
     {
         PDUM_eAPduFreeAPduInstance(psZpsAfEvent->sStackEvent.uEvent.sApsDataIndEvent.hAPduInst);
     }
-    else if ( psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_INTERPAN_DATA_INDICATION )
+    else if(psZpsAfEvent->sStackEvent.eType == ZPS_EVENT_APS_INTERPAN_DATA_INDICATION)
     {
         PDUM_eAPduFreeAPduInstance(psZpsAfEvent->sStackEvent.uEvent.sApsInterPanDataIndEvent.hAPduInst);
     }
@@ -561,21 +555,21 @@ PRIVATE void vAppHandleAfEvent( BDB_tsZpsAfEvent *psZpsAfEvent)
  * void
  *
  ****************************************************************************/
-PRIVATE void vAppHandleZdoEvents( BDB_tsZpsAfEvent *psZpsAfEvent)
+PRIVATE void vAppHandleZdoEvents(BDB_tsZpsAfEvent *psZpsAfEvent)
 {
     //DBG_vPrintf(1, "For ep 0, State %s\n", strings[sZllState.eNodeState] );
     /* Handle events depending on node state */
-    switch (sDeviceDesc.eNodeState)
+    switch(sDeviceDesc.eNodeState)
     {
-    case E_STARTUP:
-        break;
+        case E_STARTUP:
+            break;
 
-    case E_RUNNING:
-        DBG_vPrintf(TRACE_SWITCH_NODE, "E_RUNNING\r\n");
-        vHandleRunningStackEvent(&psZpsAfEvent->sStackEvent);
-        break;
-    default:
-        break;
+        case E_RUNNING:
+            DBG_vPrintf(TRACE_SWITCH_NODE, "E_RUNNING\r\n");
+            vHandleRunningStackEvent(&psZpsAfEvent->sStackEvent);
+            break;
+        default:
+            break;
     }
 }
 
@@ -591,88 +585,90 @@ PRIVATE void vAppHandleZdoEvents( BDB_tsZpsAfEvent *psZpsAfEvent)
  ****************************************************************************/
 PRIVATE void vHandleRunningStackEvent(ZPS_tsAfEvent* psStackEvent)
 {
-    switch (psStackEvent->eType)
+    switch(psStackEvent->eType)
     {
-    case ZPS_EVENT_NWK_JOINED_AS_ENDDEVICE:
-        vHandleJoinAndRejoin();
-        #ifdef APP_NTAG_ICODE
-        {
-            /* Not a rejoin ? */
-            if (FALSE == psStackEvent->uEvent.sNwkJoinedEvent.bRejoin)
+        case ZPS_EVENT_NWK_JOINED_AS_ENDDEVICE:
+            vHandleJoinAndRejoin();
+#ifdef APP_NTAG_ICODE
             {
-                /* Write network data to tag */
-				DBG_vPrintf(TRACE_SWITCH_NODE, "Write network data to tag\n");
-                APP_vNtagStart(DIMMERSWITCH_SWITCH_ENDPOINT);
+                /* Not a rejoin ? */
+                if(FALSE == psStackEvent->uEvent.sNwkJoinedEvent.bRejoin)
+                {
+                    /* Write network data to tag */
+                    DBG_vPrintf(TRACE_SWITCH_NODE, "Write network data to tag\n");
+                    APP_vNtagStart(DIMMERSWITCH_SWITCH_ENDPOINT);
+                }
             }
-        }
-        #endif
-        break;
+#endif
+            break;
 
-    case ZPS_EVENT_NWK_FAILED_TO_JOIN:
-        DBG_vPrintf(TRACE_SWITCH_NODE, "Running Failed to join\n");
-        if (ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid != 0)
-        {
-            DBG_vPrintf(TRACE_SWITCH_NODE, "Restore epid %016llx\n", ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid);
-            ZPS_vNwkNibSetExtPanId(ZPS_pvAplZdoGetNwkHandle(), ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid);
-        }
-        break;
+        case ZPS_EVENT_NWK_FAILED_TO_JOIN:
+            DBG_vPrintf(TRACE_SWITCH_NODE, "Running Failed to join\n");
+            if(ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid != 0)
+            {
+                DBG_vPrintf(TRACE_SWITCH_NODE, "Restore epid %016llx\n", ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid);
+                ZPS_vNwkNibSetExtPanId(ZPS_pvAplZdoGetNwkHandle(), ZPS_psAplAibGetAib()->u64ApsUseExtendedPanid);
+            }
+            break;
 
-    case ZPS_EVENT_NWK_LEAVE_INDICATION:
-       DBG_vPrintf(TRACE_SWITCH_NODE, "LEAVE IND Addr %016llx Rejoin %02x\n",
-               psStackEvent->uEvent.sNwkLeaveIndicationEvent.u64ExtAddr,
-               psStackEvent->uEvent.sNwkLeaveIndicationEvent.u8Rejoin);
+        case ZPS_EVENT_NWK_LEAVE_INDICATION:
+            DBG_vPrintf(TRACE_SWITCH_NODE, "LEAVE IND Addr %016llx Rejoin %02x\n",
+                        psStackEvent->uEvent.sNwkLeaveIndicationEvent.u64ExtAddr,
+                        psStackEvent->uEvent.sNwkLeaveIndicationEvent.u8Rejoin);
 
-       if ( (psStackEvent->uEvent.sNwkLeaveIndicationEvent.u64ExtAddr == 0UL) &&
-            (psStackEvent->uEvent.sNwkLeaveIndicationEvent.u8Rejoin == 0) )
-       {
-           /* We sare asked to Leave without rejoin */
-           DBG_vPrintf(TRACE_SWITCH_NODE, "LEAVE IND -> For Us No Rejoin\n");
-           DBG_vPrintf(TRACE_SWITCH_NODE, "Leave -> Reset Data Structures\n");
-           APP_vFactoryResetRecords();
-           DBG_vPrintf(TRACE_SWITCH_NODE, "Leave -> Soft Reset\n");
-           vAHI_SwReset();
-           }
-           break;
+            if((psStackEvent->uEvent.sNwkLeaveIndicationEvent.u64ExtAddr == 0UL) &&
+               (psStackEvent->uEvent.sNwkLeaveIndicationEvent.u8Rejoin == 0))
+            {
+                /* We sare asked to Leave without rejoin */
+                DBG_vPrintf(TRACE_SWITCH_NODE, "LEAVE IND -> For Us No Rejoin\n");
+                DBG_vPrintf(TRACE_SWITCH_NODE, "Leave -> Reset Data Structures\n");
+                APP_vFactoryResetRecords();
+                DBG_vPrintf(TRACE_SWITCH_NODE, "Leave -> Soft Reset\n");
+                vAHI_SwReset();
+            }
+            break;
 
-    case ZPS_EVENT_NWK_LEAVE_CONFIRM:
+        case ZPS_EVENT_NWK_LEAVE_CONFIRM:
             /* reset app data and restart */
-        APP_vFactoryResetRecords();
-        /* force a restart */
-        vAHI_SwReset();
-        break;
+            APP_vFactoryResetRecords();
+            /* force a restart */
+            vAHI_SwReset();
+            break;
 
-    case ZPS_EVENT_APS_DATA_INDICATION:
-        #ifdef CLD_OTA
-        if ((psStackEvent->uEvent.sApsDataIndEvent.eStatus == ZPS_E_SUCCESS) &&
-                (psStackEvent->uEvent.sApsDataIndEvent.u8DstEndpoint == 0))
-        {
-            // Data Ind for ZDp Ep
-            if (ZPS_ZDP_MATCH_DESC_RSP_CLUSTER_ID == psStackEvent->uEvent.sApsDataIndEvent.u16ClusterId)
+        case ZPS_EVENT_APS_DATA_INDICATION:
+#ifdef CLD_OTA
+            if((psStackEvent->uEvent.sApsDataIndEvent.eStatus == ZPS_E_SUCCESS) &&
+               (psStackEvent->uEvent.sApsDataIndEvent.u8DstEndpoint == 0))
             {
-                vHandleMatchDescriptor(psStackEvent);
-            } else if (ZPS_ZDP_IEEE_ADDR_RSP_CLUSTER_ID == psStackEvent->uEvent.sApsDataIndEvent.u16ClusterId) {
-                vHandleIeeeAddressRsp(psStackEvent);
+                // Data Ind for ZDp Ep
+                if(ZPS_ZDP_MATCH_DESC_RSP_CLUSTER_ID == psStackEvent->uEvent.sApsDataIndEvent.u16ClusterId)
+                {
+                    vHandleMatchDescriptor(psStackEvent);
+                }
+                else if(ZPS_ZDP_IEEE_ADDR_RSP_CLUSTER_ID == psStackEvent->uEvent.sApsDataIndEvent.u16ClusterId)
+                {
+                    vHandleIeeeAddressRsp(psStackEvent);
+                }
             }
-        }
-        #endif
-        break;
+#endif
+            break;
 
 #ifdef SLEEP_ENABLE
-    case ZPS_EVENT_NWK_POLL_CONFIRM:
-        if (MAC_ENUM_SUCCESS == psStackEvent->uEvent.sNwkPollConfirmEvent.u8Status)
-        {
-            bDataPending = TRUE;
-        }
-        else if (MAC_ENUM_NO_DATA == psStackEvent->uEvent.sNwkPollConfirmEvent.u8Status)
-        {
-            bDataPending = FALSE;
-        }
-    break;
+        case ZPS_EVENT_NWK_POLL_CONFIRM:
+            if(MAC_ENUM_SUCCESS == psStackEvent->uEvent.sNwkPollConfirmEvent.u8Status)
+            {
+                bDataPending = TRUE;
+            }
+            else if(MAC_ENUM_NO_DATA == psStackEvent->uEvent.sNwkPollConfirmEvent.u8Status)
+            {
+                bDataPending = FALSE;
+            }
+            break;
 #endif
 
-    default:
-        //DBG_vPrintf(1, "Running unhandled %d\n", psStackEvent->eType);
-        break;
+        default:
+            //DBG_vPrintf(1, "Running unhandled %d\n", psStackEvent->eType);
+            break;
     }
 }
 /****************************************************************************
@@ -688,28 +684,26 @@ PRIVATE void vHandleRunningStackEvent(ZPS_tsAfEvent* psStackEvent)
  ****************************************************************************/
 PUBLIC void APP_taskSwitch(void)
 {
-	static uint8 flag=FALSE;
-	static uint8 previousKeyStatus=FALSE;
     APP_tsEvent sAppEvent;
     sAppEvent.eType = APP_E_EVENT_NONE;
 
-    if (ZQ_bQueueReceive(&APP_msgAppEvents, &sAppEvent) == TRUE)
+    if(ZQ_bQueueReceive(&APP_msgAppEvents, &sAppEvent) == TRUE)
     {
-        DBG_vPrintf(TRACE_SWITCH_NODE, "ZPR: App event %d, NodeState=%d, CommissioningStatus=%d\n", sAppEvent.eType, sDeviceDesc.eNodeState,sBDB.sAttrib.ebdbCommissioningStatus);
+        DBG_vPrintf(TRACE_SWITCH_NODE, "ZPR: App event %d, NodeState=%d, CommissioningStatus=%d\n", sAppEvent.eType, sDeviceDesc.eNodeState, sBDB.sAttrib.ebdbCommissioningStatus);
 
 #if (defined APP_NTAG_ICODE) || (defined APP_NTAG_AES)
         /* Is this a button event on NTAG_FD ? */
-        if ( (sAppEvent.eType == APP_E_EVENT_BUTTON_DOWN || sAppEvent.eType == APP_E_EVENT_BUTTON_UP)
-                && (sAppEvent.uEvent.sButton.u8Button == APP_E_BUTTONS_NFC_FD) )
+        if((sAppEvent.eType == APP_E_EVENT_BUTTON_DOWN || sAppEvent.eType == APP_E_EVENT_BUTTON_UP)
+           && (sAppEvent.uEvent.sButton.u8Button == APP_E_BUTTONS_NFC_FD))
         {
-            #if APP_NTAG_ICODE
-				DBG_vPrintf(TRACE_SWITCH_NODE, "button down, NtagStart endpoint\n");
-                APP_vNtagStart(DIMMERSWITCH_SWITCH_ENDPOINT);
-            #endif
-            #if APP_NTAG_AES
-				DBG_vPrintf(TRACE_SWITCH_NODE, "button down, NtagStart router\n");
-                APP_vNtagStart(NFC_NWK_NSC_DEVICE_ZIGBEE_ROUTER_DEVICE);
-            #endif
+#if APP_NTAG_ICODE
+            DBG_vPrintf(TRACE_SWITCH_NODE, "button down, NtagStart endpoint\n");
+            APP_vNtagStart(DIMMERSWITCH_SWITCH_ENDPOINT);
+#endif
+#if APP_NTAG_AES
+            DBG_vPrintf(TRACE_SWITCH_NODE, "button down, NtagStart router\n");
+            APP_vNtagStart(NFC_NWK_NSC_DEVICE_ZIGBEE_ROUTER_DEVICE);
+#endif
         }
         /* Other event (handle as normal) ? */
         else
@@ -718,150 +712,137 @@ PUBLIC void APP_taskSwitch(void)
             switch(sAppEvent.eType)
             {
                 case APP_E_EVENT_BUTTON_DOWN:
-					switch(sAppEvent.uEvent.sButton.u8Button)
-					{
-						case APP_E_BUTTONS_BUTTON_1:
-						{
-							if(ZTIMER_eGetState(u8TimerButtonLongPressed) == E_ZTIMER_STATE_EXPIRED ||
-								ZTIMER_eGetState(u8TimerButtonLongPressed) == E_ZTIMER_STATE_STOPPED)
-							{
-								DBG_vPrintf(TRACE_SWITCH_NODE, "Start Long Pressed timer\n");
-								ZTIMER_eStart(u8TimerButtonLongPressed,APP_BUTTONS_LONG_PRESSED_TIMEOUT);
-							}
-						}
-						break;
+                    switch(sAppEvent.uEvent.sButton.u8Button)
+                    {
+                        case APP_E_BUTTONS_BUTTON_1:
+                            {
+                                if(ZTIMER_eGetState(u8TimerButtonLongPressed) != E_ZTIMER_STATE_STOPPED)
+                                {
+                                    ZTIMER_eStop(u8TimerButtonLongPressed);
+                                }
 
-						case APP_E_BUTTONS_BUTTON_SW1:
-						{
-							if (sDeviceDesc.eNodeState == E_RUNNING)
-							{
-								teZCL_Status status;
-								if(1)
-								{
-									if(!flag)
-									{
-										flag=TRUE;
-									}else{
-										flag=FALSE;
-									}
-									
-									if(flag)
-									{
-										//scene 1
-										uint8 u8Seq;
-										tsZCL_Address sDestinationAddress;
-										tsCLD_ScenesRecallSceneRequestPayload payLoad;
-										sDestinationAddress.eAddressMode=E_ZCL_AM_GROUP;
-										sDestinationAddress.uAddress.u16GroupAddress=u16GlobalGroupId;
-									
-										payLoad.u16GroupId=u16GlobalGroupId;
-										payLoad.u8SceneId=1;
-										status=eCLD_ScenesCommandRecallSceneRequestSend(DIMMERSWITCH_SWITCH_ENDPOINT,DIMMERSWITCH_SWITCH_ENDPOINT,&sDestinationAddress,&u8Seq,&payLoad);
-										DBG_vPrintf(TRACE_SWITCH_NODE,"Recall scene 1 =%d\n",status);
-									}else{
-										//scene 2
-										uint8 u8Seq;
-										tsZCL_Address sDestinationAddress;
-										tsCLD_ScenesRecallSceneRequestPayload payLoad;
-										sDestinationAddress.eAddressMode=E_ZCL_AM_GROUP;
-										sDestinationAddress.uAddress.u16GroupAddress=u16GlobalGroupId;
-									
-										payLoad.u16GroupId=u16GlobalGroupId;
-										payLoad.u8SceneId=2;
-										status=eCLD_ScenesCommandRecallSceneRequestSend(DIMMERSWITCH_SWITCH_ENDPOINT,DIMMERSWITCH_SWITCH_ENDPOINT,&sDestinationAddress,&u8Seq,&payLoad);
-										DBG_vPrintf(TRACE_SWITCH_NODE,"Recall scene 0 =%d\n",status);
-									}
+                                DBG_vPrintf(TRACE_SWITCH_NODE, "Start Long Pressed timer\n");
+                                ZTIMER_eStart(u8TimerButtonLongPressed, APP_BUTTONS_LONG_PRESSED_TIMEOUT);
+                            }
+                            break;
 
-								}
-							}
-							else if(sDeviceDesc.eNodeState == E_STARTUP)
-							{
-							
-							}
-						}
-						break;
-					}
+                        case APP_E_BUTTONS_BUTTON_SW1:
+                            {
+                                if(sDeviceDesc.eNodeState == E_RUNNING)
+                                {
+                                    teZCL_Status status;
+                                    static bool flag = FALSE;
+                                    if(!flag)
+                                    {
+                                        flag = TRUE;
+                                    }
+                                    else
+                                    {
+                                        flag = FALSE;
+                                    }
+
+                                    if(flag)
+                                    {
+                                        //scene 1
+                                        uint8 u8Seq;
+                                        tsZCL_Address sDestinationAddress;
+                                        tsCLD_ScenesRecallSceneRequestPayload payLoad;
+                                        sDestinationAddress.eAddressMode = E_ZCL_AM_GROUP;
+                                        sDestinationAddress.uAddress.u16GroupAddress = u16GlobalGroupId;
+
+                                        payLoad.u16GroupId = u16GlobalGroupId;
+                                        payLoad.u8SceneId = 1;
+                                        status = eCLD_ScenesCommandRecallSceneRequestSend(DIMMERSWITCH_SWITCH_ENDPOINT, DIMMERSWITCH_SWITCH_ENDPOINT, &sDestinationAddress, &u8Seq, &payLoad);
+                                        DBG_vPrintf(TRACE_SWITCH_NODE, "Recall scene 1 =%d\n", status);
+                                    }
+                                    else
+                                    {
+                                        //scene 2
+                                        uint8 u8Seq;
+                                        tsZCL_Address sDestinationAddress;
+                                        tsCLD_ScenesRecallSceneRequestPayload payLoad;
+                                        sDestinationAddress.eAddressMode = E_ZCL_AM_GROUP;
+                                        sDestinationAddress.uAddress.u16GroupAddress = u16GlobalGroupId;
+
+                                        payLoad.u16GroupId = u16GlobalGroupId;
+                                        payLoad.u8SceneId = 2;
+                                        status = eCLD_ScenesCommandRecallSceneRequestSend(DIMMERSWITCH_SWITCH_ENDPOINT, DIMMERSWITCH_SWITCH_ENDPOINT, &sDestinationAddress, &u8Seq, &payLoad);
+                                        DBG_vPrintf(TRACE_SWITCH_NODE, "Recall scene 0 =%d\n", status);
+                                    }
+                                }
+                                else if(sDeviceDesc.eNodeState == E_STARTUP)
+                                {
+
+                                }
+                            }
+                            break;
+                    }
 #ifdef SLEEP_ENABLE
-                  vReloadSleepTimers();
+                    vReloadSleepTimers();
 #endif
-				previousKeyStatus=TRUE;
-				break;
+                    break;
                 case APP_E_EVENT_BUTTON_UP:
-					switch(sAppEvent.uEvent.sButton.u8Button)
-					{
-						case APP_E_BUTTONS_BUTTON_1:
-						{
-							if(sDeviceDesc.eNodeState == E_STARTUP && previousKeyStatus == TRUE)
-							{
-								DBG_vPrintf(TRACE_SWITCH_NODE,"APP_taskSwitch: Start Steering \n");
+                    switch(sAppEvent.uEvent.sButton.u8Button)
+                    {
+                        case APP_E_BUTTONS_BUTTON_1:
+                            {
+                                if(ZTIMER_eGetState(u8TimerButtonLongPressed) != E_ZTIMER_STATE_STOPPED)
+                                {
+                                    DBG_vPrintf(TRACE_SWITCH_NODE, "Stop Long Pressed timer\n");
+                                    ZTIMER_eStop(u8TimerButtonLongPressed);
+                                }
+                            }
+                            break;
 
-								// TODO: blink led indicate
-								memset(&ledVsetParam,0,sizeof(ledVsetParam));
-								ledVsetParam.duty=10;
-								ledVsetParam.period=1000;
-								ledVsetParam.times=1;
-								ZTIMER_eStart(u8TimerLedBlinks,1);
-								
-								sBDB.sAttrib.u32bdbPrimaryChannelSet = BDB_PRIMARY_CHANNEL_SET;
-								sBDB.sAttrib.u32bdbSecondaryChannelSet = 0;
-								BDB_eNsStartNwkSteering();
-							}						
-							if(ZTIMER_eGetState(u8TimerButtonLongPressed) != E_ZTIMER_STATE_EXPIRED)
-							{
-								DBG_vPrintf(TRACE_SWITCH_NODE, "Stop Long Pressed timer\n");
-								ZTIMER_eStop(u8TimerButtonLongPressed);
-							}
-						}
-						break;
-						case APP_E_BUTTONS_BUTTON_SW1:
-						{
-							if (sDeviceDesc.eNodeState == E_RUNNING)
-							{
-								//rejoin failed previous,we need retry whenever key released
-								if(sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_NO_NETWORK)
-								{
-									sBDB.sAttrib.u32bdbPrimaryChannelSet = BDB_PRIMARY_CHANNEL_SET;
-									sBDB.sAttrib.u32bdbSecondaryChannelSet = 0;
-									BDB_eNsStartNwkSteering();
-								}
-							}
-							else if(sDeviceDesc.eNodeState == E_STARTUP)
-							{
-							
-							}
-						}
-						break;
-					}
+                        case APP_E_BUTTONS_BUTTON_SW1:
+                            {
+
+                            }
+                            break;
+                    }
 #ifdef SLEEP_ENABLE
-                  vReloadSleepTimers();
+                    vReloadSleepTimers();
 #endif
 
-				previousKeyStatus=FALSE;
-				break;
+                    break;
 
-				case APP_E_EVENT_BUTTON_ALL_UP:
-					//factory and not steering mode
-					if(sDeviceDesc.eNodeState == E_STARTUP && sBDB.sAttrib.ebdbCommissioningStatus != E_BDB_COMMISSIONING_STATUS_IN_PROGRESS)
-					{		
-	// Go to deep sleep
+                case APP_E_EVENT_BUTTON_ALL_UP:
+                    if(sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_IN_PROGRESS)
+                    {
+                        // Go to deep sleep
 #ifdef SLEEP_ENABLE
-						vLoadKeepAliveTime(0);
+                        vLoadKeepAliveTime(0);
 #ifdef DEEP_SLEEP_ENABLE
-						vLoadDeepSleepTimer(0);
-						vUpdateKeepAliveTimer();
+                        vLoadDeepSleepTimer(0);
+                        vUpdateKeepAliveTimer();
 #endif
-#endif						
-					}else if(sDeviceDesc.eNodeState == E_RUNNING && sBDB.sAttrib.ebdbCommissioningStatus != E_BDB_COMMISSIONING_STATUS_SUCCESS)
-					{
-						sBDB.sAttrib.u32bdbPrimaryChannelSet = BDB_PRIMARY_CHANNEL_SET;
-						sBDB.sAttrib.u32bdbSecondaryChannelSet = 0;
-						BDB_eNsStartNwkSteering();
-					}
-                break;
+#endif
+                    }
+                    else if(sDeviceDesc.eNodeState == E_STARTUP &&
+                            sBDB.sAttrib.ebdbCommissioningStatus != E_BDB_COMMISSIONING_STATUS_IN_PROGRESS &&
+                            ZTIMER_eGetState(u8TimerLedBlinks) != E_ZTIMER_STATE_RUNNING)
+                    {
+                        //factory and not steering mode && not led blinking
+                        // Go to deep sleep
+#ifdef SLEEP_ENABLE
+                        vLoadKeepAliveTime(0);
+#ifdef DEEP_SLEEP_ENABLE
+                        vLoadDeepSleepTimer(0);
+                        vUpdateKeepAliveTimer();
+#endif
+#endif
+                    }
+                    else if(sDeviceDesc.eNodeState == E_RUNNING && sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_NO_NETWORK)
+                    {
+                        sBDB.sAttrib.u32bdbPrimaryChannelSet = BDB_PRIMARY_CHANNEL_SET;
+                        sBDB.sAttrib.u32bdbSecondaryChannelSet = 0;
+                        BDB_eNsStartNwkSteering();
+                    }
+                    break;
 
                 default:
-                break;
-            }        
+                    break;
+            }
 
         }
     }
@@ -879,17 +860,17 @@ PUBLIC void APP_taskSwitch(void)
  * void
  *
  ****************************************************************************/
-PRIVATE void vHandleJoinAndRejoin( void  )
+PRIVATE void vHandleJoinAndRejoin(void)
 {
     DBG_vPrintf(TRACE_SWITCH_NODE, "DEVICE_IN_NETWORK \n");
     uint64 u64MacAddr = *((uint64*)pvAppApiGetMacAddrLocation());
     DBG_vPrintf(TRACE_SWITCH_NODE, "vHandleJoinAndRejoin: eNodeState = E_RUNNING\n");
     sDeviceDesc.eNodeState = E_RUNNING;
-    u16GroupId = ((uint16)u64MacAddr) ^ ((uint16)(u64MacAddr>>16));
+    u16GroupId = ((uint16)u64MacAddr) ^ ((uint16)(u64MacAddr >> 16));
     vSetIndividualLightInformation();
     PDM_eSaveRecordData(PDM_ID_APP_ZLO_SWITCH,
-                            &sDeviceDesc,
-                            sizeof(tsDeviceDesc));
+                        &sDeviceDesc,
+                        sizeof(tsDeviceDesc));
     ZPS_vSaveAllZpsRecords();
     /* Stop Fast polling */
     vStartFastPolling(0);
@@ -920,9 +901,9 @@ PRIVATE void vActionOnButtonActivationAfterDeepSleep(void)
     sButton.eType = APP_E_EVENT_NONE;
     sButton.uEvent.sButton.u32DIOState = u32DIOState;
 
-    if ( 0 == (u32DIOState & ON) )
+    if(0 == (u32DIOState & ON))
     {
-        sButton.uEvent.sButton.u8Button=ON_PRESSED;
+        sButton.uEvent.sButton.u8Button = ON_PRESSED;
         sButton.eType = APP_E_EVENT_BUTTON_DOWN;
     }
     ZQ_bQueueSend(&APP_msgAppEvents, &sButton);
@@ -957,7 +938,7 @@ PUBLIC void vLoadDeepSleepTimer(uint8 u8SleepTime)
  ****************************************************************************/
 PUBLIC bool bGoingDeepSleep(void)
 {
-    if (0==u8DeepSleepTime)
+    if(0 == u8DeepSleepTime)
     {
         return TRUE;
     }
@@ -982,10 +963,10 @@ PUBLIC bool bGoingDeepSleep(void)
 PRIVATE void vLoadKeepAliveTime(uint8 u8TimeInSec)
 {
     //uint8 a;
-    u8KeepAliveTime=u8TimeInSec;
-    ZTIMER_eStop( u8TimerPoll);
+    u8KeepAliveTime = u8TimeInSec;
+    ZTIMER_eStop(u8TimerPoll);
     ZTIMER_eStart(u8TimerPoll, POLL_TIME);
-    ZTIMER_eStop( u8TimerTick);
+    ZTIMER_eStop(u8TimerTick);
     ZTIMER_eStart(u8TimerTick, ZCL_TICK_TIME);
 }
 
@@ -1002,7 +983,7 @@ PRIVATE void vLoadKeepAliveTime(uint8 u8TimeInSec)
  ****************************************************************************/
 PUBLIC bool bWaitingToSleep(void)
 {
-    if (0 == u8KeepAliveTime)
+    if(0 == u8KeepAliveTime)
         return TRUE;
     else
         return FALSE;
@@ -1043,54 +1024,54 @@ PUBLIC void vUpdateKeepAliveTimer(void)
 {
     te_SwitchState eSwitchState = eGetSwitchState();
 
-    if( (eSwitchState == LIGHT_CONTROL_MODE ) || (eSwitchState == INDIVIDUAL_CONTROL_MODE ) )
+    if((eSwitchState == LIGHT_CONTROL_MODE) || (eSwitchState == INDIVIDUAL_CONTROL_MODE))
     {
-        if( u8KeepAliveTime > 0 )
+        if(u8KeepAliveTime > 0)
         {
             u8KeepAliveTime--;
-            DBG_vPrintf(TRACE_SWITCH_NODE,"\n KeepAliveTime = %d \n",u8KeepAliveTime);
+            DBG_vPrintf(TRACE_SWITCH_NODE, "\n KeepAliveTime = %d \n", u8KeepAliveTime);
         }
         else
         {
             vStopAllTimers();
-            DBG_vPrintf(TRACE_SWITCH_NODE,"\n Activity %d, KeepAliveTime = %d \n",PWRM_u16GetActivityCount(),u8KeepAliveTime);
+            DBG_vPrintf(TRACE_SWITCH_NODE, "\n Activity %d, KeepAliveTime %d, u8DeepSleepTime %d\n", PWRM_u16GetActivityCount(), u8KeepAliveTime, u8DeepSleepTime);
 
-            #ifdef DEEP_SLEEP_ENABLE
-                if(u8DeepSleepTime > 0 )
-                {
-                    u8DeepSleepTime--;
-                    /* The activity counter seems to be still greater than 0 - Go back to be awake, Try again in the next sleep time*/
-                    if(PWRM_u16GetActivityCount())
-                    {
-                        DBG_vPrintf(TRACE_SWITCH_NODE,"\n Abort Sleep - Reload timers\n");
-                        vReloadSleepTimers();
-                    }
-                    else
-                    {
-                        PWRM_teStatus eStatus = PWRM_eScheduleActivity(&sWake, APP_LONG_SLEEP_DURATION_IN_SEC*32000 , vWakeCallBack);
-                        DBG_vPrintf(TRACE_SWITCH_NODE,"\nSleep Status = %d, u8DeepSleepTime = %d \n",eStatus,u8DeepSleepTime);
-                    }
-                }
-                else
-                {
-                    /*It is OK to force a deep sleep by finishing activities when we intent to enter the deep sleep*/
-                    while (PWRM_u16GetActivityCount())
-                        PWRM_eFinishActivity();
-                    PWRM_vInit(E_AHI_SLEEP_DEEP);
-                }
-            #else
+#ifdef DEEP_SLEEP_ENABLE
+            if(u8DeepSleepTime > 0)
+            {
+                u8DeepSleepTime--;
                 /* The activity counter seems to be still greater than 0 - Go back to be awake, Try again in the next sleep time*/
                 if(PWRM_u16GetActivityCount())
                 {
+                    DBG_vPrintf(TRACE_SWITCH_NODE, "\n Abort Sleep - Reload timers\n");
                     vReloadSleepTimers();
                 }
                 else
                 {
-                    /* The activity counter is 0 so a sleep with ram on can be scheduled*/
-                    PWRM_teStatus eStatus = PWRM_eScheduleActivity(&sWake, APP_LONG_SLEEP_DURATION_IN_SEC*32000 , vWakeCallBack);
-                    DBG_vPrintf(TRACE_SWITCH_NODE,"\nSleep Status = %d\n",eStatus);
+                    PWRM_teStatus eStatus = PWRM_eScheduleActivity(&sWake, APP_LONG_SLEEP_DURATION_IN_SEC * 32000, vWakeCallBack);
+                    DBG_vPrintf(TRACE_SWITCH_NODE, "\nSleep Status = %d, u8DeepSleepTime = %d \n", eStatus, u8DeepSleepTime);
                 }
-            #endif
+            }
+            else
+            {
+                /*It is OK to force a deep sleep by finishing activities when we intent to enter the deep sleep*/
+                while(PWRM_u16GetActivityCount())
+                    PWRM_eFinishActivity();
+                PWRM_vInit(E_AHI_SLEEP_DEEP);
+            }
+#else
+            /* The activity counter seems to be still greater than 0 - Go back to be awake, Try again in the next sleep time*/
+            if(PWRM_u16GetActivityCount())
+            {
+                vReloadSleepTimers();
+            }
+            else
+            {
+                /* The activity counter is 0 so a sleep with ram on can be scheduled*/
+                PWRM_teStatus eStatus = PWRM_eScheduleActivity(&sWake, APP_LONG_SLEEP_DURATION_IN_SEC * 32000, vWakeCallBack);
+                DBG_vPrintf(TRACE_SWITCH_NODE, "\nSleep Status = %d\n", eStatus);
+            }
+#endif
         }
     }
     else
@@ -1116,7 +1097,7 @@ PRIVATE void vDeletePDMOnButtonPress(uint8 u8ButtonDIO)
 {
     bool_t bDeleteRecords = FALSE;
     uint32 u32Buttons = u32AHI_DioReadInput() & (1 << u8ButtonDIO);
-    if (u32Buttons == 0)
+    if(u32Buttons == 0)
     {
         bDeleteRecords = TRUE;
     }
@@ -1132,9 +1113,10 @@ PRIVATE void vDeletePDMOnButtonPress(uint8 u8ButtonDIO)
      */
     if(bDeleteRecords)
     {
-        if (ZPS_E_SUCCESS !=  ZPS_eAplZdoLeaveNetwork(0, FALSE,FALSE)) {
+        if(ZPS_E_SUCCESS !=  ZPS_eAplZdoLeaveNetwork(0, FALSE, FALSE))
+        {
             /* Leave failed, probably lost parent, so just reset everything */
-            DBG_vPrintf(TRACE_SWITCH_NODE,"Deleting the PDM\n");
+            DBG_vPrintf(TRACE_SWITCH_NODE, "Deleting the PDM\n");
             PDM_vDeleteAllDataRecords();
             vAHI_SwReset();
         }
@@ -1156,19 +1138,21 @@ PRIVATE void vDeletePDMOnButtonPress(uint8 u8ButtonDIO)
  * void
  *
  ****************************************************************************/
-PUBLIC void vAppOnOff(teCLD_OnOff_Command eCmd) {
+PUBLIC void vAppOnOff(teCLD_OnOff_Command eCmd)
+{
 
     uint8 u8Seq;
     tsZCL_Address sAddress;
 
     vSetAddress(&sAddress, FALSE, GENERAL_CLUSTER_ID_ONOFF);
 
-    if ((eCmd == E_CLD_ONOFF_CMD_ON) || (eCmd == E_CLD_ONOFF_CMD_OFF) || (eCmd
-            == E_CLD_ONOFF_CMD_TOGGLE)) {
+    if((eCmd == E_CLD_ONOFF_CMD_ON) || (eCmd == E_CLD_ONOFF_CMD_OFF) || (eCmd
+            == E_CLD_ONOFF_CMD_TOGGLE))
+    {
         eCLD_OnOffCommandSend(
-                u8MyEndpoint,
-                sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
-                &sAddress, &u8Seq, eCmd);
+            u8MyEndpoint,
+            sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
+            &sAddress, &u8Seq, eCmd);
     }
 }
 
@@ -1184,21 +1168,22 @@ PUBLIC void vAppOnOff(teCLD_OnOff_Command eCmd) {
  * void
  *
  ****************************************************************************/
-PUBLIC void vAppIdentify( uint16 u16Time) {
+PUBLIC void vAppIdentify(uint16 u16Time)
+{
     uint8 u8Seq;
     tsZCL_Address sAddress;
     tsCLD_Identify_IdentifyRequestPayload sPayload;
 
     sPayload.u16IdentifyTime = u16Time;
 
-    vSetAddress(&sAddress,FALSE,GENERAL_CLUSTER_ID_IDENTIFY);
+    vSetAddress(&sAddress, FALSE, GENERAL_CLUSTER_ID_IDENTIFY);
 
     eCLD_IdentifyCommandIdentifyRequestSend(
-                            u8MyEndpoint,
-                            sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
-                            &sAddress,
-                            &u8Seq,
-                            &sPayload);
+        u8MyEndpoint,
+        sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
+        &sAddress,
+        &u8Seq,
+        &sPayload);
 }
 
 /****************************************************************************
@@ -1218,18 +1203,18 @@ PUBLIC void vAppLevelMove(teCLD_LevelControl_MoveMode eMode, uint8 u8Rate, bool_
     uint8 u8Seq;
     tsZCL_Address sAddress;
 
-    vSetAddress(&sAddress, FALSE,GENERAL_CLUSTER_ID_LEVEL_CONTROL);
+    vSetAddress(&sAddress, FALSE, GENERAL_CLUSTER_ID_LEVEL_CONTROL);
 
     sPayload.u8Rate = u8Rate;
     sPayload.u8MoveMode = eMode;
 
     eCLD_LevelControlCommandMoveCommandSend(
-                                    u8MyEndpoint,
-                                    sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
-                                    &sAddress,
-                                    &u8Seq,
-                                    bWithOnOff, /* with on off */
-                                    &sPayload);
+        u8MyEndpoint,
+        sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
+        &sAddress,
+        &u8Seq,
+        bWithOnOff, /* with on off */
+        &sPayload);
 }
 
 
@@ -1250,14 +1235,14 @@ PUBLIC void vAppLevelStop(void)
     uint8 u8Seq;
     tsZCL_Address sAddress;
 
-    vSetAddress(&sAddress, FALSE,GENERAL_CLUSTER_ID_LEVEL_CONTROL);
+    vSetAddress(&sAddress, FALSE, GENERAL_CLUSTER_ID_LEVEL_CONTROL);
     eCLD_LevelControlCommandStopCommandSend(
-                        u8MyEndpoint,
-                        sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
-                        &sAddress,
-                        &u8Seq,
-                        FALSE, /* without on off */
-                        &sPayload);
+        u8MyEndpoint,
+        sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
+        &sAddress,
+        &u8Seq,
+        FALSE, /* without on off */
+        &sPayload);
 }
 
 
@@ -1278,18 +1263,18 @@ PUBLIC void vAppLevelStepMove(teCLD_LevelControl_MoveMode eMode)
     uint8 u8Seq;
     tsZCL_Address sAddress;
 
-    vSetAddress(&sAddress, FALSE,GENERAL_CLUSTER_ID_LEVEL_CONTROL);
+    vSetAddress(&sAddress, FALSE, GENERAL_CLUSTER_ID_LEVEL_CONTROL);
 
     sPayload.u16TransitionTime = 0x000a;
     sPayload.u8StepMode = eMode;
     sPayload.u8StepSize = 0x20;
     eCLD_LevelControlCommandStepCommandSend(
-                        u8MyEndpoint,
-                        sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
-                        &sAddress,
-                        &u8Seq,
-                        FALSE,               /* with on off */
-                        &sPayload);
+        u8MyEndpoint,
+        sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
+        &sAddress,
+        &u8Seq,
+        FALSE,               /* with on off */
+        &sPayload);
 }
 
 #ifdef CLD_SCENES
@@ -1304,14 +1289,14 @@ PUBLIC void vAppLevelStepMove(teCLD_LevelControl_MoveMode eMode)
  * void
  *
  ****************************************************************************/
-PUBLIC void vAppRecallSceneById( uint8 u8SceneId, uint16 u16GroupId)
+PUBLIC void vAppRecallSceneById(uint8 u8SceneId, uint16 u16GroupId)
 {
 
     tsCLD_ScenesRecallSceneRequestPayload sPayload;
     uint8 u8Seq;
     tsZCL_Address sAddress;
 
-    vSetAddress(&sAddress, FALSE,GENERAL_CLUSTER_ID_SCENES);
+    vSetAddress(&sAddress, FALSE, GENERAL_CLUSTER_ID_SCENES);
 
     DBG_vPrintf(TRACE_SWITCH_NODE, "\nRecall Scene %d\n", u8SceneId);
 
@@ -1320,11 +1305,11 @@ PUBLIC void vAppRecallSceneById( uint8 u8SceneId, uint16 u16GroupId)
     sPayload.u16TransitionTime = 0x0000;
 
     eCLD_ScenesCommandRecallSceneRequestSend(
-                            u8MyEndpoint,
-                            sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
-                            &sAddress,
-                            &u8Seq,
-                            &sPayload);
+        u8MyEndpoint,
+        sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
+        &sAddress,
+        &u8Seq,
+        &sPayload);
 
 }
 /****************************************************************************
@@ -1353,11 +1338,11 @@ PUBLIC void vAppStoreSceneById(uint8 u8SceneId, uint16 u16GroupId)
 
 
     eCLD_ScenesCommandStoreSceneRequestSend(
-                            u8MyEndpoint,
-                            sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,   /* dst ep */
-                            &sAddress,
-                            &u8Seq,
-                            &sPayload);
+        u8MyEndpoint,
+        sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,   /* dst ep */
+        &sAddress,
+        &u8Seq,
+        &sPayload);
 
 }
 
@@ -1374,14 +1359,14 @@ PUBLIC void vAppStoreSceneById(uint8 u8SceneId, uint16 u16GroupId)
  * void
  *
  ****************************************************************************/
-PUBLIC void vAppAddGroup( uint16 u16GroupId, bool_t bBroadcast)
+PUBLIC void vAppAddGroup(uint16 u16GroupId, bool_t bBroadcast)
 {
 
     tsCLD_Groups_AddGroupRequestPayload sPayload;
     uint8 u8Seq;
     tsZCL_Address sAddress;
 
-    vSetAddress(&sAddress, bBroadcast,GENERAL_CLUSTER_ID_GROUPS);
+    vSetAddress(&sAddress, bBroadcast, GENERAL_CLUSTER_ID_GROUPS);
 
     sPayload.sGroupName.pu8Data = (uint8*)"";
     sPayload.sGroupName.u8Length = 0;
@@ -1389,11 +1374,11 @@ PUBLIC void vAppAddGroup( uint16 u16GroupId, bool_t bBroadcast)
     sPayload.u16GroupId = u16GroupId;
 
     eCLD_GroupsCommandAddGroupRequestSend(
-                            u8MyEndpoint,
-                            sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
-                            &sAddress,
-                            &u8Seq,
-                            &sPayload);
+        u8MyEndpoint,
+        sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
+        &sAddress,
+        &u8Seq,
+        &sPayload);
 
 }
 
@@ -1408,23 +1393,23 @@ PUBLIC void vAppAddGroup( uint16 u16GroupId, bool_t bBroadcast)
  * void
  *
  ****************************************************************************/
-PUBLIC void vAppRemoveGroup( uint16 u16GroupId, bool_t bBroadcast)
+PUBLIC void vAppRemoveGroup(uint16 u16GroupId, bool_t bBroadcast)
 {
 
     tsCLD_Groups_RemoveGroupRequestPayload sPayload;
     uint8 u8Seq;
     tsZCL_Address sAddress;
 
-    vSetAddress(&sAddress, bBroadcast,GENERAL_CLUSTER_ID_GROUPS);
+    vSetAddress(&sAddress, bBroadcast, GENERAL_CLUSTER_ID_GROUPS);
 
     sPayload.u16GroupId = u16GroupId;
 
     eCLD_GroupsCommandRemoveGroupRequestSend(
-                            u8MyEndpoint,
-                            sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
-                            &sAddress,
-                            &u8Seq,
-                            &sPayload);
+        u8MyEndpoint,
+        sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
+        &sAddress,
+        &u8Seq,
+        &sPayload);
 
 }
 
@@ -1445,13 +1430,13 @@ PUBLIC void vAppRemoveAllGroups(bool_t bBroadcast)
     uint8 u8Seq;
     tsZCL_Address sAddress;
 
-    vSetAddress(&sAddress, bBroadcast,GENERAL_CLUSTER_ID_GROUPS);
+    vSetAddress(&sAddress, bBroadcast, GENERAL_CLUSTER_ID_GROUPS);
 
     eCLD_GroupsCommandRemoveAllGroupsRequestSend(
-                            u8MyEndpoint,
-                            sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
-                            &sAddress,
-                            &u8Seq);
+        u8MyEndpoint,
+        sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u8Ep,
+        &sAddress,
+        &u8Seq);
 
 }
 
@@ -1485,25 +1470,25 @@ PUBLIC void vStopTimer(uint8 u8Timer)
  ****************************************************************************/
 PUBLIC void vManageWakeUponSysControlISR(teInterruptType eInterruptType)
 {
-    #ifdef SLEEP_ENABLE
-        /*In any case this could be a wake up from timer interrupt or from buttons
-         * press
-         * */
-        if(TRUE == bWakeUpFromSleep())
+#ifdef SLEEP_ENABLE
+    /*In any case this could be a wake up from timer interrupt or from buttons
+     * press
+     * */
+    if(TRUE == bWakeUpFromSleep())
+    {
+        /*Only called if the module is coming out of sleep */
+#ifdef CLD_OTA
+        if(eInterruptType == E_INTERRUPT_WAKE_TIMER_EXPIRY)
         {
-            /*Only called if the module is coming out of sleep */
-            #ifdef CLD_OTA
-                if(eInterruptType == E_INTERRUPT_WAKE_TIMER_EXPIRY)
-                {
-                    /* Increment time out value by sleep duration in seconds */
-                    vIncrementTimeOut(APP_LONG_SLEEP_DURATION_IN_SEC);
-                }
-            #endif
-            /*Only called if the module is coming out of sleep */
-            DBG_vPrintf(TRACE_SWITCH_NODE,"vISR_SystemController on WakeUP\n\n");
-            vLoadKeepAliveTime(KEEP_ALIVETIME);
+            /* Increment time out value by sleep duration in seconds */
+            vIncrementTimeOut(APP_LONG_SLEEP_DURATION_IN_SEC);
         }
-    #endif
+#endif
+        /*Only called if the module is coming out of sleep */
+        DBG_vPrintf(TRACE_SWITCH_NODE, "vISR_SystemController on WakeUP\n\n");
+        vLoadKeepAliveTime(KEEP_ALIVETIME);
+    }
+#endif
 }
 #ifdef SLEEP_ENABLE
 /****************************************************************************
@@ -1545,31 +1530,31 @@ PUBLIC void APP_cbTimerPoll(void *pvParam)
 
 
     if(
-    #ifdef SLEEP_ENABLE
-      !bWaitingToSleep() &&
-    #endif
-       /* Do fast polling when the device is running */
-      ((sDeviceDesc.eNodeState == E_RUNNING) || (sDeviceDesc.eNodeState == E_WAIT_STARTUP)))
+#ifdef SLEEP_ENABLE
+        !bWaitingToSleep() &&
+#endif
+        /* Do fast polling when the device is running */
+        ((sDeviceDesc.eNodeState == E_RUNNING) || (sDeviceDesc.eNodeState == E_WAIT_STARTUP)))
 
     {
 
-        if( u16FastPoll )
+        if(u16FastPoll)
         {
             u16FastPoll--;
             u32PollPeriod = POLL_TIME_FAST;
             /*Reload the Sleep timer during fast poll*/
-            #ifdef SLEEP_ENABLE
-                vReloadSleepTimers();
-            #endif
+#ifdef SLEEP_ENABLE
+            vReloadSleepTimers();
+#endif
         }
         ZTIMER_eStop(u8TimerPoll);
         ZTIMER_eStart(u8TimerPoll, u32PollPeriod);
 
         ZPS_teStatus u8PStatus;
         u8PStatus = ZPS_eAplZdoPoll();
-        if( u8PStatus )
+        if(u8PStatus)
         {
-            DBG_vPrintf(TRACE_SWITCH_NODE, "\nPoll Failed %d\n", u8PStatus );
+            DBG_vPrintf(TRACE_SWITCH_NODE, "\nPoll Failed %d\n", u8PStatus);
         }
     }
 }
@@ -1587,7 +1572,7 @@ PUBLIC void APP_cbTimerPoll(void *pvParam)
  ****************************************************************************/
 PRIVATE void vSetAddress(tsZCL_Address * psAddress, bool_t bBroadcast, uint16 u16ClusterId)
 {
-    if (bBroadcast)
+    if(bBroadcast)
     {
         DBG_vPrintf(TRACE_SWITCH_NODE, "\r\nBcast");
         psAddress->eAddressMode = E_ZCL_AM_BROADCAST;
@@ -1596,7 +1581,7 @@ PRIVATE void vSetAddress(tsZCL_Address * psAddress, bool_t bBroadcast, uint16 u1
     else
     {
         /*Get The switch states to decide the address mode to be taken up.*/
-        switch (eGetSwitchState())
+        switch(eGetSwitchState())
         {
             case LIGHT_CONTROL_MODE:
                 /*By Default chose Group Addressing*/
@@ -1608,11 +1593,11 @@ PRIVATE void vSetAddress(tsZCL_Address * psAddress, bool_t bBroadcast, uint16 u1
             case COMMISSIONING_MODE:
             case INDIVIDUAL_CONTROL_MODE:
                 DBG_vPrintf(TRACE_SWITCH_NODE, "\nUcastMatch");
-                if(sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u16Address <= 0xFFF8 )
+                if(sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u16Address <= 0xFFF8)
                 {
                     psAddress->eAddressMode = E_ZCL_AM_SHORT_NO_ACK;
                     psAddress->uAddress.u16DestinationAddress = sDeviceInfo.sLightInfo[sDeviceInfo.u8Index].u16Address;
-                    DBG_vPrintf(TRACE_SWITCH_NODE, "\nAddress %d",psAddress->uAddress.u16DestinationAddress);
+                    DBG_vPrintf(TRACE_SWITCH_NODE, "\nAddress %d", psAddress->uAddress.u16DestinationAddress);
                 }
                 else
                 {
@@ -1641,14 +1626,14 @@ PRIVATE void vSetAddress(tsZCL_Address * psAddress, bool_t bBroadcast, uint16 u1
  * bool
  *
  ****************************************************************************/
-PRIVATE bool bAddressInTable( uint16 u16AddressToCheck )
+PRIVATE bool bAddressInTable(uint16 u16AddressToCheck)
 {
     uint8 i;
 
-    for( i=0; i < NUMBER_DEVICE_TO_BE_DISCOVERED; i++ )
+    for(i = 0; i < NUMBER_DEVICE_TO_BE_DISCOVERED; i++)
     {
         /* Commented out due to excessive calls */
-        if(sDeviceInfo.sLightInfo[i].u16Address == u16AddressToCheck )
+        if(sDeviceInfo.sLightInfo[i].u16Address == u16AddressToCheck)
         {
             DBG_vPrintf(TRACE_SWITCH_NODE, "\ndup!");
             return TRUE;
@@ -1680,7 +1665,7 @@ PUBLIC void vSelectLight(void)
         if(sDeviceInfo.u8Index > 0)
             sDeviceInfo.u8Index--;
         else
-            sDeviceInfo.u8Index = sDeviceInfo.u8Discovered-1;
+            sDeviceInfo.u8Index = sDeviceInfo.u8Discovered - 1;
         /* Send identify to the selected node */
         vAppIdentify(APP_IDENTIFY_TIME_IN_SECS);
     }
@@ -1707,32 +1692,32 @@ PUBLIC void vSetIndividualLightInformation(void)
 
     if(psAplAib->psAplApsmeAibBindingTable == NULL)
     {
-        DBG_vPrintf(TRACE_SWITCH_NODE,"\n No Binding Table");
+        DBG_vPrintf(TRACE_SWITCH_NODE, "\n No Binding Table");
         return;
     }
     else
     {
         u8BindingTableSize = psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].u32SizeOfBindingTable;
-        DBG_vPrintf(TRACE_SWITCH_NODE, "\nBind Size %d",  u8BindingTableSize );
-        if( 0 == u8BindingTableSize)
+        DBG_vPrintf(TRACE_SWITCH_NODE, "\nBind Size %d",  u8BindingTableSize);
+        if(0 == u8BindingTableSize)
         {
-            DBG_vPrintf(TRACE_SWITCH_NODE,"\n Binding Table WithOut Any Entry ");
+            DBG_vPrintf(TRACE_SWITCH_NODE, "\n Binding Table WithOut Any Entry ");
             return;
         }
         else
         {
             uint32 j;
-            for( j = 0 ; j < psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].u32SizeOfBindingTable ; j++ )
+            for(j = 0 ; j < psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].u32SizeOfBindingTable ; j++)
             {
-                DBG_vPrintf(TRACE_SWITCH_NODE, "\n Looping Binding Table = %d ",j );
-                if ( ((GENERAL_CLUSTER_ID_ONOFF == psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u16ClusterId) ||
-                        (GENERAL_CLUSTER_ID_LEVEL_CONTROL == psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u16ClusterId)) &&
-                         (psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u8DstAddrMode == E_ZCL_AM_IEEE))
+                DBG_vPrintf(TRACE_SWITCH_NODE, "\n Looping Binding Table = %d ", j);
+                if(((GENERAL_CLUSTER_ID_ONOFF == psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u16ClusterId) ||
+                    (GENERAL_CLUSTER_ID_LEVEL_CONTROL == psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u16ClusterId)) &&
+                   (psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u8DstAddrMode == E_ZCL_AM_IEEE))
                 {
                     //DBG_vPrintf(TRACE_SWITCH_NODE,"\n Binding Table Entry for Address = %016llx ",psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].uDstAddress.u64Addr);
-                    DBG_vPrintf(TRACE_SWITCH_NODE,"\n Binding Table Entry for Address = %016llx ",ZPS_u64NwkNibGetMappedIeeeAddr( ZPS_pvAplZdoGetNwkHandle(), psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u16AddrOrLkUp));
+                    DBG_vPrintf(TRACE_SWITCH_NODE, "\n Binding Table Entry for Address = %016llx ", ZPS_u64NwkNibGetMappedIeeeAddr(ZPS_pvAplZdoGetNwkHandle(), psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u16AddrOrLkUp));
                     //u16NwkAddressOfInterest = ZPS_u16AplZdoLookupAddr(psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].uDstAddress.u64Addr);
-                    u16NwkAddressOfInterest = ZPS_u16AplZdoLookupAddr(ZPS_u64NwkNibGetMappedIeeeAddr( ZPS_pvAplZdoGetNwkHandle(), psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u16AddrOrLkUp));
+                    u16NwkAddressOfInterest = ZPS_u16AplZdoLookupAddr(ZPS_u64NwkNibGetMappedIeeeAddr(ZPS_pvAplZdoGetNwkHandle(), psAplAib->psAplApsmeAibBindingTable->psAplApsmeBindingTable[0].pvAplApsmeBindingTableEntryForSpSrcAddr[j].u16AddrOrLkUp));
                     if(bAddressInTable(u16NwkAddressOfInterest) == FALSE)
                     {
                         sDeviceInfo.sLightInfo[sDeviceInfo.u8Discovered].u16Address = u16NwkAddressOfInterest;
@@ -1756,50 +1741,50 @@ PUBLIC void vSetIndividualLightInformation(void)
 * void
 *
 ****************************************************************************/
-PUBLIC void vAppChangeChannel( void)
+PUBLIC void vAppChangeChannel(void)
 {
     /*Primary channel Set */
-    uint8 au8ZHAChannelSet[]={11,14,15,19,20,24,25};
+    uint8 au8ZHAChannelSet[] = {11, 14, 15, 19, 20, 24, 25};
 
     ZPS_tsAplZdpMgmtNwkUpdateReq sZdpMgmtNwkUpdateReq;
     PDUM_thAPduInstance hAPduInst;
     ZPS_tuAddress uDstAddr;
     uint8 u8Seq;
-    uint8 u8Min=0, u8Max=6;
+    uint8 u8Min = 0, u8Max = 6;
     uint8 u8CurrentChannel, u8RandomNum;
 
     hAPduInst = PDUM_hAPduAllocateAPduInstance(apduZDP);
-    if (hAPduInst != NULL)
+    if(hAPduInst != NULL)
     {
         sZdpMgmtNwkUpdateReq.u8ScanDuration = 0xfe;
 
         u8CurrentChannel = ZPS_u8AplZdoGetRadioChannel();
-        u8RandomNum = RND_u32GetRand(u8Min,u8Max);
+        u8RandomNum = RND_u32GetRand(u8Min, u8Max);
         if(u8CurrentChannel != au8ZHAChannelSet[u8RandomNum])
         {
-            sZdpMgmtNwkUpdateReq.u32ScanChannels = (1<<au8ZHAChannelSet[u8RandomNum]);
+            sZdpMgmtNwkUpdateReq.u32ScanChannels = (1 << au8ZHAChannelSet[u8RandomNum]);
         }
         else /* Increment the channel by one rather than spending in RND_u32GetRand */
         {
             /*  For roll over situation */
             if(u8RandomNum == u8Max)
             {
-                sZdpMgmtNwkUpdateReq.u32ScanChannels = (1<<au8ZHAChannelSet[u8Min]);
+                sZdpMgmtNwkUpdateReq.u32ScanChannels = (1 << au8ZHAChannelSet[u8Min]);
             }
             else
             {
-                sZdpMgmtNwkUpdateReq.u32ScanChannels = (1<<au8ZHAChannelSet[u8RandomNum+1]);
+                sZdpMgmtNwkUpdateReq.u32ScanChannels = (1 << au8ZHAChannelSet[u8RandomNum + 1]);
             }
         }
 
         sZdpMgmtNwkUpdateReq.u8NwkUpdateId = ZPS_psAplZdoGetNib()->sPersist.u8UpdateId + 1;
         uDstAddr.u16Addr = 0xfffd;
 
-        if ( 0 == ZPS_eAplZdpMgmtNwkUpdateRequest( hAPduInst,
-                                         uDstAddr,
-                                         FALSE,
-                                         &u8Seq,
-                                         &sZdpMgmtNwkUpdateReq))
+        if(0 == ZPS_eAplZdpMgmtNwkUpdateRequest(hAPduInst,
+                                                uDstAddr,
+                                                FALSE,
+                                                &u8Seq,
+                                                &sZdpMgmtNwkUpdateReq))
         {
             DBG_vPrintf(TRACE_SWITCH_NODE, "update Id\n");
             /* should really be in stack?? */
@@ -1823,9 +1808,9 @@ PUBLIC void vReloadSleepTimers(void)
 {
 
     vLoadKeepAliveTime(KEEP_ALIVETIME);
-    #ifdef DEEP_SLEEP_ENABLE
-        vLoadDeepSleepTimer(DEEP_SLEEP_TIME);
-    #endif
+#ifdef DEEP_SLEEP_ENABLE
+    vLoadDeepSleepTimer(DEEP_SLEEP_TIME);
+#endif
 }
 #endif
 
@@ -1841,12 +1826,12 @@ PUBLIC void vReloadSleepTimers(void)
  * void
  *
  ****************************************************************************/
-PRIVATE void app_vRestartNode (void)
+PRIVATE void app_vRestartNode(void)
 {
     uint64 u64MacAddr = *((uint64*)pvAppApiGetMacAddrLocation());
 
     ZPS_vSaveAllZpsRecords();
-    u16GroupId = ((uint16)u64MacAddr) ^ ((uint16)(u64MacAddr>>16));
+    u16GroupId = ((uint16)u64MacAddr) ^ ((uint16)(u64MacAddr >> 16));
     /* Start 1 seconds polling */
     ZTIMER_eStart(u8TimerPoll, POLL_TIME);
 }
@@ -1934,17 +1919,17 @@ PUBLIC tsOTA_PersistedData sGetOTACallBackPersistdata(void)
  * void
  *
  ****************************************************************************/
-PUBLIC void APP_vFactoryResetRecords( void)
+PUBLIC void APP_vFactoryResetRecords(void)
 {
     /* clear out the stack */
     ZPS_vDefaultStack();
     ZPS_vSetKeys();
-    ZPS_eAplAibSetApsUseExtendedPanId (0);
+    ZPS_eAplAibSetApsUseExtendedPanId(0);
 
     /* clear out the application */
     DBG_vPrintf(TRACE_SWITCH_NODE, "vFactoryResetRecords: eNodeState = E_STARTUP\n");
     sDeviceDesc.eNodeState = E_STARTUP;
-    memset(&sDeviceInfo, 0 , sizeof(tsDeviceInfo));
+    memset(&sDeviceInfo, 0, sizeof(tsDeviceInfo));
 
 #ifdef CLD_OTA
     vOTAResetPersist();
@@ -1952,36 +1937,66 @@ PUBLIC void APP_vFactoryResetRecords( void)
 
     /* save everything */
     PDM_eSaveRecordData(PDM_ID_APP_ZLO_SWITCH,
-                            &sDeviceDesc,
-                            sizeof(tsDeviceDesc));
+                        &sDeviceDesc,
+                        sizeof(tsDeviceDesc));
     ZPS_vSaveAllZpsRecords();
 }
 
 PUBLIC void APP_cbTimerLedBlinks(void *pvParam)
 {
-	ledVset_t *param=(ledVset_t *)pvParam;
+    ledVset_t *param = (ledVset_t *)pvParam;
 
-	if(param->times > 0)
-	{
-		if(param->type == 0)
-		{
-			param->type=1;
-			APP_vSetLED(LED1,1);
-			if(param->duty>100)
-			{
-				param->duty=100;
-			}
-			ZTIMER_eStart(u8TimerLedBlinks,((uint32)param->duty * (uint32)param->period)/100);
-		}else if(param->type == 1)
-		{
-			param->times--;
-			param->type=0;
-			APP_vSetLED(LED1,0);
-			ZTIMER_eStart(u8TimerLedBlinks,((100-param->duty)* (uint32)param->period)/100);
-		}
-	}
+    if(param->times > 0)
+    {
+        if(param->type == 0)
+        {
+            param->type = 1;
+            APP_vSetLED(LED1, 1);
+            if(param->duty > 100)
+            {
+                param->duty = 100;
+            }
+            ZTIMER_eStart(u8TimerLedBlinks, ((uint32)param->duty * (uint32)param->period) / 100);
+        }
+        else if(param->type == 1)
+        {
+            param->times--;
+            param->type = 0;
+            APP_vSetLED(LED1, 0);
+            ZTIMER_eStart(u8TimerLedBlinks, ((100 - param->duty) * (uint32)param->period) / 100);
+        }
+    }
+    else
+    {
+        if(param->cb)
+        {
+            pTimerExpireCallback cbk = (pTimerExpireCallback)param->cb;
+            cbk(pvParam);
+        }
+    }
 }
 
+PUBLIC void APP_cbTimerSteering(void *pvParam)
+{
+    PDM_teStatus   ePdmStatus;
+    bool_t u8StartSteering = FALSE;
+    uint16       u16PdmRead = 0;
+
+    ePdmStatus = PDM_eReadDataFromRecord(PDM_ID_APP_START_STEERING,
+                                         &u8StartSteering,
+                                         sizeof(u8StartSteering),
+                                         &u16PdmRead);
+
+    DBG_vPrintf(TRACE_SWITCH_NODE, "%s:ePdmStatus=%d u8StartSteering=%d\n", __func__, ePdmStatus, u8StartSteering);
+    if(u8StartSteering)
+    {
+        u8StartSteering = FALSE;
+        ePdmStatus = PDM_eSaveRecordData(PDM_ID_APP_START_STEERING, &u8StartSteering, sizeof(u8StartSteering));
+        sBDB.sAttrib.u32bdbPrimaryChannelSet = BDB_PRIMARY_CHANNEL_SET;
+        sBDB.sAttrib.u32bdbSecondaryChannelSet = 0;
+        BDB_eNsStartNwkSteering();
+    }
+}
 
 /****************************************************************************/
 /***        END OF FILE                                                   ***/

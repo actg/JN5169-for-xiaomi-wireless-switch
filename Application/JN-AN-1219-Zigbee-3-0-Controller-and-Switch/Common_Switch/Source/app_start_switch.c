@@ -159,7 +159,7 @@ PUBLIC void vAppMain(void)
         vAHI_UartSetClocksPerBit(DBG_E_UART_0, 8);
     }
     #endif
-    DBG_vPrintf(TRACE_START, "\n\nAPP: Switch Power Up");
+    DBG_vPrintf(TRACE_START, "APP: Switch Power Up\n");
 
     /*
      * Initialise the stack overflow exception to trigger if the end of the
@@ -192,17 +192,14 @@ PUBLIC void vAppMain(void)
         vAHI_HighPowerModuleEnable(TRUE, TRUE);
     #endif
 
-    DBG_vPrintf(TRACE_START, "APP: Entering APP_vSetUpHardware()\n");
     APP_vSetUpHardware();
 
-    DBG_vPrintf(TRACE_START, "APP: Entering APP_vInitResources()\n");
     APP_vInitResources();
 
     /* Set IIC DIO lines to outputs */
     vAHI_DioSetDirection(0, IIC_MASK);
     vAHI_DioSetOutput(IIC_MASK, 0);
 
-    DBG_vPrintf(TRACE_START, "APP: Entering APP_vInitialise()\n");
     APP_vInitialise();
 
 #if (defined APP_NTAG_ICODE) || (defined APP_NTAG_AES)
