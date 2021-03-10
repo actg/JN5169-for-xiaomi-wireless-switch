@@ -385,10 +385,10 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
             vHandleJoinAndRejoin();
             //led indicate join successful
             memset(&ledVsetParam, 0, sizeof(ledVsetParam));
-            ledVsetParam.duty = 10;
+            ledVsetParam.duty = 50;
             ledVsetParam.period = 1000;
-            ledVsetParam.times = 3;
-            ZTIMER_eStart(u8TimerLedBlinks, 1);
+            ledVsetParam.times = 4;
+            ZTIMER_eStart(u8TimerLedBlinks, ZTIMER_TIME_MSEC(50));
             break;
 
         case BDB_EVENT_NO_NETWORK:
@@ -807,7 +807,8 @@ PUBLIC void APP_taskSwitch(void)
                     break;
 
                 case APP_E_EVENT_BUTTON_ALL_UP:
-                    if(sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_IN_PROGRESS)
+                    if(sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_IN_PROGRESS &&
+                       ZTIMER_eGetState(u8TimerLedBlinks) != E_ZTIMER_STATE_RUNNING)
                     {
                         // Go to deep sleep
 #ifdef SLEEP_ENABLE
@@ -1946,6 +1947,8 @@ PUBLIC void APP_cbTimerLedBlinks(void *pvParam)
 {
     ledVset_t *param = (ledVset_t *)pvParam;
 
+    DBG_vPrintf(TRACE_SWITCH_NODE, "%s times:%d type:%d\n",__func__,param->times,param->type);
+
     if(param->times > 0)
     {
         if(param->type == 0)
@@ -1966,7 +1969,8 @@ PUBLIC void APP_cbTimerLedBlinks(void *pvParam)
             ZTIMER_eStart(u8TimerLedBlinks, ((100 - param->duty) * (uint32)param->period) / 100);
         }
     }
-    else
+
+	if(param->times == 0)
     {
         if(param->cb)
         {

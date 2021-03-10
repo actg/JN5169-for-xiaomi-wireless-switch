@@ -4,23 +4,22 @@
 - 针对小米39元无线开关，在NXP JN5169平台的代码实现，在按键按下之后能够实现组播的方式向外发送信号，而不是官方自带的固件，只能实现向网关(短地址0x0000)发送report attribute单播指令，这样就必须依赖网关才能实现对其他设备的控制,组播的方式可以脱离网关
 - 基于DimmerSwitch示例工程开发
 - 工作在end device模式，休眠功耗0.3uA，工作功耗比较高，入网功耗大概十几毫安，组播发送指令2毫安左右
-- 入网之后默认唤醒周期为60minutes，符合child aging特性
-- LED连接的是DIO11引脚，拉高灭，拉低亮，入网成功LED闪烁3次
-- 配置按钮连接的是DIO0引脚，点击一下直接steering入网
+- 入网之后默认唤醒周期为60minutes，符合child aging特性，经过两年实测，功耗的确很低，一颗CR2032电池可以续航一年左右
+- LED连接的是DIO11引脚，拉高灭，拉低亮
 - 板子中间功能键连接的是DIO16 DIO17引脚，默认为高阻状态，因外外部有很大的上下拉电阻，大概0.9M，下降沿中断
-- 长按配置按钮3S时间，自动删除PDM恢复出厂设置，之后自动深度休眠(必须外部按键唤醒，且只有配置按钮能够实现入网操作)
-- 默认工作在11信道上，destination endpoint为8
 - 可以通过指令配置组播的地址，并写入PDM保存，重新上电自动读取组播地址
-- 入网阶段单个信道尝试3次，如果失败，直接进入深度休眠
+- 入网阶段所有信道尝试3次，如果失败，直接进入深度休眠
 - 通过BASIC cluster可以配置组播地址
-- 实现了LED控制，入网成功之后，LED闪烁3次，占空比为50,
-- 长按网络配置按钮3s，LED闪烁3次之后Leave网络并删除PDM，占空比为10
-- 修复了长按恢复出厂后LED闪烁4次又重新加入网络的问题
-- 修复了rejoin失败之后，无法再rejoin必须reset才能rejoin成功的问题
-- [app.zpscfg编辑方法参考](https://blog.csdn.net/code_style/article/details/90487512)
+- 实现了LED控制，入网成功之后，LED长闪烁3次，占空比为50
+- 长按网络配置按钮超过3s，LED开始闪烁5次，自动退网并重新steering入网
+- endpoint参数配置，[app.zpscfg编辑方法参考](https://blog.csdn.net/code_style/article/details/90487512)
+- 已支持私有协议，代码在sdk\JN-SW-4170\Components\ZCL\Clusters\Private，可以选择使用私有协议report attribute和网关实现联动控制
+
+#### 硬件线序图
+- ![pic](https://img-blog.csdnimg.cn/20190527165744956.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfc3R5bGU=,size_16,color_FFFFFF,t_70)
 
 #### 已知问题
-- 暂无
+- steering入网成功的LED指示灯定时器计数不正确
 
 #### 如何编译
 - import project to BeyondStudio 
@@ -30,7 +29,7 @@
 ![pic](how2build_1.png)
 
 #### 烧写方法
-- 先进入ISP模式
+- 先进入ISP模式(ISP引脚接地，同时RESET复位即可进入)
 ```
 JN51xxProgrammer.exe -s COM7 -P115200 --eraseflash=full -f C:\NXP\bstudio_nxp\Application\JN-AN-1219-Zigbee-3-0-Controller-and-Switch\DimmerSwitch\Build\DimmerSwitch_JN5169_DR1199.bin
 ```

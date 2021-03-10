@@ -382,9 +382,9 @@ PUBLIC void APP_cbTimerButtonLongPressed(void *pvParam)
     memset(&ledVsetParam, 0, sizeof(ledVsetParam));
     ledVsetParam.duty = 50;
     ledVsetParam.period = 500;
-    ledVsetParam.times = 6;
+    ledVsetParam.times = 5;
     ledVsetParam.cb = (void *)APP_cbResetFactory;       //blink timeout,we call callback
-    ZTIMER_eStart(u8TimerLedBlinks, 1);
+    ZTIMER_eStart(u8TimerLedBlinks, ZTIMER_TIME_MSEC(1));
 }
 
 /****************************************************************************/
