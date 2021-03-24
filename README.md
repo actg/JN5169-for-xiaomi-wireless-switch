@@ -38,5 +38,5 @@
 JN51xxProgrammer.exe -s COM7 -P115200 --eraseflash=full -f C:\NXP\bstudio_nxp\Application\JN-AN-1219-Zigbee-3-0-Controller-and-Switch\DimmerSwitch\Build\DimmerSwitch_JN5169_DR1199.bin
 ```
 
-![pic](https://am.zdmimg.com/201603/10/56e1344deed61.jpg_e600.jpg)
+![pic](https://am.zdmimg.com/201603/10/56e1344deed61.jpg_e680.jpg)
 ![pic](https://am.zdmimg.com/201609/25/57e74c058d09f.jpg_e600.jpg)
