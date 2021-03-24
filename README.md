@@ -18,6 +18,10 @@
 #### 硬件线序图
 - ![pic](https://img-blog.csdnimg.cn/20190527165744956.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfc3R5bGU=,size_16,color_FFFFFF,t_70)
 
+#### 分支
+- master 小米无线开关(白色圆形)
+- lvmi_wxkg 绿米无线开关(86面板贴墙式，包含1键，2键，3键)
+
 #### 已知问题
 - steering入网成功的LED指示灯定时器计数不正确
 
