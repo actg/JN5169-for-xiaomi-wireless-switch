@@ -90,7 +90,8 @@ PRIVATE uint8 s_u8ButtonState[APP_BUTTONS_NUM] = { 0, 0};
 PRIVATE const uint8 s_u8ButtonDIOLine[APP_BUTTONS_NUM] =
 {
     APP_BUTTONS_BUTTON_1,
-    APP_BUTTONS_BUTTON_SW1
+    APP_BUTTONS_BUTTON_SW1,
+    APP_BUTTONS_BUTTON_SW2
 };
 #endif
 #else
@@ -123,8 +124,8 @@ PUBLIC bool_t APP_bButtonInitialise(void)
     /* Set DIO lines to inputs with buttons connected */
     vAHI_DioSetDirection(APP_BUTTONS_DIO_MASK, 0);
 
-    /* Turn on pull-ups for DIO lines with buttons connected */
-    vAHI_DioSetPullup((1 << APP_BUTTONS_BUTTON_1), (1 << APP_BUTTONS_BUTTON_SW1));
+    /* Turn off pull-ups for DIO lines with buttons connected(we have external 1K pull-up) */
+    vAHI_DioSetPullup(0, APP_BUTTONS_DIO_MASK);
 
     /* Set the edge detection for falling edges */
     vAHI_DioInterruptEdge(0, APP_BUTTONS_DIO_MASK);

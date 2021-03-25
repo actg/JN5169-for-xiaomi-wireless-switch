@@ -767,13 +767,15 @@ PUBLIC void APP_taskSwitch(void)
                                         payLoad.u16GroupId = u16GlobalGroupId;
                                         payLoad.u8SceneId = 2;
                                         status = eCLD_ScenesCommandRecallSceneRequestSend(DIMMERSWITCH_SWITCH_ENDPOINT, DIMMERSWITCH_SWITCH_ENDPOINT, &sDestinationAddress, &u8Seq, &payLoad);
-                                        DBG_vPrintf(TRACE_SWITCH_NODE, "Recall scene 0 =%d\n", status);
+                                        DBG_vPrintf(TRACE_SWITCH_NODE, "Recall scene 2 =%d\n", status);
                                     }
                                 }
-                                else if(sDeviceDesc.eNodeState == E_STARTUP)
-                                {
+                            }
+                            break;
 
-                                }
+                        case APP_E_BUTTONS_BUTTON_SW2:
+                            {
+								// TODO:   don't do something
                             }
                             break;
                     }
@@ -793,10 +795,15 @@ PUBLIC void APP_taskSwitch(void)
                                 }
                             }
                             break;
-
                         case APP_E_BUTTONS_BUTTON_SW1:
                             {
+								// TODO:   don't do something
+                            }
+                            break;
 
+                        case APP_E_BUTTONS_BUTTON_SW2:
+                            {
+								// TODO:   don't do something
                             }
                             break;
                     }
@@ -1947,8 +1954,6 @@ PUBLIC void APP_cbTimerLedBlinks(void *pvParam)
 {
     ledVset_t *param = (ledVset_t *)pvParam;
 
-    DBG_vPrintf(TRACE_SWITCH_NODE, "%s times:%d type:%d\n",__func__,param->times,param->type);
-
     if(param->times > 0)
     {
         if(param->type == 0)
@@ -1970,7 +1975,7 @@ PUBLIC void APP_cbTimerLedBlinks(void *pvParam)
         }
     }
 
-	if(param->times == 0)
+    if(param->times == 0)
     {
         if(param->cb)
         {

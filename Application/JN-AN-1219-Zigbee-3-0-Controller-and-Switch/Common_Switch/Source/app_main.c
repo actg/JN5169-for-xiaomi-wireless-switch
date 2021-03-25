@@ -280,12 +280,14 @@ PUBLIC void APP_vSetLED(uint8 u8Led, bool_t bOn)
     {
         if (bOn)
         {
-            /* leds on XiaoMi wireless switch driven low for on */
-            vAHI_DioSetOutput(0, BOARD_LED_D1_PIN);
+            /* leds on LvMi wireless switch driven high for on */
+            vAHI_DioSetOutput(BOARD_LED_D1_PIN , 0);
+            vAHI_DioSetOutput(BOARD_LED_D2_PIN , 0);
         }
         else
         {
-			vAHI_DioSetOutput(BOARD_LED_D1_PIN , 0);
+			vAHI_DioSetOutput(0, BOARD_LED_D1_PIN);
+			vAHI_DioSetOutput(0, BOARD_LED_D2_PIN);
         }
     }
 }

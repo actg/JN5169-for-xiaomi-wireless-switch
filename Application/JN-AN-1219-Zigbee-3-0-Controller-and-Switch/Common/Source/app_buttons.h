@@ -75,14 +75,16 @@
     #else
         typedef enum {
             APP_E_BUTTONS_BUTTON_1 = 0,
-            APP_E_BUTTONS_BUTTON_SW1
+            APP_E_BUTTONS_BUTTON_SW1,
+            APP_E_BUTTONS_BUTTON_SW2,
         } APP_teButtons;
 
-		//for XiaoMi wireless switch
-        #define APP_BUTTONS_NUM             (2UL)
+		//for Lvmi wireless switch(D1,D2 and D3)
+        #define APP_BUTTONS_NUM             (3UL)
         #if (JENNIC_CHIP_FAMILY == JN516x)
-            #define APP_BUTTONS_BUTTON_1        (0)
-            #define APP_BUTTONS_BUTTON_SW1      (16)
+            #define APP_BUTTONS_BUTTON_1        (13)
+            #define APP_BUTTONS_BUTTON_SW1      (15)
+            #define APP_BUTTONS_BUTTON_SW2      (17)
         #elif (JENNIC_CHIP_FAMILY == JN517x)
             #define APP_BUTTONS_BUTTON_1        (4)
             #define APP_BUTTONS_BUTTON_SW1      (12)
@@ -90,9 +92,9 @@
             #define APP_BUTTONS_BUTTON_SW3      (18)
             #define APP_BUTTONS_BUTTON_SW4      (5)
         #endif
-        #define APP_BUTTONS_DIO_MASK        ((1 << APP_BUTTONS_BUTTON_1) | (1 << APP_BUTTONS_BUTTON_SW1))
-        #define APP_BUTTONS_DIO_MASK_FOR_DEEP_SLEEP        ((1 << APP_BUTTONS_BUTTON_1) | (1 << APP_BUTTONS_BUTTON_SW1))
-		#define APP_BUTTONS_LONG_PRESSED_TIMEOUT	ZTIMER_TIME_MSEC(3000)
+        #define APP_BUTTONS_DIO_MASK        ((1 << APP_BUTTONS_BUTTON_1) | (1 << APP_BUTTONS_BUTTON_SW1) | (1 << APP_BUTTONS_BUTTON_SW2))
+        #define APP_BUTTONS_DIO_MASK_FOR_DEEP_SLEEP        ((1 << APP_BUTTONS_BUTTON_1) | (1 << APP_BUTTONS_BUTTON_SW1) | (1 << APP_BUTTONS_BUTTON_SW2))
+		#define APP_BUTTONS_LONG_PRESSED_TIMEOUT	ZTIMER_TIME_MSEC(5000)
     #endif
 #elif (defined DR1216 )
     /* DIO used for DR1216 switch */

@@ -42,7 +42,8 @@
 /****************************************************************************/
 #if (JENNIC_CHIP_FAMILY == JN516x)
 //for XiaoMi wireless switch
-#define BOARD_LED_D1_BIT               (11)
+#define BOARD_LED_D1_BIT               (10)
+#define BOARD_LED_D2_BIT               (11)
 #else
 #define BOARD_LED_D1_BIT               (8)
 #define BOARD_LED_D2_BIT               (14)
@@ -50,7 +51,9 @@
 #endif
 
 #define BOARD_LED_D1_PIN               (1UL << BOARD_LED_D1_BIT)
-#define BOARD_LED_CTRL_MASK            (BOARD_LED_D1_PIN)
+#define BOARD_LED_D2_PIN               (1UL << BOARD_LED_D2_BIT)
+
+#define BOARD_LED_CTRL_MASK            (BOARD_LED_D1_PIN|BOARD_LED_D2_PIN)
 
 #define LED1    1
 
