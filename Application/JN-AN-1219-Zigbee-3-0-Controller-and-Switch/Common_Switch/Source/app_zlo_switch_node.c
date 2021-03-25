@@ -133,6 +133,7 @@ PRIVATE void vHandleRunningStackEvent(ZPS_tsAfEvent* psStackEvent);
 PRIVATE bool bAddressInTable(uint16 u16AddressToCheck);
 PRIVATE void vAppHandleZdoEvents(BDB_tsZpsAfEvent *psZpsAfEvent);
 PRIVATE void vDeletePDMOnButtonPress(uint8 u8ButtonDIO);
+PRIVATE void vAppEnterDeepSleepMode(void);
 
 /****************************************************************************/
 /***        Exported Variables                                            ***/
@@ -358,14 +359,7 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
             if(bWaitingForLeave == FALSE)
             {
                 DBG_vPrintf(TRACE_SWITCH_NODE, "Init Rejoin Failure!\n");
-                // Go to deep sleep
-#ifdef SLEEP_ENABLE
-                vLoadKeepAliveTime(0);
-#ifdef DEEP_SLEEP_ENABLE
-                vLoadDeepSleepTimer(0);
-#endif
-                ZTIMER_eStart(u8TimerTick, ZTIMER_TIME_MSEC(10));
-#endif
+                vAppEnterDeepSleepMode();
             }
             break;
 
@@ -387,12 +381,13 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
             memset(&ledVsetParam, 0, sizeof(ledVsetParam));
             ledVsetParam.duty = 50;
             ledVsetParam.period = 1000;
-            ledVsetParam.times = 4;
-            ZTIMER_eStart(u8TimerLedBlinks, ZTIMER_TIME_MSEC(50));
+            ledVsetParam.times = 3;
+            ZTIMER_eStart(u8TimerLedBlinks, ZTIMER_TIME_MSEC(1));
             break;
 
         case BDB_EVENT_NO_NETWORK:
             DBG_vPrintf(TRACE_SWITCH_NODE, "No Network\n");
+            vAppEnterDeepSleepMode();
             break;
 
         case BDB_EVENT_APP_START_POLLING:
@@ -775,7 +770,7 @@ PUBLIC void APP_taskSwitch(void)
 
                         case APP_E_BUTTONS_BUTTON_SW2:
                             {
-								// TODO:   don't do something
+                                // TODO:   don't do something
                             }
                             break;
                     }
@@ -797,48 +792,42 @@ PUBLIC void APP_taskSwitch(void)
                             break;
                         case APP_E_BUTTONS_BUTTON_SW1:
                             {
-								// TODO:   don't do something
+                                // TODO:   don't do something
                             }
                             break;
 
                         case APP_E_BUTTONS_BUTTON_SW2:
                             {
-								// TODO:   don't do something
+                                // TODO:   don't do something
                             }
                             break;
                     }
 #ifdef SLEEP_ENABLE
                     vReloadSleepTimers();
 #endif
-
                     break;
 
                 case APP_E_EVENT_BUTTON_ALL_UP:
-                    if(sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_IN_PROGRESS &&
-                       ZTIMER_eGetState(u8TimerLedBlinks) != E_ZTIMER_STATE_RUNNING)
+                    if(sDeviceDesc.eNodeState == E_STARTUP &&
+                       sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_IN_PROGRESS)
                     {
-                        // Go to deep sleep
 #ifdef SLEEP_ENABLE
-                        vLoadKeepAliveTime(0);
-#ifdef DEEP_SLEEP_ENABLE
-                        vLoadDeepSleepTimer(0);
-                        vUpdateKeepAliveTimer();
-#endif
+                        vReloadSleepTimers();
 #endif
                     }
                     else if(sDeviceDesc.eNodeState == E_STARTUP &&
-                            sBDB.sAttrib.ebdbCommissioningStatus != E_BDB_COMMISSIONING_STATUS_IN_PROGRESS &&
+                            sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_SUCCESS &&
                             ZTIMER_eGetState(u8TimerLedBlinks) != E_ZTIMER_STATE_RUNNING)
                     {
-                        //factory and not steering mode && not led blinking
-                        // Go to deep sleep
-#ifdef SLEEP_ENABLE
-                        vLoadKeepAliveTime(0);
-#ifdef DEEP_SLEEP_ENABLE
-                        vLoadDeepSleepTimer(0);
-                        vUpdateKeepAliveTimer();
-#endif
-#endif
+                        //factory and not steering mode
+                        vAppEnterDeepSleepMode();
+                    }
+                    else if(sDeviceDesc.eNodeState == E_STARTUP &&
+                            sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_NO_NETWORK &&
+                            ZTIMER_eGetState(u8TimerLedBlinks) != E_ZTIMER_STATE_RUNNING)
+                    {
+                        // steering failure(no network)
+                        vAppEnterDeepSleepMode();
                     }
                     else if(sDeviceDesc.eNodeState == E_RUNNING && sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_NO_NETWORK)
                     {
@@ -2005,6 +1994,18 @@ PUBLIC void APP_cbTimerSteering(void *pvParam)
         sBDB.sAttrib.u32bdbSecondaryChannelSet = 0;
         BDB_eNsStartNwkSteering();
     }
+}
+
+PRIVATE void vAppEnterDeepSleepMode(void)
+{
+    // Go to deep sleep
+#ifdef SLEEP_ENABLE
+    vLoadKeepAliveTime(0);
+#ifdef DEEP_SLEEP_ENABLE
+    vLoadDeepSleepTimer(0);
+    vUpdateKeepAliveTimer();
+#endif
+#endif
 }
 
 /****************************************************************************/

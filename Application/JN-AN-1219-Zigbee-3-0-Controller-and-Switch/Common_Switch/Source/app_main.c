@@ -258,9 +258,8 @@ PUBLIC void APP_vInitResources(void)
  ****************************************************************************/
 PUBLIC void APP_vInitLeds(void)
 {
-
     vAHI_DioSetDirection(0, BOARD_LED_CTRL_MASK);
-	vAHI_DioSetOutput(BOARD_LED_D1_PIN, 0);			//turn off
+	vAHI_DioSetOutput(BOARD_LED_CTRL_MASK, 0);			//turn off
 }
 
 /****************************************************************************
@@ -281,13 +280,13 @@ PUBLIC void APP_vSetLED(uint8 u8Led, bool_t bOn)
         if (bOn)
         {
             /* leds on LvMi wireless switch driven high for on */
-            vAHI_DioSetOutput(BOARD_LED_D1_PIN , 0);
-            vAHI_DioSetOutput(BOARD_LED_D2_PIN , 0);
+            vAHI_DioSetOutput(0, BOARD_LED_D1_PIN);
+			vAHI_DioSetOutput(0, BOARD_LED_D2_PIN);
         }
         else
         {
-			vAHI_DioSetOutput(0, BOARD_LED_D1_PIN);
-			vAHI_DioSetOutput(0, BOARD_LED_D2_PIN);
+			vAHI_DioSetOutput(BOARD_LED_D1_PIN , 0);
+			vAHI_DioSetOutput(BOARD_LED_D2_PIN , 0);
         }
     }
 }
