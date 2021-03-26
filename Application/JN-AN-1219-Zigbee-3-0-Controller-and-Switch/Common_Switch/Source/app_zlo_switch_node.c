@@ -133,6 +133,7 @@ PRIVATE void vHandleRunningStackEvent(ZPS_tsAfEvent* psStackEvent);
 PRIVATE bool bAddressInTable(uint16 u16AddressToCheck);
 PRIVATE void vAppHandleZdoEvents(BDB_tsZpsAfEvent *psZpsAfEvent);
 PRIVATE void vDeletePDMOnButtonPress(uint8 u8ButtonDIO);
+PRIVATE void vAppEnterDeepSleepMode(void);
 
 /****************************************************************************/
 /***        Exported Variables                                            ***/
@@ -143,7 +144,6 @@ PUBLIC tsDeviceDesc             sDeviceDesc;
 PUBLIC uint16                   u16GroupId;
 PUBLIC uint16 u16GlobalGroupId = 1;
 extern PUBLIC uint8 u8TimerLedBlinks;
-extern PUBLIC uint8 u8TimerSecondStep;
 PUBLIC ledVset_t ledVsetParam;
 
 tsConvertR21toR22 sConvertR21toR22 = { FALSE };
@@ -281,7 +281,6 @@ PUBLIC void APP_vInitialiseNode(void)
 #ifdef PDM_EEPROM
     vDisplayPDMUsage();
 #endif
-    ZTIMER_eStart(u8TimerSecondStep, 50);
 }
 
 
@@ -387,12 +386,13 @@ PUBLIC void APP_vBdbCallback(BDB_tsBdbEvent *psBdbEvent)
             memset(&ledVsetParam, 0, sizeof(ledVsetParam));
             ledVsetParam.duty = 50;
             ledVsetParam.period = 1000;
-            ledVsetParam.times = 4;
-            ZTIMER_eStart(u8TimerLedBlinks, ZTIMER_TIME_MSEC(50));
+            ledVsetParam.times = 3;
+            ZTIMER_eStart(u8TimerLedBlinks, ZTIMER_TIME_MSEC(1));
             break;
 
         case BDB_EVENT_NO_NETWORK:
             DBG_vPrintf(TRACE_SWITCH_NODE, "No Network\n");
+            vAppEnterDeepSleepMode();
             break;
 
         case BDB_EVENT_APP_START_POLLING:
@@ -807,31 +807,46 @@ PUBLIC void APP_taskSwitch(void)
                     break;
 
                 case APP_E_EVENT_BUTTON_ALL_UP:
-                    if(sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_IN_PROGRESS &&
-                       ZTIMER_eGetState(u8TimerLedBlinks) != E_ZTIMER_STATE_RUNNING)
+                    if(sDeviceDesc.eNodeState == E_STARTUP &&
+                       sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_IN_PROGRESS)
                     {
-                        // Go to deep sleep
 #ifdef SLEEP_ENABLE
-                        vLoadKeepAliveTime(0);
-#ifdef DEEP_SLEEP_ENABLE
-                        vLoadDeepSleepTimer(0);
-                        vUpdateKeepAliveTimer();
-#endif
+                        vReloadSleepTimers();
 #endif
                     }
                     else if(sDeviceDesc.eNodeState == E_STARTUP &&
-                            sBDB.sAttrib.ebdbCommissioningStatus != E_BDB_COMMISSIONING_STATUS_IN_PROGRESS &&
+                            sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_SUCCESS &&
                             ZTIMER_eGetState(u8TimerLedBlinks) != E_ZTIMER_STATE_RUNNING)
                     {
-                        //factory and not steering mode && not led blinking
-                        // Go to deep sleep
-#ifdef SLEEP_ENABLE
-                        vLoadKeepAliveTime(0);
-#ifdef DEEP_SLEEP_ENABLE
-                        vLoadDeepSleepTimer(0);
-                        vUpdateKeepAliveTimer();
-#endif
-#endif
+                        bool_t u8StartSteering = FALSE;
+                        uint16       u16PdmRead = 0;
+
+                        PDM_eReadDataFromRecord(PDM_ID_APP_START_STEERING,
+                                                &u8StartSteering,
+                                                sizeof(u8StartSteering),
+                                                &u16PdmRead);
+
+                        if(u8StartSteering)
+                        {
+                            // case flag and start steering
+                            u8StartSteering = FALSE;
+                            PDM_eSaveRecordData(PDM_ID_APP_START_STEERING, &u8StartSteering, sizeof(u8StartSteering));
+                            sBDB.sAttrib.u32bdbPrimaryChannelSet = BDB_PRIMARY_CHANNEL_SET;
+                            sBDB.sAttrib.u32bdbSecondaryChannelSet = 0;
+                            BDB_eNsStartNwkSteering();
+                        }
+                        else
+                        {
+                            //factory and not steering mode
+                            vAppEnterDeepSleepMode();
+                        }
+                    }
+                    else if(sDeviceDesc.eNodeState == E_STARTUP &&
+                            sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_NO_NETWORK &&
+                            ZTIMER_eGetState(u8TimerLedBlinks) != E_ZTIMER_STATE_RUNNING)
+                    {
+                        // steering failure(no network)
+                        vAppEnterDeepSleepMode();
                     }
                     else if(sDeviceDesc.eNodeState == E_RUNNING && sBDB.sAttrib.ebdbCommissioningStatus == E_BDB_COMMISSIONING_STATUS_NO_NETWORK)
                     {
@@ -1947,8 +1962,6 @@ PUBLIC void APP_cbTimerLedBlinks(void *pvParam)
 {
     ledVset_t *param = (ledVset_t *)pvParam;
 
-    DBG_vPrintf(TRACE_SWITCH_NODE, "%s times:%d type:%d\n",__func__,param->times,param->type);
-
     if(param->times > 0)
     {
         if(param->type == 0)
@@ -1970,7 +1983,7 @@ PUBLIC void APP_cbTimerLedBlinks(void *pvParam)
         }
     }
 
-	if(param->times == 0)
+    if(param->times == 0)
     {
         if(param->cb)
         {
@@ -1980,27 +1993,18 @@ PUBLIC void APP_cbTimerLedBlinks(void *pvParam)
     }
 }
 
-PUBLIC void APP_cbTimerSteering(void *pvParam)
+PRIVATE void vAppEnterDeepSleepMode(void)
 {
-    PDM_teStatus   ePdmStatus;
-    bool_t u8StartSteering = FALSE;
-    uint16       u16PdmRead = 0;
-
-    ePdmStatus = PDM_eReadDataFromRecord(PDM_ID_APP_START_STEERING,
-                                         &u8StartSteering,
-                                         sizeof(u8StartSteering),
-                                         &u16PdmRead);
-
-    DBG_vPrintf(TRACE_SWITCH_NODE, "%s:ePdmStatus=%d u8StartSteering=%d\n", __func__, ePdmStatus, u8StartSteering);
-    if(u8StartSteering)
-    {
-        u8StartSteering = FALSE;
-        ePdmStatus = PDM_eSaveRecordData(PDM_ID_APP_START_STEERING, &u8StartSteering, sizeof(u8StartSteering));
-        sBDB.sAttrib.u32bdbPrimaryChannelSet = BDB_PRIMARY_CHANNEL_SET;
-        sBDB.sAttrib.u32bdbSecondaryChannelSet = 0;
-        BDB_eNsStartNwkSteering();
-    }
+    // Go to deep sleep
+#ifdef SLEEP_ENABLE
+    vLoadKeepAliveTime(0);
+#ifdef DEEP_SLEEP_ENABLE
+    vLoadDeepSleepTimer(0);
+    vUpdateKeepAliveTimer();
+#endif
+#endif
 }
+
 
 /****************************************************************************/
 /***        END OF FILE                                                   ***/

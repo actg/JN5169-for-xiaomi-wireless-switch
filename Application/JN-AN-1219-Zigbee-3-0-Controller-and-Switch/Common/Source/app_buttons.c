@@ -381,8 +381,8 @@ PUBLIC void APP_cbTimerButtonLongPressed(void *pvParam)
     //blink LED indicate reset factory new
     memset(&ledVsetParam, 0, sizeof(ledVsetParam));
     ledVsetParam.duty = 50;
-    ledVsetParam.period = 500;
-    ledVsetParam.times = 5;
+    ledVsetParam.period = 300;
+    ledVsetParam.times = 6;
     ledVsetParam.cb = (void *)APP_cbResetFactory;       //blink timeout,we call callback
     ZTIMER_eStart(u8TimerLedBlinks, ZTIMER_TIME_MSEC(1));
 }
