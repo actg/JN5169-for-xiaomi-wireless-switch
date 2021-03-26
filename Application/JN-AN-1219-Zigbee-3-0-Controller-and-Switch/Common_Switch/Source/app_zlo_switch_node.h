@@ -144,7 +144,6 @@ PUBLIC void APP_cbTimerPoll(void *pvParam);
 PUBLIC void APP_vSleepTask(void);
 PUBLIC void APP_vFactoryResetRecords( void);
 PUBLIC void APP_cbTimerLedBlinks(void *pvParam);
-PUBLIC void APP_cbTimerSteering(void *pvParam);
 
 /****************************************************************************/
 /***        External Variables                                            ***/
