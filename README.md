@@ -17,3 +17,7 @@
 
 #### 备注
 - 配置、编译等参考master分支
+
+#### picture
+![pic](https://qnam.smzdm.com/202002/07/5e3d6ae2341ea2426.jpg_e680.jpg)
+![pic](https://am.zdmimg.com/202002/11/5e4273c532bc05289.jpg_e680.jpg)
