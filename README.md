@@ -20,7 +20,7 @@
 #### 硬件线序图
 - ![pic](https://img-blog.csdnimg.cn/20190527165744956.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfc3R5bGU=,size_16,color_FFFFFF,t_70)
 - 所谓绿米开关升级版，和小米39元无线开关用的同一款芯片，连按键，LED指示灯线序都一模一样，只是外壳不一样
-![pic](wire.png)
+![pic](pic0.png)
 
 #### 分支
 - master 无线开关(小米39元无线开关白色圆形，绿米无线开关升级版)
@@ -47,7 +47,6 @@ JN51xxProgrammer.exe -s COM7 -P115200 --eraseflash=full -f C:\NXP\bstudio_nxp\Ap
 
 - 绿米无线开关升级版 
 ![pic](pic3.jpg)
-![pic](pic0.jpg)
 
 - 绿米无线开关升级版
 ![pic](pic1.jpg)
