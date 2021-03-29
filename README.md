@@ -1,4 +1,4 @@
-# NXP JN5169 zigbee 3.0 协议栈 for 绿米无线开关
+# NXP JN5169 zigbee 3.0 协议栈 for 绿米无线开关86贴墙面板
 
 #### 备注
 - 基于DimmerSwitch示例工程开发
