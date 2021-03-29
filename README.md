@@ -1,4 +1,4 @@
-# NXP JN5169 zigbee 3.0 协议栈source code for 小米39元无线开关
+# NXP JN5169 zigbee 3.0 协议栈source code for 小米39元无线开关(同时支持绿米无线开关升级版)
 - 欢迎各种JS前来抄袭
 
 #### 备注
@@ -7,7 +7,8 @@
 - 工作在end device模式，入网后休眠功耗1.3uA，工作功耗比较高，入网功耗大概十几毫安，组播发送指令2毫安左右，深度休眠电流0.2uA
 - 入网之后默认唤醒周期为60minutes，符合child aging特性，经过两年实测，功耗的确很低，一颗CR2032电池可以续航一年左右
 - LED连接的是DIO11引脚，拉高灭，拉低亮
-- 板子中间功能键连接的是DIO16 DIO17引脚，默认为高阻状态，因外外部有很大的上下拉电阻，大概0.9M，下降沿中断
+- 板子中间功能键连接的是DIO16 DIO17引脚，下降沿触发，这里不清楚为什么同一个按键，通过两个1K电阻分别连接到DIO16和DIO17上，按理说一个足够了
+- 配网按钮连接的是DIO0，下降沿触发
 - 可以通过指令配置组播的地址，并写入PDM保存，重新上电自动读取组播地址
 - 入网阶段所有信道尝试steering入网，如果失败，直接进入深度休眠
 - 通过BASIC cluster可以配置组播地址
@@ -18,6 +19,7 @@
 
 #### 硬件线序图
 - ![pic](https://img-blog.csdnimg.cn/20190527165744956.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfc3R5bGU=,size_16,color_FFFFFF,t_70)
+- 所谓绿米开关升级版，和小米39元无线开关用的同一款芯片，连按键，LED指示灯线序都一模一样，只是外壳不一样
 
 #### 分支
 - master 小米无线开关(白色圆形)
