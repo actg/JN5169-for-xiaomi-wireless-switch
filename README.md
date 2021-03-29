@@ -45,7 +45,7 @@ JN51xxProgrammer.exe -s COM7 -P115200 --eraseflash=full -f C:\NXP\bstudio_nxp\Ap
 ![pic](https://am.zdmimg.com/201603/10/56e1344deed61.jpg_e680.jpg)
 ![pic](https://am.zdmimg.com/201609/25/57e74c058d09f.jpg_e600.jpg)
 
-- 绿米无线开关升级版
+- 绿米无线开关升级版 
 ![pic](pic3.jpg)
 ![pic](pic0.jpg)
 
