@@ -12,7 +12,7 @@
 - 可以通过指令配置组播的地址，并写入PDM保存，重新上电自动读取组播地址
 - 入网阶段所有信道尝试steering入网，如果失败，直接进入深度休眠
 - 通过BASIC cluster可以配置组播地址
-- 长按网络配置按钮超过5s，LED开始闪烁5次，自动退网并重新steering入网，入网成功之后，LED长闪烁3次
+- 长按网络配置按钮超过5s，LED开始快速闪烁6次，自动退网并重新steering入网，入网成功之后，LED长闪烁3次
 - 协调器断电，导致rejoin失败，则进入深度休眠
 - endpoint参数配置，[app.zpscfg编辑方法参考](https://blog.csdn.net/code_style/article/details/90487512)
 - 已支持私有协议，代码在sdk\JN-SW-4170\Components\ZCL\Clusters\Private，可以选择使用私有协议report attribute和网关实现联动控制
