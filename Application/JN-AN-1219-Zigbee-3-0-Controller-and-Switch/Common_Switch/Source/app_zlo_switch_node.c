@@ -102,7 +102,7 @@
 
 #define bWakeUpFromSleep() bWaitingToSleep()  /* For readability purpose */
 
-#define APP_LONG_SLEEP_DURATION_IN_SEC (60*60)          //60 minutes
+#define APP_LONG_SLEEP_DURATION_IN_SEC ((1 << ZED_TIMEOUT_2048_MIN)*60)          //2048 minutes
 
 /* ZDO endpoint for all devices is always 0 */
 #define SWITCH_ZDO_ENDPOINT    (0)
