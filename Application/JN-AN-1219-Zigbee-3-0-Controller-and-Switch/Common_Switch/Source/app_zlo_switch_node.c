@@ -1526,13 +1526,14 @@ PUBLIC void vManageWakeUponSysControlISR(teInterruptType eInterruptType)
  ****************************************************************************/
 PUBLIC void vWakeCallBack(void)
 {
-    DBG_vPrintf(TRACE_SWITCH_NODE, "vWakeCallBack\n");
+	DBG_vPrintf(TRACE_SWITCH_NODE, "vWakeCallBack\n");
 
-    /*Start Polling*/
-    ZTIMER_eStart(u8TimerPoll, POLL_TIME);
+	/*Reload the Sleep timer during keep alive poll*/
+#ifdef SLEEP_ENABLE
+	vReloadSleepTimers();
+#endif
 
-    /*Start the APP_TickTimer to continue the ZCL tasks */
-    ZTIMER_eStart(u8TimerTick, ZCL_TICK_TIME);
+	ZPS_eAplAfSendKeepAlive();
 }
 #endif
 /****************************************************************************
