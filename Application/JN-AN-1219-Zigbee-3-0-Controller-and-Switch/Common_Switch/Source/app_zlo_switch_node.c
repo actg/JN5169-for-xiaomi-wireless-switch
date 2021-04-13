@@ -102,7 +102,9 @@
 
 #define bWakeUpFromSleep() bWaitingToSleep()  /* For readability purpose */
 
-#define APP_LONG_SLEEP_DURATION_IN_SEC (60*60)          //60 minutes
+//#define APP_LONG_SLEEP_DURATION_IN_SEC (60*60)          //60 minutes
+#define APP_LONG_SLEEP_DURATION_IN_SEC (10)
+
 
 /* ZDO endpoint for all devices is always 0 */
 #define SWITCH_ZDO_ENDPOINT    (0)
@@ -232,7 +234,7 @@ PUBLIC void APP_vInitialiseNode(void)
 
     APP_ZCL_vInitialise();
 
-    ZPS_bAplAfSetEndDeviceTimeout(ZED_TIMEOUT_16384_MIN);
+    ZPS_bAplAfSetEndDeviceTimeout(ZED_TIMEOUT_INDEX_DEFAULT);
     /* If the device state has been restored from flash, re-start the stack
      * and set the application running again.
      */
@@ -1522,11 +1524,12 @@ PUBLIC void vWakeCallBack(void)
 {
     DBG_vPrintf(TRACE_SWITCH_NODE, "vWakeCallBack\n");
 
-    /*Start Polling*/
-    ZTIMER_eStart(u8TimerPoll, POLL_TIME);
+	/*Reload the Sleep timer during keep alive poll*/
+#ifdef SLEEP_ENABLE
+	vReloadSleepTimers();
+#endif
 
-    /*Start the APP_TickTimer to continue the ZCL tasks */
-    ZTIMER_eStart(u8TimerTick, ZCL_TICK_TIME);
+	ZPS_eAplAfSendKeepAlive();
 }
 #endif
 /****************************************************************************
