@@ -12,14 +12,15 @@
 - 可以通过指令配置组播的地址，并写入PDM保存，重新上电自动读取组播地址
 - 入网阶段所有信道尝试steering入网，如果失败，直接进入深度休眠
 - 通过BASIC cluster可以配置组播地址
-- 长按网络配置按钮超过5s，LED开始闪烁5次，自动退网并重新steering入网，入网成功之后，LED长闪烁3次
+- 长按网络配置按钮超过5s，LED开始快速闪烁6次，自动退网并重新steering入网，入网成功之后，LED长闪烁3次
 - 协调器断电，导致rejoin失败，则进入深度休眠
 - endpoint参数配置，[app.zpscfg编辑方法参考](https://blog.csdn.net/code_style/article/details/90487512)
 - 已支持私有协议，代码在sdk\JN-SW-4170\Components\ZCL\Clusters\Private，可以选择使用私有协议report attribute和网关实现联动控制
 
-#### 硬件线序图
+#### 小米39元无线开关硬件线序图
 - ![pic](https://img-blog.csdnimg.cn/20190527165744956.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvZGVfc3R5bGU=,size_16,color_FFFFFF,t_70)
 - 所谓绿米开关升级版，和小米39元无线开关用的同一款芯片，连按键，LED指示灯线序都一模一样，只是外壳不一样
+#### 绿米无线开关(升级版)硬件线序图
 ![pic](pic0.png)
 
 #### 分支
